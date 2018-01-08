@@ -20,12 +20,13 @@ repositories {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    compile("org.springframework.boot:spring-boot-starter-websocket")
-    compile("org.springframework.boot:spring-boot-devtools")
-    compile("com.h2database:h2")
+    compile "org.springframework.boot:spring-boot-starter-web"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa"
+    compile "org.springframework.boot:spring-boot-starter-websocket"
+    compile "org.springframework.boot:spring-boot-devtools"
+    compile "com.h2database:h2"
     compile group: "com.github.javafaker", name: "javafaker", version: "0.13"
-    testCompile("org.springframework.boot:spring-boot-starter-test")
+    compile "com.opencsv:opencsv:4.0"
+    testCompile "org.springframework.boot:spring-boot-starter-test"
     testCompile group: "junit", name: "junit", version: "4.12"
 }

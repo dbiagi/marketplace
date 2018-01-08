@@ -3,7 +3,7 @@ package org.dbiagi.marketplace.core.entity;
 import javax.persistence.*;
 
 @Entity
-public class Vehicle {
+public class Vehicle extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

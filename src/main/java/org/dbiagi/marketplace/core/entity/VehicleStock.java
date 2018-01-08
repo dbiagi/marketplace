@@ -1,5 +1,7 @@
 package org.dbiagi.marketplace.core.entity;
 
+import org.dbiagi.marketplace.geolocation.entity.Location;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -7,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class VehicleStock {
+public class VehicleStock extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -61,12 +63,11 @@ public class VehicleStock {
     @Enumerated(EnumType.STRING)
     private StatusEnum status;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private Location location;
+
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Store getStore() {
@@ -195,6 +196,14 @@ public class VehicleStock {
 
     public void setUsed(boolean used) {
         this.used = used;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public enum StatusEnum {

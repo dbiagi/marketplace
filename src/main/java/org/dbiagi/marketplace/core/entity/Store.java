@@ -1,12 +1,14 @@
 package org.dbiagi.marketplace.core.entity;
 
+import org.dbiagi.marketplace.geolocation.entity.Location;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
 @Entity
-public class Store {
+public class Store extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +37,9 @@ public class Store {
     private String cellphone;
 
     private String nextel;
+
+    @ManyToOne
+    private Location location;
 
     @OneToMany(orphanRemoval = true, cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "store")
     private List<User> users = new ArrayList<>();
@@ -179,6 +184,14 @@ public class Store {
 
     public void setType(StoreTypeEnum type) {
         this.type = type;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public enum StoreTypeEnum {
