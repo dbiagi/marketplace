@@ -1,7 +1,7 @@
 package org.dbiagi.marketplace.core.importer;
 
 public class ImportResult {
-    private int count;
+    private int count = 0;
     private int time;
 
     ImportResult() {
@@ -16,8 +16,8 @@ public class ImportResult {
         return count;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public void addCount() {
+        this.count++;
     }
 
     public int getTime() {

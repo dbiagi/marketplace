@@ -3,9 +3,9 @@ package org.dbiagi.marketplace.core.runner;
 import com.github.javafaker.Faker;
 import org.dbiagi.marketplace.core.entity.Store;
 import org.dbiagi.marketplace.core.entity.User;
+import org.dbiagi.marketplace.core.importer.VehicleImporter;
 import org.dbiagi.marketplace.core.repository.StoreRepository;
 import org.dbiagi.marketplace.core.repository.UserRepository;
-import org.dbiagi.marketplace.core.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -25,8 +25,7 @@ public class DatabaseSeed implements ApplicationRunner {
     private StoreRepository storeRepository;
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private VehicleRepository vehicleRepository;
+
     private List<Store> stores = new ArrayList<>();
     private List<User> users = new ArrayList<>();
 
@@ -65,5 +64,9 @@ public class DatabaseSeed implements ApplicationRunner {
         }
 
         storeRepository.save(stores);
+    }
+
+    private void importVehicle(@Autowired VehicleImporter vehicleImporter) {
+
     }
 }

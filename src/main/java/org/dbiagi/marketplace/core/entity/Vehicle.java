@@ -67,4 +67,9 @@ public class Vehicle extends BaseEntity {
         GAS
     }
 
+    @Override
+    public String toString() {
+        return String.format("Vehicle[id=%d, type=%s, brand=%s, model=%s, version=%s]",
+                id, type, brand, model, version);
+    }
 }
