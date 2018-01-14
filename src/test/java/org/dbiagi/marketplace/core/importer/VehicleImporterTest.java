@@ -25,7 +25,7 @@ public class VehicleImporterTest {
 
     @Test
     public void testRun() {
-        ClassPathResource classPathResource = new ClassPathResource("test.csv");
+        ClassPathResource classPathResource = new ClassPathResource("todos-veiculos-utf-8.csv");
         VehicleImporter vehicleImporter = new VehicleImporter(vehicleRepository);
 
         try {
@@ -40,10 +40,10 @@ public class VehicleImporterTest {
     private Map<String, String> getMapping() {
         Map<String, String> mapping = new HashMap<>();
 
-        //mapping.put("TIPO", "type");
-        mapping.put("MARCA", "brand");
-        mapping.put("MODELO", "model");
-        mapping.put("VERSAO", "version");
+        mapping.put("type", "TIPO");
+        mapping.put("brand", "MARCA");
+        mapping.put("model", "MODELO");
+        mapping.put("version", "VERSÃO");
 
         return mapping;
     }

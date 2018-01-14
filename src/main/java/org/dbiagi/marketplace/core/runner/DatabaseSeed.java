@@ -6,14 +6,16 @@ import org.dbiagi.marketplace.core.entity.User;
 import org.dbiagi.marketplace.core.importer.VehicleImporter;
 import org.dbiagi.marketplace.core.repository.StoreRepository;
 import org.dbiagi.marketplace.core.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.io.IOException;
+import java.util.*;
 
 @Component
 public class DatabaseSeed implements ApplicationRunner {
@@ -25,14 +27,22 @@ public class DatabaseSeed implements ApplicationRunner {
     private StoreRepository storeRepository;
     @Autowired
     private UserRepository userRepository;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private List<Store> stores = new ArrayList<>();
     private List<User> users = new ArrayList<>();
+    @Autowired
+    private VehicleImporter vehicleImporter;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+//        if(!args.containsOption("seed")) {
+//            return;
+//        }
+
         createStores();
         createUsers();
+        importVehicle();
     }
 
     private void createUsers() {
@@ -66,7 +76,17 @@ public class DatabaseSeed implements ApplicationRunner {
         storeRepository.save(stores);
     }
 
-    private void importVehicle(@Autowired VehicleImporter vehicleImporter) {
+    private void importVehicle() throws IOException {
+        logger.debug("Importing vehicles async");
+        ClassPathResource classPathResource = new ClassPathResource("todos-veiculos-utf-8.csv");
+
+        Map<String, String> mapping = new HashMap<>();
+        mapping.put("type", "TIPO");
+        mapping.put("brand", "MARCA");
+        mapping.put("model", "MODELO");
+        mapping.put("version", "VERSÃO");
+
+        vehicleImporter.run(mapping, classPathResource.getFile());
 
     }
 }
