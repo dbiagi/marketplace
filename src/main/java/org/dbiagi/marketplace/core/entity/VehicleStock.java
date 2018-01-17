@@ -3,6 +3,8 @@ package org.dbiagi.marketplace.core.entity;
 import org.dbiagi.marketplace.geolocation.entity.Location;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -26,7 +28,8 @@ public class VehicleStock extends BaseEntity {
     @JoinTable(name = "vehiclestock_x_features")
     private List<VehicleFeature> features = new ArrayList<>();
 
-    @Size(min = 1, max = 999)
+    @Min(1)
+    @Max(999)
     private int quantity;
 
     @NotNull
@@ -90,8 +93,10 @@ public class VehicleStock extends BaseEntity {
         return features;
     }
 
-    public void setFeatures(List<VehicleFeature> features) {
-        this.features = features;
+    public void addFeature(VehicleFeature feature) {
+        if (!features.contains(feature)) {
+            features.add(feature);
+        }
     }
 
     public int getQuantity() {
