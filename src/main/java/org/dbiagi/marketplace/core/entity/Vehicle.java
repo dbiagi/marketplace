@@ -53,6 +53,12 @@ public class Vehicle extends BaseEntity {
         this.type = type;
     }
 
+    @Override
+    public String toString() {
+        return String.format("Vehicle[id=%d, type=%s, brand=%s, model=%s, version=%s]",
+                id, type, brand, model, version);
+    }
+
     public enum TypeEnum {
         BOAT,
         CAR,
@@ -65,11 +71,5 @@ public class Vehicle extends BaseEntity {
         ETHANOL,
         FLEX,
         GAS
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Vehicle[id=%d, type=%s, brand=%s, model=%s, version=%s]",
-                id, type, brand, model, version);
     }
 }

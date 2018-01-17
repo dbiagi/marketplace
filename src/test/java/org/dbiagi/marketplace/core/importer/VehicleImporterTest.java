@@ -29,7 +29,7 @@ public class VehicleImporterTest {
         VehicleImporter vehicleImporter = new VehicleImporter(vehicleRepository);
 
         try {
-            ImportResult result = vehicleImporter.run(getMapping(), classPathResource.getFile());
+            ImportResult result = vehicleImporter.run(classPathResource.getFile(), getMapping());
 
             Assert.assertTrue(result.getCount() > 0);
         } catch (Exception e) {

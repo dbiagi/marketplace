@@ -3,6 +3,7 @@ package org.dbiagi.marketplace.core.runner;
 import com.github.javafaker.Faker;
 import org.dbiagi.marketplace.core.entity.Store;
 import org.dbiagi.marketplace.core.entity.User;
+import org.dbiagi.marketplace.core.importer.VehicleFeaturesImporter;
 import org.dbiagi.marketplace.core.importer.VehicleImporter;
 import org.dbiagi.marketplace.core.repository.StoreRepository;
 import org.dbiagi.marketplace.core.repository.UserRepository;
@@ -22,17 +23,18 @@ public class DatabaseSeed implements ApplicationRunner {
 
     private static final int USERS = 20;
     private static final int STORES = 10;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private Faker faker = new Faker(new Locale("pt-BR"));
     @Autowired
     private StoreRepository storeRepository;
     @Autowired
     private UserRepository userRepository;
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     private List<Store> stores = new ArrayList<>();
     private List<User> users = new ArrayList<>();
     @Autowired
     private VehicleImporter vehicleImporter;
+    @Autowired
+    private VehicleFeaturesImporter vehicleFeaturesImporter;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -43,6 +45,7 @@ public class DatabaseSeed implements ApplicationRunner {
         createStores();
         createUsers();
         importVehicle();
+        importVehicleFeatures();
     }
 
     private void createUsers() {
@@ -86,7 +89,16 @@ public class DatabaseSeed implements ApplicationRunner {
         mapping.put("model", "MODELO");
         mapping.put("version", "VERSÃO");
 
-        vehicleImporter.run(mapping, classPathResource.getFile());
+        vehicleImporter.run(classPathResource.getFile(), mapping);
 
+    }
+
+    private void importVehicleFeatures() {
+        ClassPathResource classPathResource = new ClassPathResource("vehicle-features.json");
+        try {
+            vehicleFeaturesImporter.run(classPathResource.getFile());
+        } catch (Exception e) {
+            logger.error("Error importing vehicle features", e);
+        }
     }
 }

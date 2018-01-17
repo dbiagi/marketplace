@@ -18,11 +18,14 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 @Service
-public class VehicleImporter {
+public class VehicleImporter extends AbstractImporter {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private VehicleRepository vehicleRepository;
+
+    VehicleImporter() {
+    }
 
     @Autowired
     VehicleImporter(VehicleRepository vehicleRepository) {
@@ -30,17 +33,11 @@ public class VehicleImporter {
     }
 
     @Async
-    public CompletableFuture<ImportResult> runAsync(Map<String, String> mapping, File file) {
-        try {
-            return CompletableFuture.completedFuture(run(mapping, file));
-        } catch (IOException e) {
-            logger.warn(e.getMessage());
-        }
-
-        return null;
+    public CompletableFuture<ImportResult> runAsync(File file, Map<String, String> mapping) throws IOException {
+        return CompletableFuture.completedFuture(run(file, mapping));
     }
 
-    public ImportResult run(Map<String, String> mapping, File file) throws IOException {
+    public ImportResult run(File file, Map<String, String> mapping) throws IOException {
         ImportResult result = new ImportResult(0, 0);
         result.start();
 
@@ -74,18 +71,13 @@ public class VehicleImporter {
         return result;
     }
 
-    private Vehicle.TypeEnum extractType(String type) throws Exception {
-        switch (type.toLowerCase()) {
-            case "carro":
-                return Vehicle.TypeEnum.CAR;
-            case "caminhão":
-                return Vehicle.TypeEnum.TRUCK;
-            case "moto":
-                return Vehicle.TypeEnum.MOTORCICLE;
-            case "barco":
-                return Vehicle.TypeEnum.BOAT;
-            default:
-                throw new Exception(String.format("Type %s is not a valid type.", type));
-        }
+    @Override
+    public ImportResult run(File file) throws Exception {
+        throw new Exception("Mapping should be provided");
+    }
+
+    @Override
+    public CompletableFuture<ImportResult> runAsync(File file) throws Exception {
+        throw new Exception("Mapping should be provided");
     }
 }
