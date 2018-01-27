@@ -5,6 +5,7 @@ import org.dbiagi.marketplace.core.entity.*;
 import org.dbiagi.marketplace.core.importer.VehicleFeaturesImporter;
 import org.dbiagi.marketplace.core.importer.VehicleImporter;
 import org.dbiagi.marketplace.core.repository.*;
+import org.dbiagi.marketplace.core.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class DatabaseSeed implements ApplicationRunner {
     @Autowired
     private StoreRepository storeRepository;
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
     @Autowired
     private VehicleImporter vehicleImporter;
     @Autowired
@@ -42,21 +43,29 @@ public class DatabaseSeed implements ApplicationRunner {
     private VehicleRepository vehicleRepository;
     @Autowired
     private VehicleStockRepository vehicleStockRepository;
+    @Autowired
+    private SettingRepository settingRepository;
 
     private List<Store> stores = new ArrayList<>();
     private List<User> users = new ArrayList<>();
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-//        if(!args.containsOption("seed")) {
-//            return;
-//        }
+        String version = settingRepository.findValueByKey("database_version");
+
+        if ("1.0.0".equals(version)) {
+            logger.info("Database already have initial data. Skiping seed.");
+
+            return;
+        }
 
         createStores();
         createUsers();
         importVehicle();
         importVehicleFeatures();
         createVehicleStock();
+
+        settingRepository.save(new Setting("database_version", "1.0.0"));
     }
 
     private void createUsers() {
@@ -65,13 +74,17 @@ public class DatabaseSeed implements ApplicationRunner {
             user.setCellphone(faker.phoneNumber().cellPhone());
             user.setConnected(false);
             user.setName(faker.name().name());
+            user.setEmail(faker.internet().emailAddress());
+            user.setUsername(faker.name().username());
+            user.setPlainPassword("123");
             users.add(user);
+            user.setRole(User.Role.ADMIN);
 
             Store store = stores.get(faker.random().nextInt(DatabaseSeed.STORES - 1));
             store.addUser(user);
         }
 
-        userRepository.save(users);
+        userService.save(users);
     }
 
     private void createStores() {
