@@ -1,8 +1,10 @@
 package org.dbiagi.marketplace.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.dbiagi.marketplace.geolocation.entity.Location;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -14,12 +16,13 @@ public class Store extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String email;
 
+    @NotNull
     private String cnpj;
 
-    private String nickname;
-
+    @NotNull
     private String name;
 
     private String address;
@@ -32,8 +35,10 @@ public class Store extends BaseEntity {
 
     private String website;
 
+    @NotNull
     private String phone;
 
+    @NotNull
     private String cellphone;
 
     private String nextel;
@@ -42,6 +47,7 @@ public class Store extends BaseEntity {
     private Location location;
 
     @OneToMany(orphanRemoval = true, cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "store")
+    @JsonBackReference
     private List<User> users = new ArrayList<>();
 
     private int maxAttentandsCount = 0;
@@ -88,14 +94,6 @@ public class Store extends BaseEntity {
 
     public void setCnpj(String cnpj) {
         this.cnpj = cnpj;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
     }
 
     public String getName() {

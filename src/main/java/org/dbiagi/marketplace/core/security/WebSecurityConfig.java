@@ -1,6 +1,5 @@
 package org.dbiagi.marketplace.core.security;
 
-import org.dbiagi.marketplace.core.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/**").hasAnyRole(User.Role.ADMIN.name())
+                .antMatchers("/api/**").permitAll()
                 .and().httpBasic().realmName(ApiAuthenticationEntryPoint.REALM_NAME)
                 .authenticationEntryPoint(apiAuthenticationEntryPoint);
 

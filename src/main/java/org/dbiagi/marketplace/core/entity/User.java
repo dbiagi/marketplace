@@ -1,5 +1,6 @@
 package org.dbiagi.marketplace.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
@@ -49,6 +50,8 @@ public class User extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "store_id")
+    @JsonManagedReference
+    @NotNull
     private Store store;
 
     public Long getId() {
@@ -132,6 +135,10 @@ public class User extends BaseEntity {
     }
 
     public void setStore(Store store) {
+        if (!store.getUsers().contains(this)) {
+            store.addUser(this);
+        }
+
         this.store = store;
     }
 

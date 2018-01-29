@@ -69,6 +69,15 @@ public class DatabaseSeed implements ApplicationRunner {
     }
 
     private void createUsers() {
+//        User diego = new User();
+//        diego.setRole(User.Role.SUPER_ADMIN);
+//        diego.setName("Diego");
+//        diego.setUsername("diego");
+//        diego.setPlainPassword("123");
+//        diego.setEmail("diego@invalid.com");
+//        diego.setStore(stores.get(1));
+//        users.add(diego);
+
         for (int i = 0; i < DatabaseSeed.USERS; i++) {
             User user = new User();
             user.setCellphone(faker.phoneNumber().cellPhone());
