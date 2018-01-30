@@ -1,6 +1,7 @@
 package org.dbiagi.marketplace.core.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.MappedSuperclass;
 import java.util.Date;
@@ -10,7 +11,7 @@ public abstract class BaseEntity {
     @CreationTimestamp
     private Date createdAt;
 
-    @CreationTimestamp
+    @UpdateTimestamp
     private Date updatedAt;
 
     public Date getCreatedAt() {

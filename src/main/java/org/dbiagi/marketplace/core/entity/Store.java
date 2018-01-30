@@ -1,7 +1,6 @@
 package org.dbiagi.marketplace.core.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import org.dbiagi.marketplace.geolocation.entity.Location;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -41,13 +40,8 @@ public class Store extends BaseEntity {
     @NotNull
     private String cellphone;
 
-    private String nextel;
-
-    @ManyToOne
-    private Location location;
-
     @OneToMany(orphanRemoval = true, cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "store")
-    @JsonBackReference
+    @JsonManagedReference("oneToManyUsers")
     private List<User> users = new ArrayList<>();
 
     private int maxAttentandsCount = 0;
@@ -160,14 +154,6 @@ public class Store extends BaseEntity {
         this.cellphone = cellphone;
     }
 
-    public String getNextel() {
-        return nextel;
-    }
-
-    public void setNextel(String nextel) {
-        this.nextel = nextel;
-    }
-
     public int getMaxAttentandsCount() {
         return maxAttentandsCount;
     }
@@ -184,16 +170,8 @@ public class Store extends BaseEntity {
         this.type = type;
     }
 
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
     public enum StoreTypeEnum {
         STORE,
-        DELEARSHIP
+        RESELLER
     }
 }

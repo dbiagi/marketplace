@@ -1,6 +1,6 @@
 package org.dbiagi.marketplace.core.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
@@ -50,7 +50,7 @@ public class User extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "store_id")
-    @JsonManagedReference
+    @JsonBackReference("oneToManyUsers")
     @NotNull
     private Store store;
 

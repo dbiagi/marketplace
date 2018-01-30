@@ -1,0 +1,19 @@
+POST /api/stores/
+Host: localhost:8080
+Content-type: application/json
+
+{
+  "name": "test",
+  "cnpj": "123123123123",
+  "address": "Rua Z",
+  "email": "loja@eita.com",
+  "phone": "(11) 23293-2323",
+  "cellphone": "(11) 23293-2323"
+}
+
+###
+
+GET /api/stores/2/users
+Host: localhost:8080
+
+###
