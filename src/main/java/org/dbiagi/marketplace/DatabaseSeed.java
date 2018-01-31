@@ -90,6 +90,7 @@ public class DatabaseSeed implements ApplicationRunner {
     private void createStores() {
         for (int i = 0; i < DatabaseSeed.STORES; i++) {
             Store store = new Store();
+            store.setEmail(faker.internet().emailAddress());
             store.setAddress(faker.address().streetAddress());
             store.setCellphone(faker.phoneNumber().cellPhone());
             store.setPhone(faker.phoneNumber().phoneNumber());

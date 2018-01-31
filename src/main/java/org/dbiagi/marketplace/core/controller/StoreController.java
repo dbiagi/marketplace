@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/api/stores")
@@ -36,10 +37,9 @@ public class StoreController {
     public List<User> getStoreUsers(@PathVariable Long id) {
         Store store = storeService.find(id);
 
-        if (store == null)
-            return null;
+        List<User> users = store != null ? store.getUsers() : new ArrayList<>();
 
-        return store.getUsers();
+        return users;
     }
 
     @PostMapping
