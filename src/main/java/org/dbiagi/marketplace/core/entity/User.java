@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Email;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.validation.groups.Default;
 
 @Entity
 public class User extends BaseEntity {
@@ -17,10 +18,11 @@ public class User extends BaseEntity {
     @Size(min = 3, max = 255)
     private String name;
 
-    @NotNull
+    @NotNull(groups = Default.class)
     @Size(min = 3, max = 255)
     private String username;
 
+    @NotNull
     @Email
     @Size(min = 3, max = 255)
     private String email;
@@ -30,22 +32,24 @@ public class User extends BaseEntity {
     private String password;
 
     @Transient
+    @NotNull(groups = Store.RegistrationGroup.class)
     private String plainPassword;
 
-    //    @Size(max = 255)
-//    @NotNull
     @Transient
     private String salt;
 
     @Size(max = 30)
+    @NotNull(groups = Store.RegistrationGroup.class)
     private String phone;
 
     @Size(max = 30)
+    @NotNull(groups = Store.RegistrationGroup.class)
     private String cellphone;
 
     private boolean connected;
 
     @Enumerated(EnumType.STRING)
+    @NotNull
     private Role role;
 
     @ManyToOne

@@ -35,6 +35,7 @@ public class UserService {
     private void encryptPassword(User user) {
         if (user.getPlainPassword() != null) {
             user.setPassword(passwordEncoder.encode(user.getPlainPassword()));
+            user.setPlainPassword(null);
         }
     }
 }

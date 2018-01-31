@@ -24,23 +24,23 @@ public class Store extends BaseEntity {
     @NotNull
     private String name;
 
+    @NotNull(groups = RegistrationGroup.class)
     private String address;
 
     private String neighborhood;
 
     private String number;
 
+    @NotNull(groups = RegistrationGroup.class)
     private String zipCode;
 
     private String website;
 
-    @NotNull
     private String phone;
 
-    @NotNull
     private String cellphone;
 
-    @OneToMany(orphanRemoval = true, cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "store")
+    @OneToMany(orphanRemoval = true, mappedBy = "store")
     @JsonManagedReference("oneToManyUsers")
     private List<User> users = new ArrayList<>();
 
@@ -173,5 +173,8 @@ public class Store extends BaseEntity {
     public enum StoreTypeEnum {
         STORE,
         RESELLER
+    }
+
+    public interface RegistrationGroup {
     }
 }

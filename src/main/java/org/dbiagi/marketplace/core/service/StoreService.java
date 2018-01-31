@@ -12,13 +12,18 @@ public class StoreService {
 
     private StoreRepository storeRepository;
 
+    private UserService userService;
+
     @Autowired
-    public StoreService(StoreRepository storeRepository) {
+    public StoreService(StoreRepository storeRepository, UserService userService) {
         this.storeRepository = storeRepository;
+        this.userService = userService;
     }
 
     public Store register(Store store) {
         storeRepository.save(store);
+
+        store.getUsers().forEach(userService::save);
 
         return store;
     }

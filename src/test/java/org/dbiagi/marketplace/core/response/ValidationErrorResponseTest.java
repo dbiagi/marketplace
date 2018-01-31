@@ -17,7 +17,7 @@ public class ValidationErrorResponseTest {
         ValidationErrorResponse response = new ValidationErrorResponse();
 
         for (int i = 0; i < 10; i++) {
-            response.addValidationError(new ValidationError("00" + i, "Validation Error " + i));
+            response.addValidationError(new ValidationError("00" + i, "field " + i, "Validation Error " + i));
         }
 
         String result = objectMapper.writeValueAsString(response);
