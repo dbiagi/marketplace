@@ -52,7 +52,7 @@ public class User extends BaseEntity {
     @NotNull
     private Role role;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     @JsonBackReference("oneToManyUsers")
     @NotNull

@@ -2,10 +2,11 @@ package org.dbiagi.marketplace.core.controller;
 
 import org.dbiagi.marketplace.core.entity.Store;
 import org.dbiagi.marketplace.core.entity.User;
+import org.dbiagi.marketplace.core.exception.ResourceNotFoundException;
+import org.dbiagi.marketplace.core.response.ResourceNotFound;
 import org.dbiagi.marketplace.core.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 @RestController
-@RequestMapping("/api/stores")
+@RequestMapping("/stores")
 public class StoreController {
 
     private StoreService storeService;
@@ -42,10 +43,14 @@ public class StoreController {
         return users;
     }
 
-    @PostMapping
-    public ResponseEntity register(@RequestBody @Validated Store store) {
-        storeService.register(store);
+    @PutMapping
+    public Store update(@RequestBody @Validated Store store) {
+        return storeService.update(store);
+    }
 
-        return new ResponseEntity<>(store, HttpStatus.CREATED);
+    @ExceptionHandler(ResourceNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResourceNotFound handleStoreNotFound(ResourceNotFoundException ex) {
+        return new ResourceNotFound();
     }
 }

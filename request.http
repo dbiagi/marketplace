@@ -1,4 +1,4 @@
-POST /api/stores/
+POST /register
 Host: localhost:8080
 Content-type: application/json
 
@@ -22,9 +22,10 @@ Content-type: application/json
   ]
 }
 
-###
+-------------
 
-GET /api/stores/2/users
+GET /stores/2/users123
 Host: localhost:8080
+Authorization: Basic ZGllZ286MTIz
 
 ###

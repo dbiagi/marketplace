@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import static org.springframework.security.core.userdetails.User.withUsername;
+
 @Service
 public class ApiUserDetailService implements UserDetailsService {
 
@@ -26,6 +28,9 @@ public class ApiUserDetailService implements UserDetailsService {
             throw new UsernameNotFoundException(String.format("User not found for email %s", username));
         }
 
-        return new ApiUserDetail(user);
+        return withUsername(user.getUsername())
+                .password(user.getPassword())
+                .roles(user.getRole().name())
+                .build();
     }
 }

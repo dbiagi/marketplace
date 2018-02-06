@@ -3,6 +3,7 @@ package org.dbiagi.marketplace.core.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,7 @@ public class Store extends BaseEntity {
 
     @OneToMany(orphanRemoval = true, mappedBy = "store")
     @JsonManagedReference("oneToManyUsers")
+    @Valid
     private List<User> users = new ArrayList<>();
 
     private int maxAttentandsCount = 0;

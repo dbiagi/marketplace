@@ -1,9 +1,6 @@
 package org.dbiagi.marketplace.core.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Setting {
@@ -11,8 +8,10 @@ public class Setting {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "setting_key")
     private String key;
 
+    @Column(name = "setting_value")
     private String value;
 
     public Setting(String key, String value) {

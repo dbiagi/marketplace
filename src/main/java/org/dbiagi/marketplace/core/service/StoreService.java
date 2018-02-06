@@ -28,6 +28,10 @@ public class StoreService {
         return store;
     }
 
+    public Store update(Store store) {
+        return storeRepository.save(store);
+    }
+
     public List<Store> findAll() {
         return storeRepository.findAllByNameNotNullOrderByName();
     }
