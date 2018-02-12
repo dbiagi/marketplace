@@ -16,19 +16,16 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 @Component
 public class DatabaseSeed implements ApplicationRunner {
 
-    private static final int USERS = 20;
-    private static final int STORES = 10;
-    private static final int STOCK = 20;
-    private static final int FEATURES_PER_VEHICLE = 2;
+    public static final int USERS = 20;
+    public static final int STORES = 10;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private Faker faker = new Faker(new Locale("pt-BR"));
 
+    private final Faker faker;
     private final StoreService storeService;
     private final UserService userService;
     private final SettingRepository settingRepository;
@@ -37,10 +34,11 @@ public class DatabaseSeed implements ApplicationRunner {
     private List<User> users = new ArrayList<>();
 
     @Autowired
-    public DatabaseSeed(StoreService storeService, UserService userService, SettingRepository settingRepository) {
+    public DatabaseSeed(StoreService storeService, UserService userService, SettingRepository settingRepository, Faker faker) {
         this.storeService = storeService;
         this.userService = userService;
         this.settingRepository = settingRepository;
+        this.faker = faker;
     }
 
     @Override

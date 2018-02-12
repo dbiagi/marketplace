@@ -5,6 +5,7 @@ import org.dbiagi.marketplace.core.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -28,8 +29,10 @@ public class StoreService {
         return store;
     }
 
-    public Store update(Store store) {
-        return storeRepository.save(store);
+    public Store update(Long id, HashMap<String, Object> fields) {
+        Store store = storeRepository.findOne(id);
+
+        return store;
     }
 
     public List<Store> findAll() {

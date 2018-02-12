@@ -41,7 +41,7 @@ public class Store extends BaseEntity {
 
     private String cellphone;
 
-    @OneToMany(orphanRemoval = true, mappedBy = "store")
+    @OneToMany(orphanRemoval = true, mappedBy = "store", cascade = CascadeType.REMOVE)
     @JsonManagedReference("oneToManyUsers")
     @Valid
     private List<User> users = new ArrayList<>();

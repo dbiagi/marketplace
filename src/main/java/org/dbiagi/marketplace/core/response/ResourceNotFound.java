@@ -1,5 +1,5 @@
 package org.dbiagi.marketplace.core.response;
 
-public class ResourceNotFound {
+public class ResourceNotFound extends Exception {
 
 }
