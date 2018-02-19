@@ -49,6 +49,7 @@ public class UserTest extends EntityTest {
         user.setEmail(faker.internet().emailAddress());
         user.setStore(new Store());
         user.setPassword(faker.internet().password());
+        user.setRole(User.Role.ADMIN);
 
         Set<ConstraintViolation<User>> result = validator.validate(user);
 

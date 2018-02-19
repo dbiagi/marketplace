@@ -2,12 +2,12 @@ package org.dbiagi.marketplace.core.controller;
 
 import org.dbiagi.marketplace.core.entity.Store;
 import org.dbiagi.marketplace.core.exception.ResourceNotFoundException;
-import org.dbiagi.marketplace.core.response.EntityResponse;
+import org.dbiagi.marketplace.core.response.Resource;
 import org.dbiagi.marketplace.core.response.ResourceNotFound;
 import org.dbiagi.marketplace.core.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -26,38 +26,41 @@ public class StoreController {
     }
 
     @GetMapping
-    public List<Store> all() {
-        return storeService.findAll();
+    public Resource<List<Store>> all() {
+        return new Resource<>(storeService.findAll());
     }
 
     @GetMapping("/{id}")
-    public EntityResponse<Store> getById(@PathVariable Long id) throws ResourceNotFound {
+    public Resource<Store> getById(@PathVariable Long id) throws ResourceNotFoundException {
         Store store = storeService.find(id);
 
         if (store == null) {
-            throw new ResourceNotFound();
+            throw new ResourceNotFoundException(id);
         }
 
-        return new EntityResponse<>(store);
+        return new Resource<>(store);
     }
 
     @GetMapping("/{id}/users")
-    public EntityResponse getStoreUsers(@PathVariable Long id) {
+    public ResponseEntity getStoreUsers(@PathVariable Long id) {
         Store store = storeService.find(id);
 
         return store != null ?
-                new EntityResponse<>(store.getUsers()) :
-                new EntityResponse<>(new ArrayList<>());
+                new ResponseEntity<>(store.getUsers(), HttpStatus.OK) :
+                new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public Store update(@PathVariable Long id, @RequestBody @Validated HashMap<String, Object> store) {
-        return storeService.update(id, store);
+    public void update(@PathVariable Long id, @RequestBody HashMap<String, Object> store) {
+        storeService.update(id, store);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResourceNotFound handleStoreNotFound(ResourceNotFoundException ex) {
-        return new ResourceNotFound();
+        ResourceNotFound resourceNotFound = new ResourceNotFound();
+        resourceNotFound.setMessage(ex.getMessage());
+
+        return resourceNotFound;
     }
 }

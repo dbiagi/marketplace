@@ -1,12 +1,12 @@
 package org.dbiagi.marketplace.core.response;
 
-public class EntityResponse<T> {
+public class Resource<T> {
     private T data;
 
-    public EntityResponse() {
+    public Resource() {
     }
 
-    public EntityResponse(T data) {
+    public Resource(T data) {
         this.data = data;
     }
 

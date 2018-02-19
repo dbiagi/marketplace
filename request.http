@@ -22,10 +22,21 @@ Content-type: application/json
   ]
 }
 
--------------
+#########
 
-GET /stores/2/users123
+GET /stores/2/users
 Host: localhost:8080
 Authorization: Basic ZGllZ286MTIz
+
+###
+
+PUT /stores/1
+Host: localhost:8080
+Authorization: Basic ZGllZ286MTIz
+Content-type: application/json
+
+{
+    "email": "alfredo.reviera@lost.com"
+}
 
 ###
