@@ -1,5 +1,7 @@
 package org.dbiagi.marketplace.core.controller;
 
+import org.dbiagi.marketplace.core.exception.ResourceNotFoundException;
+import org.dbiagi.marketplace.core.response.ResourceNotFound;
 import org.dbiagi.marketplace.core.response.ValidationErrorResponse;
 import org.dbiagi.marketplace.core.validation.ValidationError;
 import org.springframework.http.HttpHeaders;
@@ -8,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -38,5 +42,14 @@ public class ValidationControllerAdvice extends ResponseEntityExceptionHandler {
         });
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResourceNotFound handleStoreNotFound(ResourceNotFoundException ex) {
+        ResourceNotFound resourceNotFound = new ResourceNotFound();
+        resourceNotFound.setMessage(ex.getMessage());
+
+        return resourceNotFound;
     }
 }

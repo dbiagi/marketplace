@@ -35,6 +35,7 @@ public class StoreService implements EntityService {
     }
 
     public Store update(Long id, HashMap<String, Object> fields) {
+
         Store store = storeRepository.findOne(id);
 
         fields.forEach((key, value) -> {
@@ -70,7 +71,8 @@ public class StoreService implements EntityService {
                     store.setCellphone((String) value);
                     break;
                 case "type":
-                    store.setType(Store.StoreTypeEnum.valueOf((String) value));
+                    if(value != null)
+                        store.setType(Store.StoreTypeEnum.valueOf((String) value));
             }
         });
 

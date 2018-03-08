@@ -97,7 +97,7 @@ public class DatabaseSeed implements ApplicationRunner {
             store.setType(Store.StoreTypeEnum.STORE);
             store.setNumber(faker.address().streetAddressNumber());
             store.setEmail(faker.internet().emailAddress());
-            storeService.register(store);
+            storeService.save(store);
             stores.add(store);
         }
     }

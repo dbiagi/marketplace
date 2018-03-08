@@ -5,12 +5,11 @@ import com.github.javafaker.Faker;
 import org.dbiagi.marketplace.DatabaseSeed;
 import org.dbiagi.marketplace.core.entity.Store;
 import org.dbiagi.marketplace.core.entity.User;
-import org.dbiagi.marketplace.core.response.Resource;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
@@ -18,6 +17,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 
 @Tag("controller")
 public class StoreControllerTest extends BaseWebTest {
@@ -37,12 +37,12 @@ public class StoreControllerTest extends BaseWebTest {
                 .withBasicAuth(USERNAME, PASSWORD)
                 .getForEntity(uri, String.class);
 
-        Assert.assertTrue("does request status return 2xx", response.getStatusCode().is2xxSuccessful());
+        assertTrue("does request status return 2xx", response.getStatusCode().is2xxSuccessful());
 
-        Resource o = mapper.readValue((String) response.getBody(), new TypeReference<Resource<List<User>>>() {
+        List<User> o = mapper.readValue((String) response.getBody(), new TypeReference<List<User>>() {
         });
 
-        Assert.assertThat("is Resource instance", o, isA(Resource.class));
+        assertThat("is Resource instance", o, isA(List.class));
     }
 
 
@@ -54,32 +54,25 @@ public class StoreControllerTest extends BaseWebTest {
                 .withBasicAuth(USERNAME, PASSWORD)
                 .getForEntity(uri, String.class);
 
-        Assert.assertTrue(response.getStatusCode().is2xxSuccessful());
+        assertTrue(response.getStatusCode().is2xxSuccessful());
 
-        Resource<Store> resource = mapper.readValue((String) response.getBody(), new TypeReference<Resource<Store>>() {
-        });
+        Store store = mapper.readValue((String) response.getBody(), Store.class);
 
-        Assert.assertThat(resource.getData(), is(not(nullValue())));
+        assertThat(store, is(not(nullValue())));
     }
 
     @Test
     public void testUpdate() throws IOException {
         Long id = faker.number().numberBetween(1, DatabaseSeed.STORES - 1L);
         String uri = String.format("/stores/%d", id);
-        String email = faker.internet().emailAddress();
 
-        Store store = new Store();
-        store.setEmail(email);
         ResponseEntity<String> response = restTemplate
                 .withBasicAuth(USERNAME, PASSWORD)
-                .exchange(uri, HttpMethod.PUT, null, String.class);
+                .exchange(uri, HttpMethod.PUT, new HttpEntity<>(getValidStore()), String.class);
 
-        Assert.assertTrue(response.getStatusCode().is2xxSuccessful());
+        assertTrue(response.getStatusCode().is2xxSuccessful());
 
-        Resource<Store> responseObj = mapper.readValue(response.getBody(), new TypeReference<Resource<Store>>() {
-        });
-
-        Assert.assertTrue(email.equals(responseObj.getData().getEmail()));
+        assertNull(response.getBody());
     }
 
 
@@ -94,8 +87,19 @@ public class StoreControllerTest extends BaseWebTest {
                 .withBasicAuth(USERNAME, PASSWORD)
                 .getForEntity(uri, String.class);
 
-        Assert.assertTrue(response.getStatusCode().is4xxClientError());
+        assertTrue(response.getStatusCode().is4xxClientError());
     }
 
+    private Store getValidStore() {
+        Store store = new Store();
+
+        store.setEmail(faker.internet().emailAddress());
+        store.setName(faker.lorem().sentence(2));
+        store.setCnpj(faker.numerify("############"));
+        store.setPhone(faker.phoneNumber().phoneNumber());
+        store.setCellphone(faker.phoneNumber().cellPhone());
+
+        return store;
+    }
 
 }
