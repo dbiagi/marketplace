@@ -1,17 +1,16 @@
 package org.dbiagi.marketplace.core.service;
 
-import org.dbiagi.marketplace.core.entity.BaseEntity;
 import org.dbiagi.marketplace.core.entity.Store;
+import org.dbiagi.marketplace.core.exception.ResourceNotFoundException;
 import org.dbiagi.marketplace.core.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
-public class StoreService implements EntityService {
+public class StoreService {
 
     private StoreRepository storeRepository;
 
@@ -34,9 +33,13 @@ public class StoreService implements EntityService {
         return store;
     }
 
-    public Store update(Long id, HashMap<String, Object> fields) {
+    public Store update(Long id, HashMap<String, Object> fields) throws ResourceNotFoundException {
 
         Store store = storeRepository.findOne(id);
+
+        if (store == null) {
+            throw new ResourceNotFoundException(id);
+        }
 
         fields.forEach((key, value) -> {
             switch (key) {
@@ -83,31 +86,24 @@ public class StoreService implements EntityService {
         return storeRepository.findAllByNameNotNullOrderByName();
     }
 
-    public Store find(Long id) {
-        return storeRepository.findOne(id);
+    public Store find(Long id) throws ResourceNotFoundException {
+        Store store = storeRepository.findOne(id);
+
+        if (store == null) {
+            throw new ResourceNotFoundException(id);
+        }
+
+        return store;
     }
 
-    @Override
-    public BaseEntity save(BaseEntity entity) {
-        return null;
-    }
+    public void delete(Long id) throws ResourceNotFoundException {
+        Store store = storeRepository.findOne(id);
 
-    @Override
-    public void delete(BaseEntity entity) {
+        if (store == null) {
+            throw new ResourceNotFoundException(id);
+        }
 
-    }
-
-    public void delete(Store store) {
-        storeRepository.delete(store);
-    }
-
-    public void delete(Long id) {
         storeRepository.delete(id);
-    }
-
-    @Override
-    public BaseEntity update(Long id, Map<String, Object> values) {
-        return null;
     }
 
 
