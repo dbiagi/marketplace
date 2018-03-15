@@ -9,6 +9,7 @@ import org.dbiagi.marketplace.core.response.ValidationErrorResponse;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.jupiter.api.Tag;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
@@ -26,7 +27,7 @@ import static org.junit.Assert.*;
 public class StoreControllerTest extends BaseWebTest {
 
     @Test
-    public void testList() throws IOException {
+    public void testUsersList() throws IOException {
         String uri = String.format("/stores/%d/users", faker.number().numberBetween(1, DatabaseSeed.STORES - 1));
 
         ResponseEntity response = restTemplate
@@ -39,6 +40,18 @@ public class StoreControllerTest extends BaseWebTest {
         });
 
         assertThat("is Resource instance", o, isA(List.class));
+    }
+
+    @Test
+    public void testList() {
+        String uri = "/stores";
+
+        ResponseEntity<List<User>> response = restTemplate
+                .withBasicAuth(AUTH_USERNAME, AUTH_PASSWORD)
+                .exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<List<User>>() {
+                });
+
+        assertTrue(response.getStatusCode().is2xxSuccessful());
     }
 
 

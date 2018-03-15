@@ -68,4 +68,8 @@ public class UserService {
 
         return user;
     }
+
+    public User findByEmailOrUsername(String emailOrUsername) {
+        return userRepository.findByEmailOrUsername(emailOrUsername);
+    }
 }

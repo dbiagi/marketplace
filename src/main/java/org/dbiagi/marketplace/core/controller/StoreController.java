@@ -1,6 +1,7 @@
 package org.dbiagi.marketplace.core.controller;
 
 import org.dbiagi.marketplace.core.entity.Store;
+import org.dbiagi.marketplace.core.entity.User;
 import org.dbiagi.marketplace.core.exception.ResourceNotFoundException;
 import org.dbiagi.marketplace.core.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,13 @@ public class StoreController extends BaseController {
     @GetMapping
     public List<Store> list() {
         return storeService.findAll();
+    }
+
+    @GetMapping("/{id}/users")
+    public List<User> listUsers(@PathVariable Long id) throws ResourceNotFoundException {
+        Store store = storeService.find(id);
+
+        return store.getUsers();
     }
 
     @GetMapping("/{id}")

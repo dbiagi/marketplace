@@ -1,36 +1,31 @@
 package org.dbiagi.marketplace.core.security;
 
 import org.dbiagi.marketplace.core.entity.User;
-import org.dbiagi.marketplace.core.repository.UserRepository;
+import org.dbiagi.marketplace.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import static org.springframework.security.core.userdetails.User.withUsername;
-
 @Service
 public class ApiUserDetailService implements UserDetailsService {
 
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
-    ApiUserDetailService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    ApiUserDetailService(UserService userRepository) {
+        this.userService = userRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmailOrUsername(username);
+        User user = userService.findByEmailOrUsername(username);
 
         if (user == null) {
             throw new UsernameNotFoundException(String.format("User not found for email %s", username));
         }
 
-        return withUsername(user.getUsername())
-                .password(user.getPassword())
-                .roles(user.getRole().name())
-                .build();
+        return user;
     }
 }

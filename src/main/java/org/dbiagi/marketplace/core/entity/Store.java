@@ -179,4 +179,9 @@ public class Store extends BaseEntity {
 
     public interface RegistrationGroup {
     }
+
+    @Override
+    public String toString() {
+        return String.format("Store[id=%d, name=%s]", id, name);
+    }
 }
