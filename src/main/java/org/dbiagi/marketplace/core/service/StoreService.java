@@ -74,7 +74,7 @@ public class StoreService {
                     store.setCellphone((String) value);
                     break;
                 case "type":
-                    if(value != null)
+                    if (value != null)
                         store.setType(Store.StoreTypeEnum.valueOf((String) value));
             }
         });

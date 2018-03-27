@@ -1,5 +1,6 @@
 package org.dbiagi.marketplace.core.controller;
 
+import org.dbiagi.marketplace.core.exception.EntityValidationException;
 import org.dbiagi.marketplace.core.exception.ResourceNotFoundException;
 import org.dbiagi.marketplace.core.response.ResourceNotFound;
 import org.dbiagi.marketplace.core.response.ValidationErrorResponse;
@@ -51,5 +52,11 @@ public class ValidationControllerAdvice extends ResponseEntityExceptionHandler {
         resourceNotFound.setMessage(ex.getMessage());
 
         return resourceNotFound;
+    }
+
+    @ExceptionHandler(EntityValidationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public List<ValidationError> handleInvalidEntity(EntityValidationException ex) {
+        return ex.getErrors();
     }
 }

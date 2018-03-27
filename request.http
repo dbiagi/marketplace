@@ -40,3 +40,20 @@ Content-type: application/json
 }
 
 ###
+
+POST /users
+Host: localhost:8080
+Authorization: Basic ZGllZ286MTIz
+Content-type: application/json
+
+{
+    "name": "Diego",
+    "username": "diegobiagi",
+    "email": "loja@eita.com",
+    "phone": "(11) 23293-2323",
+    "cellphone": "(11) 23293-2323",
+    "role": "ADMIN",
+    "plainPassword": "123"
+}
+
+###

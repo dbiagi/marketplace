@@ -1,6 +1,6 @@
 package org.dbiagi.marketplace.core.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -41,8 +41,8 @@ public class Store extends BaseEntity {
 
     private String cellphone;
 
-    @OneToMany(orphanRemoval = true, mappedBy = "store", cascade = CascadeType.REMOVE)
-    @JsonManagedReference("oneToManyUsers")
+    @OneToMany(orphanRemoval = true, mappedBy = "store", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @JsonIgnore
     @Valid
     private List<User> users = new ArrayList<>();
 
@@ -172,16 +172,16 @@ public class Store extends BaseEntity {
         this.type = type;
     }
 
+    @Override
+    public String toString() {
+        return String.format("Store[id=%d, name=%s]", id, name);
+    }
+
     public enum StoreTypeEnum {
         STORE,
         RESELLER
     }
 
     public interface RegistrationGroup {
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Store[id=%d, name=%s]", id, name);
     }
 }

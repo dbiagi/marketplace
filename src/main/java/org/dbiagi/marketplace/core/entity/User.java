@@ -1,6 +1,5 @@
 package org.dbiagi.marketplace.core.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
@@ -51,8 +50,8 @@ public class User extends BaseEntity implements UserDetails {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
-    @JsonBackReference("oneToManyUsers")
     @NotNull
+    @JsonIgnore
     private Store store;
 
     private boolean enabled = true;
@@ -85,10 +84,6 @@ public class User extends BaseEntity implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getPhone() {
@@ -147,6 +142,10 @@ public class User extends BaseEntity implements UserDetails {
     @Override
     public String getUsername() {
         return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override

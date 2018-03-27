@@ -6,6 +6,7 @@ import org.dbiagi.marketplace.core.entity.Store;
 import org.dbiagi.marketplace.core.entity.User;
 import org.dbiagi.marketplace.core.response.ResourceNotFound;
 import org.dbiagi.marketplace.core.response.ValidationErrorResponse;
+import org.dbiagi.marketplace.core.validation.ValidationError;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.jupiter.api.Tag;
@@ -88,6 +89,7 @@ public class StoreControllerTest extends BaseWebTest {
     @Ignore
     public void testInvalidPut() {
         Long id = faker.number().numberBetween(1, DatabaseSeed.STORES - 1L);
+
         String uri = String.format("/stores/%d", id);
 
         ResponseEntity<ValidationErrorResponse> response = restTemplate
@@ -114,18 +116,21 @@ public class StoreControllerTest extends BaseWebTest {
     }
 
     @Test
-    public void testInvalidPost() {
+    public void testInvalidPost() throws IOException {
         String uri = "/stores";
 
         // Given an invalid entity
-        ResponseEntity<ValidationErrorResponse> response = restTemplate
-                .postForEntity(uri, getInvalidStore(), ValidationErrorResponse.class);
+        ResponseEntity<String> response = restTemplate
+                .postForEntity(uri, getInvalidStore(), String.class);
+
+        List<ValidationError> errors = mapper.readValue(response.getBody(), new TypeReference<List<ValidationError>>() {
+        });
 
         assertTrue(response.getStatusCode().is4xxClientError());
 
-        assertThat(response.getBody(), isA(ValidationErrorResponse.class));
+        assertThat(errors, isA(List.class));
 
-        assertTrue(response.getBody().getErrors().size() > 0);
+        assertTrue(errors.size() > 0);
     }
 
 

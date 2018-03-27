@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface UserRepository extends PagingAndSortingRepository<User, Long> {
-    @Query("SELECT u FROM User u WHERE u.username = :emailOrUsername OR u.email = :emailOrUsername")
+    @Query("SELECT u FROM User u JOIN FETCH u.store WHERE u.username = :emailOrUsername OR u.email = :emailOrUsername")
     User findByEmailOrUsername(@Param("emailOrUsername") String emailOrUsername);
 }
