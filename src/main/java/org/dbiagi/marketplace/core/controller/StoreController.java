@@ -8,6 +8,8 @@ import org.dbiagi.marketplace.core.exception.ResourceNotFoundException;
 import org.dbiagi.marketplace.core.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolation;
@@ -27,7 +29,8 @@ public class StoreController extends BaseController {
     }
 
     @GetMapping
-    public List<Store> list() {
+    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
+    public List<Store> list(UsernamePasswordAuthenticationToken user) {
         return storeService.findAll();
     }
 

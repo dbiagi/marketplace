@@ -59,7 +59,7 @@ public class DatabaseSeed implements ApplicationRunner {
 
     private void createUsers() {
         User diego = new User();
-        diego.setRole(User.Role.SUPER_ADMIN);
+        diego.setRole(User.Role.STORE_OWNER);
         diego.setName("Diego");
         diego.setUsername("diego");
         diego.setPlainPassword("123");
