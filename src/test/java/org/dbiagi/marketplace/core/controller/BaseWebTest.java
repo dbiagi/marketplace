@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 abstract class BaseWebTest {
 
-    final String AUTH_USERNAME = "diego";
+    final String AUTH_USERNAME = "SUPER_ADMIN";
     final String AUTH_PASSWORD = "123";
 
     ObjectMapper mapper;

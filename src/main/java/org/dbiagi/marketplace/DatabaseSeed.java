@@ -58,14 +58,16 @@ public class DatabaseSeed implements ApplicationRunner {
     }
 
     private void createUsers() {
-        User diego = new User();
-        diego.setRole(User.Role.STORE_OWNER);
-        diego.setName("Diego");
-        diego.setUsername("diego");
-        diego.setPlainPassword("123");
-        diego.setEmail("diego@invalid.com");
-        diego.setStore(stores.get(1));
-        users.add(diego);
+        for (User.Role role : User.Role.values()) {
+            User user = new User();
+            user.setRole(role);
+            user.setName(role.name());
+            user.setUsername(role.name());
+            user.setPlainPassword("123");
+            user.setEmail(faker.internet().emailAddress());
+            user.setStore(stores.get(1));
+            users.add(user);
+        }
 
         for (int i = 0; i < DatabaseSeed.USERS; i++) {
             User user = new User();

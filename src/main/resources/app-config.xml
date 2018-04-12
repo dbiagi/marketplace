@@ -11,9 +11,9 @@
           class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
         <property name="hierarchy">
             <value>
-                ROLE_SUPER_ADMIN > ROLE_ADMIN
-                ROLE_ADMIN > ROLE_STORE_OWNER
-                ROLE_STORE_OWNER > STORE_ATTENDANT
+                SUPER_ADMIN > ADMIN
+                ADMIN > STORE_OWNER
+                STORE_OWNER > STORE_ATTENDANT
             </value>
         </property>
     </bean>

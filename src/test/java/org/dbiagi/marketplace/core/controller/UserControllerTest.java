@@ -24,7 +24,7 @@ public class UserControllerTest extends BaseWebTest {
         String uri = String.format("/users/%d", faker.number().numberBetween(1, DatabaseSeed.USERS));
 
         ResponseEntity<User> response = restTemplate
-                .withBasicAuth(AUTH_USERNAME, AUTH_PASSWORD)
+                .withBasicAuth(User.Role.STORE_ATTENDANT.name(), AUTH_PASSWORD)
                 .getForEntity(uri, User.class);
 
         assertTrue(response.getStatusCode().is2xxSuccessful());
@@ -37,7 +37,7 @@ public class UserControllerTest extends BaseWebTest {
         String uri = "/users";
 
         ResponseEntity<User> response = restTemplate
-                .withBasicAuth(AUTH_USERNAME, AUTH_PASSWORD)
+                .withBasicAuth(User.Role.STORE_OWNER.name(), AUTH_PASSWORD)
                 .postForEntity(uri, getValidUser(), User.class);
 
         assertTrue(response.getStatusCode().is2xxSuccessful());
@@ -50,7 +50,7 @@ public class UserControllerTest extends BaseWebTest {
         String uri = "/users";
 
         ResponseEntity<String> response = restTemplate
-                .withBasicAuth(AUTH_USERNAME, AUTH_PASSWORD)
+                .withBasicAuth(User.Role.STORE_OWNER.name(), AUTH_PASSWORD)
                 .postForEntity(uri, getInvalidUser(), String.class);
 
         List<ValidationError> errors = mapper.readValue(response.getBody(), new TypeReference<List<ValidationError>>() {
@@ -60,11 +60,6 @@ public class UserControllerTest extends BaseWebTest {
 
         assertThat(errors, isA(List.class));
     }
-
-    public void testPut() {
-
-    }
-
 
     private User getInvalidUser() {
         return new User();

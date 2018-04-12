@@ -29,12 +29,13 @@ public class StoreController extends BaseController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
-    public List<Store> list(UsernamePasswordAuthenticationToken user) {
+    @PreAuthorize("hasAuthority('STORE_ATTENDANT')")
+    public List<Store> list() {
         return storeService.findAll();
     }
 
     @GetMapping("/{id}/users")
+    @PreAuthorize("hasAuthority('STORE_ATTENDANT')")
     public List<User> listUsers(@PathVariable Long id) throws ResourceNotFoundException {
         Store store = storeService.find(id);
 
@@ -42,12 +43,13 @@ public class StoreController extends BaseController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('STORE_ATTENDANT')")
     public Store get(@PathVariable Long id) throws ResourceNotFoundException {
         return storeService.find(id);
     }
 
-    /* @TODO Think how to implement put. Only update the necessary fields. */
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('STORE_OWNER')")
     public void put(@PathVariable Long id, @RequestBody HashMap<String, Object> fields)
             throws ResourceNotFoundException {
 
@@ -67,6 +69,7 @@ public class StoreController extends BaseController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('STORE_OWNER')")
     public void delete(@PathVariable Long id) throws ResourceNotFoundException {
         Store store = storeService.find(id);
 

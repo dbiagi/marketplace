@@ -32,7 +32,7 @@ public class StoreControllerTest extends BaseWebTest {
         String uri = String.format("/stores/%d/users", faker.number().numberBetween(1, DatabaseSeed.STORES - 1));
 
         ResponseEntity response = restTemplate
-                .withBasicAuth(AUTH_USERNAME, AUTH_PASSWORD)
+                .withBasicAuth(User.Role.STORE_ATTENDANT.name(), AUTH_PASSWORD)
                 .getForEntity(uri, String.class);
 
         assertTrue("does request status return 2xx", response.getStatusCode().is2xxSuccessful());
@@ -48,7 +48,7 @@ public class StoreControllerTest extends BaseWebTest {
         String uri = "/stores";
 
         ResponseEntity<List<User>> response = restTemplate
-                .withBasicAuth(AUTH_USERNAME, AUTH_PASSWORD)
+                .withBasicAuth(User.Role.STORE_ATTENDANT.name(), AUTH_PASSWORD)
                 .exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<List<User>>() {
                 });
 
@@ -61,7 +61,7 @@ public class StoreControllerTest extends BaseWebTest {
         String uri = String.format("/stores/%d", faker.number().numberBetween(1, DatabaseSeed.STORES));
 
         ResponseEntity response = restTemplate
-                .withBasicAuth(AUTH_USERNAME, AUTH_PASSWORD)
+                .withBasicAuth(User.Role.STORE_ATTENDANT.name(), AUTH_PASSWORD)
                 .getForEntity(uri, String.class);
 
         assertTrue(response.getStatusCode().is2xxSuccessful());
@@ -77,7 +77,7 @@ public class StoreControllerTest extends BaseWebTest {
         String uri = String.format("/stores/%d", id);
 
         ResponseEntity<String> response = restTemplate
-                .withBasicAuth(AUTH_USERNAME, AUTH_PASSWORD)
+                .withBasicAuth(User.Role.STORE_OWNER.name(), AUTH_PASSWORD)
                 .exchange(uri, HttpMethod.PUT, new HttpEntity<>(getValidStore()), String.class);
 
         assertTrue(response.getStatusCode().is2xxSuccessful());
@@ -86,14 +86,13 @@ public class StoreControllerTest extends BaseWebTest {
     }
 
     @Test
-    @Ignore
     public void testInvalidPut() {
         Long id = faker.number().numberBetween(1, DatabaseSeed.STORES - 1L);
 
         String uri = String.format("/stores/%d", id);
 
         ResponseEntity<ValidationErrorResponse> response = restTemplate
-                .withBasicAuth(AUTH_USERNAME, AUTH_PASSWORD)
+                .withBasicAuth(User.Role.STORE_OWNER.name(), AUTH_PASSWORD)
                 .exchange(uri, HttpMethod.PUT, new HttpEntity<>(getInvalidStore()), ValidationErrorResponse.class);
 
         assertTrue(response.getStatusCode().is4xxClientError());
@@ -142,7 +141,7 @@ public class StoreControllerTest extends BaseWebTest {
         );
 
         ResponseEntity<String> response = restTemplate
-                .withBasicAuth(AUTH_USERNAME, AUTH_PASSWORD)
+                .withBasicAuth(User.Role.STORE_ATTENDANT.name(), AUTH_PASSWORD)
                 .getForEntity(uri, String.class);
 
         assertTrue(response.getStatusCode().is4xxClientError());
@@ -158,7 +157,7 @@ public class StoreControllerTest extends BaseWebTest {
         RequestEntity<String> request = new RequestEntity<>("", HttpMethod.DELETE, new URI(uri));
 
         ResponseEntity<Void> response = restTemplate
-                .withBasicAuth(AUTH_USERNAME, AUTH_PASSWORD)
+                .withBasicAuth(User.Role.STORE_OWNER.name(), AUTH_PASSWORD)
                 .exchange(uri, HttpMethod.DELETE, request, Void.class);
 
         assertTrue(response.getStatusCode().is2xxSuccessful());
@@ -173,7 +172,7 @@ public class StoreControllerTest extends BaseWebTest {
         RequestEntity<String> request = new RequestEntity<>("", HttpMethod.DELETE, new URI(uri));
 
         ResponseEntity<ResourceNotFound> response = restTemplate
-                .withBasicAuth(AUTH_USERNAME, AUTH_PASSWORD)
+                .withBasicAuth(User.Role.STORE_OWNER.name(), AUTH_PASSWORD)
                 .exchange(uri, HttpMethod.DELETE, request, ResourceNotFound.class);
 
         assertTrue(response.getStatusCode().is4xxClientError());

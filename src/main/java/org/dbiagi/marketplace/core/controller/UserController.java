@@ -6,6 +6,7 @@ import org.dbiagi.marketplace.core.exception.ResourceNotFoundException;
 import org.dbiagi.marketplace.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +36,7 @@ public class UserController extends BaseController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('STORE_OWNER')")
     public User post(@RequestBody User user, UsernamePasswordAuthenticationToken token) throws Exception {
         User requestUser = (User) token.getPrincipal();
 
@@ -50,6 +52,7 @@ public class UserController extends BaseController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('STORE_OWNER')")
     public void delete(@PathVariable Long id, Map<String, Object> fields) throws ResourceNotFoundException {
         userService.update(id, fields);
     }
