@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
 
-
+/**
+ * I created this to generate a generic crud, but I couldn't figure a way to make this work
+ * I'll leave this here to try again sometime later.
+ */
 public abstract class AbstractCrudRestController {
 
     private ApplicationEventPublisher eventPublisher;

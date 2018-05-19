@@ -1,7 +1,7 @@
 package org.dbiagi.marketplace.core.controller;
 
 import org.dbiagi.marketplace.core.entity.User;
-import org.dbiagi.marketplace.core.exception.EntityValidationExceptionFactory;
+import org.dbiagi.marketplace.core.exception.EntityValidationException;
 import org.dbiagi.marketplace.core.exception.ResourceNotFoundException;
 import org.dbiagi.marketplace.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +10,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.ConstraintViolation;
 import java.util.Map;
-import java.util.Set;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/v1/users")
 public class UserController extends BaseController {
     private UserService userService;
 
@@ -30,30 +28,25 @@ public class UserController extends BaseController {
     }
 
     @PutMapping("/{id}")
-    public void put(@PathVariable Long id, Map<String, Object> fields) throws ResourceNotFoundException {
+    public void put(@PathVariable Long id, @RequestBody Map<String, Object> fields)
+            throws ResourceNotFoundException, EntityValidationException {
         userService.update(id, fields);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('STORE_OWNER')")
-    public User post(@RequestBody User user, UsernamePasswordAuthenticationToken token) throws Exception {
+    public User post(@RequestBody User user, UsernamePasswordAuthenticationToken token) throws EntityValidationException {
         User requestUser = (User) token.getPrincipal();
 
         user.setStore(requestUser.getStore());
-
-        Set<ConstraintViolation<User>> violations = validator.validate(user);
-
-        if (!violations.isEmpty()) {
-            throw new EntityValidationExceptionFactory<User>().create(violations);
-        }
 
         return userService.save(user);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('STORE_OWNER')")
-    public void delete(@PathVariable Long id, Map<String, Object> fields) throws ResourceNotFoundException {
-        userService.update(id, fields);
+    public void delete(@PathVariable Long id) {
+        userService.delete(id);
     }
 }

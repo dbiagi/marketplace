@@ -1,6 +1,9 @@
 package org.dbiagi.marketplace.core.entity;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Setting {
@@ -9,9 +12,13 @@ public class Setting {
     private Long id;
 
     @Column(name = "setting_key")
+    @NotNull
+    @NotEmpty
     private String key;
 
     @Column(name = "setting_value")
+    @NotNull
+    @NotEmpty
     private String value;
 
     public Setting(String key, String value) {

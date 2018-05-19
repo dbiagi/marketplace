@@ -1,24 +1,24 @@
 package org.dbiagi.marketplace.core.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.dbiagi.marketplace.core.entity.Store;
 import org.dbiagi.marketplace.core.entity.User;
 import org.dbiagi.marketplace.core.exception.EntityValidationException;
-import org.dbiagi.marketplace.core.exception.EntityValidationExceptionFactory;
 import org.dbiagi.marketplace.core.exception.ResourceNotFoundException;
 import org.dbiagi.marketplace.core.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.ConstraintViolation;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 @RestController
-@RequestMapping("/stores")
+@RequestMapping("/api/v1/stores")
+@Api(value = "stores", description = "stores endpoint")
 public class StoreController extends BaseController {
 
     private StoreService storeService;
@@ -30,8 +30,11 @@ public class StoreController extends BaseController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('STORE_ATTENDANT')")
-    public List<Store> list() {
-        return storeService.findAll();
+    @ApiOperation(value = "Show stores", response = List.class)
+    public List<Store> list(
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+        return storeService.findAll(new PageRequest(page, size));
     }
 
     @GetMapping("/{id}/users")
@@ -51,21 +54,14 @@ public class StoreController extends BaseController {
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('STORE_OWNER')")
     public void put(@PathVariable Long id, @RequestBody HashMap<String, Object> fields)
-            throws ResourceNotFoundException {
-
+            throws ResourceNotFoundException, EntityValidationException {
         storeService.update(id, fields);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Store post(@RequestBody Store store) throws EntityValidationException {
-        Set<ConstraintViolation<Store>> violations = validator.validate(store, Store.RegistrationGroup.class);
-
-        if (!violations.isEmpty()) {
-            throw new EntityValidationExceptionFactory<Store>().create(violations);
-        }
-
-        return storeService.save(store);
+        return storeService.save(store, Store.RegistrationGroup.class);
     }
 
     @DeleteMapping("/{id}")

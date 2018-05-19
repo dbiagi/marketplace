@@ -9,10 +9,6 @@ import java.util.Set;
 
 public class EntityValidationExceptionFactory<T> {
 
-    public EntityValidationException create(Set<ConstraintViolation<T>> violations) {
-        return new EntityValidationException(extractErrors(violations));
-    }
-
     private List<ValidationError> extractErrors(Set<ConstraintViolation<T>> violations) {
         List<ValidationError> errors = new ArrayList<>();
 
@@ -21,6 +17,10 @@ public class EntityValidationExceptionFactory<T> {
         });
 
         return errors;
+    }
+
+    public EntityValidationException create(Set<ConstraintViolation<T>> violations) {
+        return new EntityValidationException(extractErrors(violations));
     }
 
 }

@@ -1,6 +1,7 @@
 package org.dbiagi.marketplace.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -17,12 +18,15 @@ public class Store extends BaseEntity {
     private Long id;
 
     @NotNull
+    @NotEmpty
     private String email;
 
     @NotNull
+    @NotEmpty
     private String cnpj;
 
     @NotNull
+    @NotEmpty
     private String name;
 
     @NotNull(groups = RegistrationGroup.class)

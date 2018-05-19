@@ -2,6 +2,7 @@ package org.dbiagi.marketplace.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +12,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class User extends BaseEntity implements UserDetails {
@@ -20,10 +20,12 @@ public class User extends BaseEntity implements UserDetails {
     private Long id;
 
     @NotNull
+    @NotEmpty
     @Size(min = 3, max = 255)
     private String name;
 
     @NotNull
+    @NotEmpty
     @Size(min = 3, max = 255)
     private String username;
 
@@ -134,6 +136,16 @@ public class User extends BaseEntity implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        HashSet<SimpleGrantedAuthority> authorities = new HashSet<>();
+
+        authorities.add(new SimpleGrantedAuthority(role.name()));
+
+        return authorities;
+    }
+
+    @Override
     public String getPassword() {
         return password;
     }
@@ -149,16 +161,6 @@ public class User extends BaseEntity implements UserDetails {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    @Override
-    @JsonIgnore
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        HashSet<SimpleGrantedAuthority> authorities = new HashSet<>();
-
-        authorities.add(new SimpleGrantedAuthority(role.name()));
-
-        return authorities;
     }
 
     @Override

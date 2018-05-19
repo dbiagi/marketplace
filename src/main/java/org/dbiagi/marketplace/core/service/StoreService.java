@@ -1,39 +1,69 @@
 package org.dbiagi.marketplace.core.service;
 
 import org.dbiagi.marketplace.core.entity.Store;
+import org.dbiagi.marketplace.core.exception.EntityValidationException;
+import org.dbiagi.marketplace.core.exception.EntityValidationExceptionFactory;
 import org.dbiagi.marketplace.core.exception.ResourceNotFoundException;
 import org.dbiagi.marketplace.core.repository.StoreRepository;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class StoreService {
 
+    private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
     private StoreRepository storeRepository;
-
     private UserService userService;
-
     private RegistrationMailer registrationMailer;
+    private Validator validator;
 
     @Autowired
-    public StoreService(StoreRepository storeRepository, UserService userService, RegistrationMailer registrationMailer) {
+    public StoreService(StoreRepository storeRepository, UserService userService, Validator validator) {
         this.storeRepository = storeRepository;
         this.userService = userService;
-        this.registrationMailer = registrationMailer;
+        this.validator = validator;
     }
 
-    public Store save(Store store) {
+    private void validate(Store store, Class<?> group) throws EntityValidationException {
+        Set<ConstraintViolation<Store>> violations = group == null ? validator.validate(store) : validator.validate(store, group);
+
+        if (!violations.isEmpty()) {
+            throw new EntityValidationExceptionFactory<Store>().create(violations);
+        }
+    }
+
+    public Store save(Store store, Class<?> validationGroup) throws EntityValidationException {
+        validate(store, validationGroup);
+
+        return save(store);
+    }
+
+    public Store save(Store store) throws EntityValidationException {
+        validate(store, null);
+
         storeRepository.save(store);
 
-        store.getUsers().forEach(userService::save);
+        store.getUsers().forEach(u -> {
+            try {
+                userService.save(u);
+            } catch (EntityValidationException e) {
+                logger.error("Error saving store user", e, u);
+            }
+        });
 
         return store;
     }
 
-    public Store update(Long id, HashMap<String, Object> fields) throws ResourceNotFoundException {
+    public Store update(Long id, HashMap<String, Object> fields) throws ResourceNotFoundException, EntityValidationException {
 
         Store store = storeRepository.findOne(id);
 
@@ -79,13 +109,18 @@ public class StoreService {
             }
         });
 
+        validate(store, null);
 
 
         return storeRepository.save(store);
     }
 
     public List<Store> findAll() {
-        return storeRepository.findAllByNameNotNullOrderByName();
+        return findAll(new PageRequest(1, 10));
+    }
+
+    public List<Store> findAll(Pageable pageable) {
+        return storeRepository.findAllByNameNotNullOrderByName(pageable);
     }
 
     public Store find(Long id) throws ResourceNotFoundException {
@@ -107,6 +142,4 @@ public class StoreService {
 
         storeRepository.delete(id);
     }
-
-
 }
