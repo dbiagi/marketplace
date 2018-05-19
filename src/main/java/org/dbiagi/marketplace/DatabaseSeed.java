@@ -1,13 +1,13 @@
 package org.dbiagi.marketplace;
 
 import com.github.javafaker.Faker;
-import org.dbiagi.marketplace.core.entity.Setting;
-import org.dbiagi.marketplace.core.entity.Store;
-import org.dbiagi.marketplace.core.entity.User;
-import org.dbiagi.marketplace.core.exception.EntityValidationException;
-import org.dbiagi.marketplace.core.repository.SettingRepository;
-import org.dbiagi.marketplace.core.service.StoreService;
-import org.dbiagi.marketplace.core.service.UserService;
+import org.dbiagi.marketplace.entity.Setting;
+import org.dbiagi.marketplace.entity.Store;
+import org.dbiagi.marketplace.entity.User;
+import org.dbiagi.marketplace.exception.EntityValidationException;
+import org.dbiagi.marketplace.repository.SettingRepository;
+import org.dbiagi.marketplace.service.StoreService;
+import org.dbiagi.marketplace.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
