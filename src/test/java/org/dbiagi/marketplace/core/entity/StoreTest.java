@@ -2,10 +2,14 @@ package org.dbiagi.marketplace.core.entity;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.jupiter.api.Tag;
 
 import javax.validation.ConstraintViolation;
 import java.util.Set;
 
+import static org.junit.Assert.*;
+
+@Tag("entity")
 public class StoreTest extends EntityTest {
     @Test
     public void testInvalidEntity() {
@@ -28,6 +32,6 @@ public class StoreTest extends EntityTest {
 
         Set<ConstraintViolation<Store>> result = validator.validate(store);
 
-        Assert.assertTrue(result.size() == 0);
+        assertEquals(0, result.size());
     }
 }

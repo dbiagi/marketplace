@@ -1,30 +1,45 @@
 package org.dbiagi.marketplace.core.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
+import org.dbiagi.marketplace.core.entity.Store;
+import org.dbiagi.marketplace.core.entity.User;
+import org.dbiagi.marketplace.core.validation.ValidationError;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 abstract class BaseWebTest {
 
-    final String AUTH_USERNAME = "SUPER_ADMIN";
     final String AUTH_PASSWORD = "123";
-
-    ObjectMapper mapper;
 
     @Autowired
     TestRestTemplate restTemplate;
+
     @Autowired
     Faker faker;
 
+    ParameterizedTypeReference<List<ValidationError>> validationErrorListReference;
+
+    ParameterizedTypeReference<List<User>> userListReference;
+
+    ParameterizedTypeReference<List<Store>> storeListReference;
+
     @Before
     public void setUp() {
-        mapper = new ObjectMapper();
+        validationErrorListReference = new ParameterizedTypeReference<List<ValidationError>>() {
+        };
+        userListReference = new ParameterizedTypeReference<List<User>>() {
+        };
+
+        storeListReference = new ParameterizedTypeReference<List<Store>>() {
+        };
     }
 }

@@ -2,17 +2,16 @@ package org.dbiagi.marketplace.core.entity;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Assert;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.junit.jupiter.api.Tag;
 
 import javax.validation.ConstraintViolation;
 import java.util.Set;
 
-public class UserTest extends EntityTest {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+import static org.junit.Assert.*;
 
+@Tag("entity")
+public class UserTest extends EntityTest {
 
     @Test
     public void testBidirectionalRelationship() throws JsonProcessingException {
@@ -27,8 +26,8 @@ public class UserTest extends EntityTest {
         store.setName("Store 1");
         store.setEmail("store@bol.com.br");
 
-        Assert.assertNotNull(new ObjectMapper().writeValueAsString(store));
-        Assert.assertNotNull(new ObjectMapper().writeValueAsString(user));
+        assertNotNull(new ObjectMapper().writeValueAsString(store));
+        assertNotNull(new ObjectMapper().writeValueAsString(user));
     }
 
     @Test
@@ -37,7 +36,7 @@ public class UserTest extends EntityTest {
 
         Set<ConstraintViolation<User>> result = validator.validate(user);
 
-        Assert.assertTrue(result.size() >= 3);
+        assertTrue(result.size() >= 3);
     }
 
     @Test
@@ -53,6 +52,6 @@ public class UserTest extends EntityTest {
 
         Set<ConstraintViolation<User>> result = validator.validate(user);
 
-        Assert.assertTrue(result.size() == 0);
+        assertEquals(0, result.size());
     }
 }
