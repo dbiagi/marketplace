@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.jupiter.api.Tag;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.HashMap;
@@ -114,6 +115,18 @@ public class StoreControllerTest extends BaseWebTest {
     }
 
     @Test
+    public void testUnauthorizedPut() {
+        String uri = String.format("/api/v1/stores/%d", faker.number().numberBetween(1, DatabaseSeed.STORES - 1L));
+
+        Map<String, String> fields = new HashMap<>();
+        fields.put("name", "test");
+
+        ResponseEntity response = restTemplate.exchange(uri, HttpMethod.PUT, new HttpEntity<>(fields), Void.class);
+
+        assertEquals(response.getStatusCodeValue(), HttpStatus.UNAUTHORIZED.value());
+    }
+
+    @Test
     public void testValidPost() {
         String uri = "/api/v1/stores";
 
@@ -165,5 +178,18 @@ public class StoreControllerTest extends BaseWebTest {
         assertTrue(response.getStatusCode().is2xxSuccessful());
 
         assertFalse(response.hasBody());
+    }
+
+    @Test
+    public void testForbiddenDelete() {
+        String uri = String.format(
+                "/api/v1/stores/%d",
+                faker.number().numberBetween(1, DatabaseSeed.STORES)
+        );
+
+        ResponseEntity<Void> response = restTemplate
+                .exchange(uri, HttpMethod.DELETE, null, Void.class);
+
+        assertEquals(response.getStatusCodeValue(), HttpStatus.UNAUTHORIZED.value());
     }
 }
