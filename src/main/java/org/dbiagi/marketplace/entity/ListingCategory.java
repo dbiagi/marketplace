@@ -25,7 +25,7 @@ public class ListingCategory {
     @ManyToOne
     private ListingCategory parent;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private Collection<ListingCategory> children = new HashSet<>();
 
     public Long getId() {

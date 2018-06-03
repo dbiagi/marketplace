@@ -29,7 +29,11 @@ public class Listing {
     @Column(unique = true)
     private String slug;
 
-    @ManyToMany
+    @ManyToOne
+    @NotNull
+    private Store store;
+
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name = "listing_x_category",
             joinColumns = {@JoinColumn(name = "listing_id")},
@@ -89,5 +93,13 @@ public class Listing {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
     }
 }
