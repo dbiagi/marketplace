@@ -100,7 +100,7 @@ public class DatabaseSeed implements ApplicationRunner {
         }
     }
 
-    private void createListings() {
+    private void createListings() throws EntityValidationException {
         String[] categoriesTitle = {
                 "Auto", "Beauty", "Food & Dine", "Entertainment", "Health & Care",
                 "Restaurant", "Medical", "Music", "Theater"

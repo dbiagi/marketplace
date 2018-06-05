@@ -9,7 +9,7 @@ import java.util.Set;
 
 import static org.junit.Assert.*;
 
-@Tag("entity")
+@Tag("model")
 public class StoreTest extends EntityTest {
     @Test
     public void testInvalidEntity() {

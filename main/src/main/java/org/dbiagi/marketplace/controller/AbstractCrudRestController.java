@@ -36,9 +36,9 @@ public abstract class AbstractCrudRestController {
     }
 
     /**
-     * Get entity crud service.
+     * Get model crud service.
      *
-     * @return The crud service for the entity
+     * @return The crud service for the model
      */
     abstract EntityService getEntityService();
 }

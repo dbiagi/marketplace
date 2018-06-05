@@ -8,7 +8,7 @@ import java.util.Set;
 
 import static org.junit.Assert.*;
 
-@Tag("entity")
+@Tag("model")
 public class SettingTest extends EntityTest {
     @Test
     public void testValidSetting() {

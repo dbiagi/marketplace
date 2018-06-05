@@ -2,5 +2,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+    show-sql: true
+
   datasource:
     url: jdbc:h2:mem:marketplace_test

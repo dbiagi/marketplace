@@ -4,6 +4,6 @@
 *.class
 *.tmp
 
-/out
-/build
+/**/out
+/**/build
 .gradle/

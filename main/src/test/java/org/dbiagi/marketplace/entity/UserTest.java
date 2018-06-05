@@ -10,7 +10,7 @@ import java.util.Set;
 
 import static org.junit.Assert.*;
 
-@Tag("entity")
+@Tag("model")
 public class UserTest extends EntityTest {
 
     @Test
