@@ -1,11 +1,17 @@
 package org.dbiagi.classification.entity;
 
 import org.dbiagi.classification.model.BaseModel;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import javax.persistence.MappedSuperclass;
 import java.util.Date;
 
+@MappedSuperclass
 public abstract class BaseEntity implements BaseModel {
+    @CreationTimestamp
     private Date createdAt;
+    @UpdateTimestamp
     private Date updatedAt;
 
     @Override

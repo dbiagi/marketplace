@@ -3,61 +3,59 @@ package org.dbiagi.classification.entity;
 import org.dbiagi.classification.model.ContextInterface;
 import org.dbiagi.classification.model.TagInterface;
 
-import java.util.Date;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
-public class Tag implements TagInterface {
+public class Tag extends BaseEntity implements TagInterface {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    private String name;
+
+    private String slug;
+
+    @ManyToOne
+    private Context context;
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public String getName() {
-        return null;
+        return name;
     }
 
     @Override
     public void setName(String name) {
-
+        this.name = name;
     }
 
     @Override
     public String getSlug() {
-        return null;
+        return slug;
     }
 
     @Override
     public void setSlug(String slug) {
-
+        this.slug = slug;
     }
 
     @Override
     public ContextInterface getContext() {
-        return null;
+        return context;
     }
 
     @Override
     public void setContext(ContextInterface context) {
-
-    }
-
-    @Override
-    public int getId() {
-        return 0;
-    }
-
-    @Override
-    public Date getCreatedAt() {
-        return null;
-    }
-
-    @Override
-    public void setCreatedAt(Date createdAt) {
-
-    }
-
-    @Override
-    public Date getUpdatedAt() {
-        return null;
-    }
-
-    @Override
-    public void setUpdatedAt(Date updatedAt) {
-
+        this.context = (Context) context;
     }
 }

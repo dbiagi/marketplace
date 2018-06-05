@@ -3,9 +3,7 @@ apply plugin: "org.springframework.boot"
 
 sourceCompatibility = 1.8
 
-repositories {
-    mavenCentral()
-}
+repositories { mavenCentral() }
 
 dependencies {
     compile project(":classification")

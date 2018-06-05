@@ -1,23 +1,11 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-}
-
 apply plugin: 'java'
-
-group 'org.dbiagi'
+apply plugin: "org.springframework.boot"
 
 sourceCompatibility = 1.8
-
-jar {
-    baseName = 'classification'
-    version = '${version}'
-}
 
 repositories { mavenCentral() }
 
 dependencies {
-
+    compile "org.springframework.boot:spring-boot-starter-data-jpa"
     testCompile "org.junit.jupiter:junit-jupiter-engine:5.0.3"
 }
