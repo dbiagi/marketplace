@@ -6,3 +6,5 @@ spring:
 
   datasource:
     url: jdbc:h2:mem:marketplace_test
+  profiles:
+    active: test

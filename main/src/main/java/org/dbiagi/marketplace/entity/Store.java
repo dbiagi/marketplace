@@ -1,6 +1,7 @@
 package org.dbiagi.marketplace.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.dbiagi.marketplace.model.ListingInterface;
 import org.dbiagi.marketplace.model.StoreInterface;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -8,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -47,10 +49,14 @@ public class Store extends BaseEntity implements StoreInterface {
     @Valid
     private List<User> users = new ArrayList<>();
 
+    @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<Listing> listings = new ArrayList<>();
+
     private int maxAttentandsCount = 0;
 
     @Enumerated(EnumType.STRING)
-    private StoreTypeEnum type;
+    private Type type;
 
     public List<User> getUsers() {
         return users;
@@ -155,27 +161,31 @@ public class Store extends BaseEntity implements StoreInterface {
         this.maxAttentandsCount = maxAttendantsCount;
     }
 
-    public StoreTypeEnum getType() {
+    public Type getType() {
         return type;
     }
 
     @Override
-    public void setType(Object type) {
-        setType((StoreTypeEnum) type);
+    public void setType(Type type) {
+        this.type = type;
     }
 
-    public void setType(StoreTypeEnum type) {
-        this.type = type;
+    @Override
+    public Collection<Listing> getListings() {
+        return listings;
+    }
+
+    @Override
+    public void addListing(ListingInterface listing) {
+        if (listing instanceof Listing && !listings.contains(listing)) {
+            listings.add((Listing) listing);
+            ((Listing) listing).setStore(this);
+        }
     }
 
     @Override
     public String toString() {
         return String.format("StoreInterface[id=%d, name=%s]", id, name);
-    }
-
-    public enum StoreTypeEnum {
-        STORE,
-        RESELLER
     }
 
     public interface RegistrationGroup {

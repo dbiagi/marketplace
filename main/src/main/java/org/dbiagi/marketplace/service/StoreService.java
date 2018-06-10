@@ -105,7 +105,7 @@ public class StoreService {
                     break;
                 case "type":
                     if (value != null)
-                        store.setType(Store.StoreTypeEnum.valueOf((String) value));
+                        store.setType(Store.Type.valueOf((String) value));
             }
         });
 
@@ -141,5 +141,9 @@ public class StoreService {
         }
 
         storeRepository.delete(id);
+    }
+
+    public void delete(Store store) throws ResourceNotFoundException {
+        delete(store.getId());
     }
 }

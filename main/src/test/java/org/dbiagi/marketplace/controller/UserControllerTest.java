@@ -39,6 +39,12 @@ public class UserControllerTest extends BaseWebTest {
         return user;
     }
 
+    private ResponseEntity<User> postUser() {
+        return restTemplate
+                .withBasicAuth(User.Role.STORE_OWNER.name(), AUTH_PASSWORD)
+                .postForEntity(URI, getValidUser(), User.class);
+    }
+
     @Test
     public void testValidGet() {
         String uri = String.format("%s/%d", URI, faker.number().numberBetween(1, DatabaseSeed.USERS));
@@ -65,9 +71,7 @@ public class UserControllerTest extends BaseWebTest {
 
     @Test
     public void testValidPost() {
-        ResponseEntity<User> response = restTemplate
-                .withBasicAuth(User.Role.STORE_OWNER.name(), AUTH_PASSWORD)
-                .postForEntity(URI, getValidUser(), User.class);
+        ResponseEntity<User> response = postUser();
 
         assertTrue(response.getStatusCode().is2xxSuccessful());
 
@@ -87,7 +91,9 @@ public class UserControllerTest extends BaseWebTest {
 
     @Test
     public void testDelete() {
-        String uri = String.format("%s/%d", URI, faker.number().numberBetween(1, DatabaseSeed.USERS));
+        User user = postUser().getBody();
+
+        String uri = String.format("%s/%d", URI, user.getId());
 
         ResponseEntity<Void> response = restTemplate
                 .withBasicAuth(User.Role.STORE_OWNER.name(), AUTH_PASSWORD)

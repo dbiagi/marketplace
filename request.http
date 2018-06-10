@@ -24,9 +24,9 @@ Content-type: application/json
 
 #########
 
-GET /stores/2/users
+GET /api/v1/stores/
 Host: localhost:8080
-Authorization: Basic ZGllZ286MTIz
+Authorization: Basic U1RPUkVfQVRURU5EQU5UOjEyMwo=
 
 ###
 

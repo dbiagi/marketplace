@@ -2,6 +2,7 @@ package org.dbiagi.marketplace.entity.classification;
 
 import org.dbiagi.marketplace.entity.BaseEntity;
 import org.dbiagi.marketplace.model.classification.CategoryInterface;
+import org.dbiagi.marketplace.model.classification.ContextInterface;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -25,10 +26,23 @@ public class Category extends BaseEntity implements CategoryInterface {
     private Category parent;
 
     @ManyToMany(mappedBy = "parent")
-    private List<Category> children;
+    private List<Category> children = new ArrayList<>();
+
+    @ManyToOne
+    private Context context;
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public ContextInterface getContext() {
+        return context;
+    }
+
+    @Override
+    public void setContext(ContextInterface context) {
+        this.context = (Context) context;
     }
 
     @Override

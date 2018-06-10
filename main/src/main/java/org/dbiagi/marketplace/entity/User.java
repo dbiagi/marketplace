@@ -53,8 +53,7 @@ public class User extends BaseEntity implements UserInterface, UserDetails {
     @NotNull
     private Role role;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id")
+    @ManyToOne
     @NotNull
     @JsonIgnore
     private Store store;
@@ -133,18 +132,8 @@ public class User extends BaseEntity implements UserInterface, UserDetails {
 
     @Override
     public void setStore(StoreInterface store) {
-        if (store instanceof Store) {
-            this.store = (Store) store;
-        }
+        this.store = (Store) store;
     }
-
-//    public void setStore(Store store) {
-//        if (!store.getUsers().contains(this)) {
-//            store.addUser(this);
-//        }
-//
-//        this.store = store;
-//    }
 
     public String getPlainPassword() {
         return plainPassword;

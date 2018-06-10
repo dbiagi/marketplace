@@ -32,7 +32,7 @@ public class StoreController extends BaseController {
     @PreAuthorize("hasAuthority('STORE_ATTENDANT')")
     @ApiOperation(value = "Show stores", response = List.class)
     public List<Store> list(
-            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size) {
         return storeService.findAll(new PageRequest(page, size));
     }
@@ -67,12 +67,6 @@ public class StoreController extends BaseController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('STORE_OWNER')")
     public void delete(@PathVariable Long id) throws ResourceNotFoundException {
-        Store store = storeService.find(id);
-
-        if (store == null) {
-            throw new ResourceNotFoundException(id);
-        }
-
         storeService.delete(id);
     }
 }

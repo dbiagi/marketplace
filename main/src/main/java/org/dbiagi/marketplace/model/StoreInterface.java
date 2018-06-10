@@ -1,5 +1,7 @@
 package org.dbiagi.marketplace.model;
 
+import java.util.Collection;
+
 public interface StoreInterface {
     String getEmail();
 
@@ -45,7 +47,16 @@ public interface StoreInterface {
 
     void setMaxAttentandsCount(int maxAttendantsCount);
 
-    Object getType();
+    Type getType();
 
-    void setType(Object type);
+    void setType(Type type);
+
+    Collection<? extends ListingInterface> getListings();
+
+    void addListing(ListingInterface listing);
+
+    enum Type {
+        STORE,
+        RESELLER
+    }
 }

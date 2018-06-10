@@ -40,6 +40,13 @@ public class StoreControllerTest extends BaseWebTest {
         return new Store();
     }
 
+    private ResponseEntity<Store> postStore() {
+        String uri = "/api/v1/stores";
+
+        return restTemplate
+                .postForEntity(uri, getValidStore(), Store.class);
+    }
+
     @Test
     public void testUsersList() {
         String uri = String.format("/api/v1/stores/%d/users", faker.number().numberBetween(1, DatabaseSeed.STORES - 1));
@@ -57,11 +64,13 @@ public class StoreControllerTest extends BaseWebTest {
     public void testList() {
         String uri = "/api/v1/stores";
 
-        ResponseEntity<List<User>> response = restTemplate
+        ResponseEntity<List<Store>> response = restTemplate
                 .withBasicAuth(User.Role.STORE_ATTENDANT.name(), AUTH_PASSWORD)
-                .exchange(uri, HttpMethod.GET, null, userListReference);
+                .exchange(uri, HttpMethod.GET, null, storeListReference);
 
         assertTrue(response.getStatusCode().is2xxSuccessful());
+
+        assertTrue(response.getBody().size() > 0);
     }
 
     @Test
@@ -128,10 +137,7 @@ public class StoreControllerTest extends BaseWebTest {
 
     @Test
     public void testValidPost() {
-        String uri = "/api/v1/stores";
-
-        ResponseEntity<Store> response = restTemplate
-                .postForEntity(uri, getValidStore(), Store.class);
+        ResponseEntity<Store> response = postStore();
 
         assertTrue(response.getStatusCode().is2xxSuccessful());
 
@@ -166,10 +172,9 @@ public class StoreControllerTest extends BaseWebTest {
 
     @Test
     public void testValidDelete() {
-        String uri = String.format(
-                "/api/v1/stores/%d",
-                faker.number().numberBetween(1, DatabaseSeed.STORES)
-        );
+        Store store = postStore().getBody();
+
+        String uri = String.format("/api/v1/stores/%d", store.getId());
 
         ResponseEntity<Void> response = restTemplate
                 .withBasicAuth(User.Role.STORE_OWNER.name(), AUTH_PASSWORD)

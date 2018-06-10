@@ -24,7 +24,7 @@ public class ListingController {
     }
 
     @GetMapping
-    public Page<Listing> list(@RequestParam(value = "page", defaultValue = "1") int page,
+    public Page<Listing> list(@RequestParam(value = "page", defaultValue = "0") int page,
                               @RequestParam(value = "size", defaultValue = "10") int size) {
         return listingService.findAll(page, size);
     }
@@ -35,7 +35,7 @@ public class ListingController {
     }
 
     @GetMapping("/categories")
-    public Page<Category> getCategories(@RequestParam(value = "page", defaultValue = "1") int page,
+    public Page<Category> getCategories(@RequestParam(value = "page", defaultValue = "0") int page,
                                         @RequestParam(value = "size", defaultValue = "10") int size) {
         return listingService.getCategories(page, size);
     }

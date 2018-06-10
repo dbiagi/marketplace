@@ -16,7 +16,13 @@ public class Context extends BaseEntity implements ContextInterface {
 
     private String name;
 
-    private boolean enabled;
+    private boolean enabled = true;
+
+    public Context(){}
+
+    public Context(String name) {
+        this.name = name;
+    }
 
     @Override
     public String getName() {
