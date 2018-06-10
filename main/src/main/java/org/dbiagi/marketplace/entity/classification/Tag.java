@@ -1,13 +1,12 @@
-package org.dbiagi.classification.entity;
+package org.dbiagi.marketplace.entity.classification;
 
-import org.dbiagi.classification.model.ContextInterface;
-import org.dbiagi.classification.model.TagInterface;
+import org.dbiagi.marketplace.entity.BaseEntity;
+import org.dbiagi.marketplace.model.classification.ContextInterface;
+import org.dbiagi.marketplace.model.classification.TagInterface;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
+@Entity
 public class Tag extends BaseEntity implements TagInterface {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +19,6 @@ public class Tag extends BaseEntity implements TagInterface {
     @ManyToOne
     private Context context;
 
-    @Override
     public int getId() {
         return id;
     }

@@ -1,6 +1,7 @@
-package org.dbiagi.classification.entity;
+package org.dbiagi.marketplace.entity.classification;
 
-import org.dbiagi.classification.model.ContextInterface;
+import org.dbiagi.marketplace.entity.BaseEntity;
+import org.dbiagi.marketplace.model.classification.ContextInterface;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,7 +38,6 @@ public class Context extends BaseEntity implements ContextInterface {
         this.enabled = enabled;
     }
 
-    @Override
     public int getId() {
         return id;
     }

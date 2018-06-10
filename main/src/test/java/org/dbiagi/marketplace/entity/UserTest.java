@@ -23,7 +23,7 @@ public class UserTest extends EntityTest {
         user.setUsername("diego");
         user.setEmail("diego@bol.com.br");
 
-        store.setName("Store 1");
+        store.setName("StoreInterface 1");
         store.setEmail("store@bol.com.br");
 
         assertNotNull(new ObjectMapper().writeValueAsString(store));

@@ -1,8 +1,8 @@
-package org.dbiagi.classification.model;
+package org.dbiagi.marketplace.model.classification;
 
 import java.util.Collection;
 
-public interface CategoryInterface extends BaseModel {
+public interface CategoryInterface {
     String getName();
 
     void setName(String string);

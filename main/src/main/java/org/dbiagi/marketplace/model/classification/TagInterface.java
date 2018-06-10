@@ -1,6 +1,6 @@
-package org.dbiagi.classification.model;
+package org.dbiagi.marketplace.model.classification;
 
-public interface TagInterface extends BaseModel {
+public interface TagInterface {
     String getName();
 
     void setName(String name);

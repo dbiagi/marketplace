@@ -1,12 +1,10 @@
-package org.dbiagi.classification.entity;
+package org.dbiagi.marketplace.entity.classification;
 
-import org.dbiagi.classification.model.CategoryInterface;
+import org.dbiagi.marketplace.entity.BaseEntity;
+import org.dbiagi.marketplace.model.classification.CategoryInterface;
+import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,11 +21,12 @@ public class Category extends BaseEntity implements CategoryInterface {
     @NotEmpty
     private String slug;
 
+    @ManyToOne
     private Category parent;
 
+    @ManyToMany(mappedBy = "parent")
     private List<Category> children;
 
-    @Override
     public int getId() {
         return id;
     }

@@ -1,6 +1,6 @@
-package org.dbiagi.classification.model;
+package org.dbiagi.marketplace.model.classification;
 
-public interface ContextInterface extends BaseModel {
+public interface ContextInterface {
     String getName();
 
     void setName(String name);

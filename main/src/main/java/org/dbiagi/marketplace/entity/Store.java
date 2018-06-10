@@ -1,6 +1,7 @@
 package org.dbiagi.marketplace.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.dbiagi.marketplace.model.StoreInterface;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -10,21 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Store extends BaseEntity {
+public class Store extends BaseEntity implements StoreInterface {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     @NotEmpty
     private String email;
 
-    @NotNull
     @NotEmpty
     private String cnpj;
 
-    @NotNull
     @NotEmpty
     private String name;
 
@@ -161,13 +159,18 @@ public class Store extends BaseEntity {
         return type;
     }
 
+    @Override
+    public void setType(Object type) {
+        setType((StoreTypeEnum) type);
+    }
+
     public void setType(StoreTypeEnum type) {
         this.type = type;
     }
 
     @Override
     public String toString() {
-        return String.format("Store[id=%d, name=%s]", id, name);
+        return String.format("StoreInterface[id=%d, name=%s]", id, name);
     }
 
     public enum StoreTypeEnum {

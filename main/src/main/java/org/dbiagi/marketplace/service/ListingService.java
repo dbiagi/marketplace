@@ -1,7 +1,7 @@
 package org.dbiagi.marketplace.service;
 
+import org.dbiagi.marketplace.entity.classification.Category;
 import org.dbiagi.marketplace.entity.Listing;
-import org.dbiagi.marketplace.entity.ListingCategory;
 import org.dbiagi.marketplace.exception.EntityValidationException;
 import org.dbiagi.marketplace.exception.EntityValidationExceptionFactory;
 import org.dbiagi.marketplace.exception.ResourceNotFoundException;
@@ -50,11 +50,11 @@ public class ListingService {
         return repository.findOne(id);
     }
 
-    public ListingCategory save(ListingCategory listingCategory) {
-        return categoryRepository.save(listingCategory);
+    public Category save(Category category) {
+        return categoryRepository.save(category);
     }
 
-    public Page<ListingCategory> getCategories(int page, int size) {
+    public Page<Category> getCategories(int page, int size) {
         return categoryRepository.findAll(new PageRequest(page, size));
     }
 

@@ -1,6 +1,7 @@
 package org.dbiagi.marketplace;
 
 import com.github.javafaker.Faker;
+import org.dbiagi.marketplace.entity.classification.Category;
 import org.dbiagi.marketplace.entity.*;
 import org.dbiagi.marketplace.exception.EntityValidationException;
 import org.dbiagi.marketplace.repository.SettingRepository;
@@ -36,7 +37,6 @@ public class DatabaseSeed implements ApplicationRunner {
 
     private List<Store> stores = new ArrayList<>();
     private List<User> users = new ArrayList<>();
-    private List<ListingCategory> categories = new ArrayList<>();
 
     @Autowired
     public DatabaseSeed(StoreService storeService, UserService userService, SettingRepository settingRepository, Faker faker, ListingService listingService) {
@@ -106,22 +106,22 @@ public class DatabaseSeed implements ApplicationRunner {
                 "Restaurant", "Medical", "Music", "Theater"
         };
 
-        ArrayList<ListingCategory> categories = new ArrayList<>();
+        ArrayList<Category> categories = new ArrayList<>();
 
         for (String categoryTitle : categoriesTitle) {
-            ListingCategory listingCategory = new ListingCategory();
-            listingCategory.setName(categoryTitle);
-            listingCategory.setSlug(categoryTitle.toLowerCase().replace(' ', '_'));
+            Category category = new Category();
+            category.setName(categoryTitle);
+            category.setSlug(categoryTitle.toLowerCase().replace(' ', '_'));
 
             for (int i = faker.number().numberBetween(0, 3); i > 0; i--) {
-                ListingCategory child = new ListingCategory();
+                Category child = new Category();
                 child.setName(faker.lorem().word());
                 child.setSlug(faker.internet().slug());
-                listingCategory.addChild(child);
+                category.addChild(child);
             }
 
-            listingService.save(listingCategory);
-            categories.add(listingCategory);
+            listingService.save(category);
+            categories.add(category);
         }
 
         for (int i = 0; i < LISTINGS; i++) {

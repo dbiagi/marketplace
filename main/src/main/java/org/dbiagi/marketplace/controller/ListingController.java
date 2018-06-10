@@ -1,7 +1,7 @@
 package org.dbiagi.marketplace.controller;
 
+import org.dbiagi.marketplace.entity.classification.Category;
 import org.dbiagi.marketplace.entity.Listing;
-import org.dbiagi.marketplace.entity.ListingCategory;
 import org.dbiagi.marketplace.exception.EntityValidationException;
 import org.dbiagi.marketplace.exception.ResourceNotFoundException;
 import org.dbiagi.marketplace.service.ListingService;
@@ -10,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 @RestController
@@ -36,8 +35,8 @@ public class ListingController {
     }
 
     @GetMapping("/categories")
-    public Page<ListingCategory> getCategories(@RequestParam(value = "page", defaultValue = "1") int page,
-                                               @RequestParam(value = "size", defaultValue = "10") int size) {
+    public Page<Category> getCategories(@RequestParam(value = "page", defaultValue = "1") int page,
+                                        @RequestParam(value = "size", defaultValue = "10") int size) {
         return listingService.getCategories(page, size);
     }
 
