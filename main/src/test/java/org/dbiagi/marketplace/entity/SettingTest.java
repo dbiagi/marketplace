@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 @Tag("model")
 public class SettingTest extends EntityTest {
     @Test
-    public void testValidSetting() {
+    public void given_ValidSetting_When_Validating_Then_ViolationArrayShouldBeEmpty() {
         Setting setting = new Setting("config", "value");
 
         Set<ConstraintViolation<Setting>> violations = validator.validate(setting);
@@ -20,7 +20,7 @@ public class SettingTest extends EntityTest {
     }
 
     @Test
-    public void testInvalidSetting() {
+    public void given_InvalidSetting_When_Validating_Then_ViolationArrayShouldNotBeEmpty() {
         Setting setting = new Setting("", "");
 
         Set<ConstraintViolation<Setting>> violations = validator.validate(setting);

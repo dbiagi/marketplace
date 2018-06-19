@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface SettingRepository extends CrudRepository<Setting, Long> {
     @Query("SELECT s.value FROM Setting s WHERE s.key = :key")
-    public String findValueByKey(@Param("key") String key);
+    String findValueByKey(@Param("key") String key);
 
-    public Setting findByKey(String key);
+    Setting findByKey(String key);
 }

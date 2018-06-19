@@ -8,13 +8,15 @@ import org.junit.jupiter.api.Tag;
 import javax.validation.ConstraintViolation;
 import java.util.Set;
 
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 @Tag("model")
 public class UserTest extends EntityTest {
 
     @Test
-    public void testBidirectionalRelationship() throws JsonProcessingException {
+    public void given_StoreThatHaveUsers_When_SerializeToJson_ShouldNotThrowException()
+        throws JsonProcessingException {
         User user = new User();
         Store store = new Store();
 
@@ -31,7 +33,7 @@ public class UserTest extends EntityTest {
     }
 
     @Test
-    public void testInvalidEntity() {
+    public void given_InvalidUser_When_Validating_Then_ViolationArrayShouldNotBeEmpty() {
         User user = new User();
 
         Set<ConstraintViolation<User>> result = validator.validate(user);
@@ -40,7 +42,7 @@ public class UserTest extends EntityTest {
     }
 
     @Test
-    public void testValidEntity() {
+    public void given_ValidUser_When_Validating_Then_ViolationArrayShouldBeEmpty() {
         User user = new User();
 
         user.setName(faker.name().name());
@@ -53,5 +55,24 @@ public class UserTest extends EntityTest {
         Set<ConstraintViolation<User>> result = validator.validate(user);
 
         assertEquals(0, result.size());
+    }
+
+    @Test
+    public void when_UsingLombokBuilder_Then_ReturnShouldBeAUser() {
+        assertThat(User.builder().build(), isA(User.class));
+    }
+
+    @Test
+    public void when_UsingLombokBuilder_Then_PropertiesShouldBeSetOnUser() {
+        String name = "some name";
+        String email = "some email";
+
+        User user = User.builder()
+            .name(name)
+            .email(email)
+            .build();
+
+        assertEquals(name, user.getName());
+        assertEquals(email, user.getEmail());
     }
 }

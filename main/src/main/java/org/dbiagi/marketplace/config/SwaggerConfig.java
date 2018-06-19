@@ -18,28 +18,28 @@ import static springfox.documentation.builders.PathSelectors.regex;
 public class SwaggerConfig extends WebMvcConfigurationSupport {
     private ApiInfo getMetadata() {
         return new ApiInfoBuilder()
-                .title("Marketplace REST API")
-                .description("Marketplace REST API")
-                .version("v1.0.0")
-                .build();
+            .title("Marketplace REST API")
+            .description("Marketplace REST API")
+            .version("v1.0.0")
+            .build();
     }
 
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("org.dbiagi.marketplace.controller"))
-                .paths(regex("/v1/api/*"))
-                .build()
-                .apiInfo(getMetadata());
+            .select()
+            .apis(RequestHandlerSelectors.basePackage("org.dbiagi.marketplace.controller"))
+            .paths(regex("/v1/api/*"))
+            .build()
+            .apiInfo(getMetadata());
     }
 
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("swagger-ui.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
+            .addResourceLocations("classpath:/META-INF/resources/");
 
         registry.addResourceHandler("/webjars/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/");
+            .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 }

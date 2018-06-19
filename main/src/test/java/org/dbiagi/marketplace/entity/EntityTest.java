@@ -9,8 +9,8 @@ import javax.validation.ValidatorFactory;
 import java.util.Locale;
 
 public class EntityTest {
-    static Validator validator;
-    static Faker faker;
+    protected static Validator validator;
+    protected static Faker faker;
 
     @BeforeClass
     public static void setUp() {

@@ -1,6 +1,5 @@
 package org.dbiagi.marketplace.entity;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.Tag;
 
@@ -8,11 +7,12 @@ import javax.validation.ConstraintViolation;
 import java.util.Set;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 @Tag("model")
 public class StoreTest extends EntityTest {
     @Test
-    public void testInvalidEntity() {
+    public void given_InvalidStore_When_Validating_Then_ViolationArrayShouldNotBeEmpty() {
         Store store = new Store();
 
         Set<ConstraintViolation<Store>> result = validator.validate(store);
@@ -21,17 +21,35 @@ public class StoreTest extends EntityTest {
     }
 
     @Test
-    public void testValidEntity() {
+    public void given_ValidStore_When_Validating_Then_ValidationArrayShouldBeEmpty() {
         Store store = new Store();
 
         store.setEmail(faker.internet().emailAddress());
         store.setName(faker.lorem().sentence(2));
-        store.setCnpj(faker.numerify("############"));
         store.setPhone(faker.phoneNumber().phoneNumber());
         store.setCellphone(faker.phoneNumber().cellPhone());
 
         Set<ConstraintViolation<Store>> result = validator.validate(store);
 
         assertEquals(0, result.size());
+    }
+
+    @Test
+    public void when_UsingLombokBuilder_Then_ReturnShouldBeAStore() {
+        assertThat(Store.builder().build(), isA(Store.class));
+    }
+
+    @Test
+    public void when_UsingLombokBuilder_Then_PropertiesMustBeSetOnStore() {
+        String name = "some name";
+        String email = "some.email@invalid.com";
+
+        Store store = Store.builder()
+            .name(name)
+            .email(email)
+            .build();
+
+        assertEquals(name, store.getName());
+        assertEquals(email, store.getEmail());
     }
 }

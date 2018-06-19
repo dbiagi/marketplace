@@ -1,11 +1,13 @@
 package org.dbiagi.marketplace.entity;
 
+import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Data
 public class Setting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,26 +25,6 @@ public class Setting {
 
     public Setting(String key, String value) {
         this.key = key;
-        this.value = value;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
         this.value = value;
     }
 }

@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -47,12 +46,12 @@ public class DatabaseSeed implements ApplicationRunner {
 
     @Autowired
     public DatabaseSeed(
-            StoreService storeService,
-            UserService userService,
-            SettingRepository settingRepository,
-            ContextRepository contextRepository,
-            Faker faker,
-            ListingService listingService
+        StoreService storeService,
+        UserService userService,
+        SettingRepository settingRepository,
+        ContextRepository contextRepository,
+        Faker faker,
+        ListingService listingService
     ) {
         this.storeService = storeService;
         this.userService = userService;
@@ -94,16 +93,16 @@ public class DatabaseSeed implements ApplicationRunner {
 
     private void createStores() {
         for (int i = 0; i < DatabaseSeed.STORES; i++) {
-            Store store = new Store();
-            store.setEmail(faker.internet().emailAddress());
-            store.setAddress(faker.address().streetAddress());
-            store.setCellphone(faker.phoneNumber().cellPhone());
-            store.setPhone(faker.phoneNumber().phoneNumber());
-            store.setName(faker.lorem().sentence(1));
-            store.setCnpj(faker.number().digits(10));
-            store.setType(Store.Type.STORE);
-            store.setNumber(faker.address().streetAddressNumber());
-            store.setEmail(faker.internet().emailAddress());
+            Store store = Store.builder()
+                .email(faker.internet().emailAddress())
+                .address(faker.address().streetAddress())
+                .cellphone(faker.phoneNumber().cellPhone())
+                .phone(faker.phoneNumber().phoneNumber())
+                .name(faker.lorem().sentence(1))
+                .number(faker.address().streetAddressNumber())
+                .type(Store.Type.STORE)
+                .email(faker.internet().emailAddress())
+                .build();
 
             try {
                 storeService.save(store);
@@ -117,8 +116,8 @@ public class DatabaseSeed implements ApplicationRunner {
 
     private void createListings() throws EntityValidationException {
         String[] categoriesTitle = {
-                "Auto", "Beauty", "Food & Dine", "Entertainment", "Health & Care",
-                "Restaurant", "Medical", "Music", "Theater"
+            "Auto", "Beauty", "Food & Dine", "Entertainment", "Health & Care",
+            "Restaurant", "Medical", "Music", "Theater"
         };
 
         Context context = new Context("listing");

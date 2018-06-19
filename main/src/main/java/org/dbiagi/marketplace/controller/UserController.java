@@ -29,7 +29,7 @@ public class UserController extends BaseController {
 
     @PutMapping("/{id}")
     public void put(@PathVariable Long id, @RequestBody Map<String, Object> fields)
-            throws ResourceNotFoundException, EntityValidationException {
+        throws ResourceNotFoundException, EntityValidationException {
         userService.update(id, fields);
     }
 

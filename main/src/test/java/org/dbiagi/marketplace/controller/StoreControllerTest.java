@@ -26,7 +26,6 @@ public class StoreControllerTest extends BaseWebTest {
 
         store.setEmail(faker.internet().emailAddress());
         store.setName(faker.lorem().sentence(2));
-        store.setCnpj(faker.numerify("############"));
         store.setPhone(faker.phoneNumber().phoneNumber());
         store.setCellphone(faker.phoneNumber().cellPhone());
         store.setZipCode(faker.address().zipCode());

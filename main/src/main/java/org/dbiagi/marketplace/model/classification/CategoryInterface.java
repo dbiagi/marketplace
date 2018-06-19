@@ -21,7 +21,5 @@ public interface CategoryInterface {
 
     Collection<? extends CategoryInterface> getChildren();
 
-    void setChildren(Collection<? extends CategoryInterface> children);
-
     void addChild(CategoryInterface child);
 }

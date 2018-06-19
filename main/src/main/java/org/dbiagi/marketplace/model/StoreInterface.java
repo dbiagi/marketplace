@@ -7,10 +7,6 @@ public interface StoreInterface {
 
     void setEmail(String email);
 
-    String getCnpj();
-
-    void setCnpj(String cnpj);
-
     String getName();
 
     void setName(String name);
@@ -42,10 +38,6 @@ public interface StoreInterface {
     String getCellphone();
 
     void setCellphone(String cellphone);
-
-    int getMaxAttentandsCount();
-
-    void setMaxAttentandsCount(int maxAttendantsCount);
 
     Type getType();
 

@@ -1,7 +1,7 @@
 package org.dbiagi.marketplace.service;
 
-import org.dbiagi.marketplace.entity.classification.Category;
 import org.dbiagi.marketplace.entity.Listing;
+import org.dbiagi.marketplace.entity.classification.Category;
 import org.dbiagi.marketplace.exception.EntityValidationException;
 import org.dbiagi.marketplace.exception.EntityValidationExceptionFactory;
 import org.dbiagi.marketplace.exception.ResourceNotFoundException;
@@ -50,7 +50,13 @@ public class ListingService {
         return repository.findOne(id);
     }
 
-    public Category save(Category category) {
+    public Category save(Category category) throws EntityValidationException {
+        Set<ConstraintViolation<Category>> violations = validator.validate(category);
+
+        if (!violations.isEmpty()) {
+            throw new EntityValidationExceptionFactory<Category>().create(violations);
+        }
+
         return categoryRepository.save(category);
     }
 
@@ -84,5 +90,15 @@ public class ListingService {
         });
 
         save(listing);
+    }
+
+    public void delete(Long id) throws ResourceNotFoundException {
+        Listing listing = repository.findOne(id);
+
+        if (listing == null) {
+            throw new ResourceNotFoundException(id);
+        }
+
+        repository.delete(listing);
     }
 }

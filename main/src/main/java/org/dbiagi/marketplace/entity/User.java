@@ -1,6 +1,7 @@
 package org.dbiagi.marketplace.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.dbiagi.marketplace.model.StoreInterface;
 import org.dbiagi.marketplace.model.UserInterface;
 import org.hibernate.validator.constraints.Email;
@@ -15,7 +16,12 @@ import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.HashSet;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class User extends BaseEntity implements UserInterface, UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,85 +68,14 @@ public class User extends BaseEntity implements UserInterface, UserDetails {
 
     private boolean expired = false;
 
-    public Long getId() {
-        return id;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    @Override
-    public String getEmail() {
-        return email;
-    }
-
-    @Override
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Override
-    public String getPhone() {
-        return phone;
-    }
-
-    @Override
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    @Override
-    public String getCellphone() {
-        return cellphone;
-    }
-
-    @Override
-    public void setCellphone(String cellphone) {
-        this.cellphone = cellphone;
-    }
-
     @Override
     public boolean isConnected() {
         return connected;
     }
 
     @Override
-    public void setConnected(boolean connected) {
-        this.connected = connected;
-    }
-
-    @Override
-    public Store getStore() {
-        return store;
-    }
-
-    @Override
     public void setStore(StoreInterface store) {
         this.store = (Store) store;
-    }
-
-    public String getPlainPassword() {
-        return plainPassword;
-    }
-
-    public void setPlainPassword(String plainPassword) {
-        this.plainPassword = plainPassword;
     }
 
     @Override
@@ -151,24 +86,6 @@ public class User extends BaseEntity implements UserInterface, UserDetails {
         authorities.add(new SimpleGrantedAuthority(role.name()));
 
         return authorities;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     @Override
@@ -192,13 +109,5 @@ public class User extends BaseEntity implements UserInterface, UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public void setExpired(boolean expired) {
-        this.expired = expired;
     }
 }

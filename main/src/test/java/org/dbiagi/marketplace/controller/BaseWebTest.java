@@ -1,6 +1,7 @@
 package org.dbiagi.marketplace.controller;
 
 import com.github.javafaker.Faker;
+import org.dbiagi.marketplace.entity.Listing;
 import org.dbiagi.marketplace.entity.Store;
 import org.dbiagi.marketplace.entity.User;
 import org.dbiagi.marketplace.validation.ValidationError;
@@ -32,6 +33,8 @@ abstract class BaseWebTest {
 
     ParameterizedTypeReference<List<Store>> storeListReference;
 
+    ParameterizedTypeReference<List<Listing>> listingListReference;
+
     @Before
     public void setUp() {
         validationErrorListReference = new ParameterizedTypeReference<List<ValidationError>>() {
@@ -41,5 +44,7 @@ abstract class BaseWebTest {
 
         storeListReference = new ParameterizedTypeReference<List<Store>>() {
         };
+
+        listingListReference = new ParameterizedTypeReference<List<Listing>>(){};
     }
 }

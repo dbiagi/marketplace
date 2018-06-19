@@ -6,15 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 public interface EntityService {
-    public List<? extends BaseEntity> findAll();
+    List<? extends BaseEntity> findAll();
 
-    public BaseEntity find(Long id);
+    BaseEntity find(Long id);
 
-    public BaseEntity save(BaseEntity entity);
+    BaseEntity save(BaseEntity entity);
 
-    public void delete(BaseEntity entity);
+    void delete(BaseEntity entity);
 
-    public void delete(Long id);
+    void delete(Long id);
 
-    public BaseEntity update(Long id, Map<String, Object> values);
+    BaseEntity update(Long id, Map<String, Object> values);
 }

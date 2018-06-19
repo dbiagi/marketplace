@@ -32,8 +32,8 @@ public class StoreController extends BaseController {
     @PreAuthorize("hasAuthority('STORE_ATTENDANT')")
     @ApiOperation(value = "Show stores", response = List.class)
     public List<Store> list(
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size) {
+        @RequestParam(value = "page", defaultValue = "0") int page,
+        @RequestParam(value = "size", defaultValue = "10") int size) {
         return storeService.findAll(new PageRequest(page, size));
     }
 
@@ -54,7 +54,7 @@ public class StoreController extends BaseController {
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('STORE_OWNER')")
     public void put(@PathVariable Long id, @RequestBody HashMap<String, Object> fields)
-            throws ResourceNotFoundException, EntityValidationException {
+        throws ResourceNotFoundException, EntityValidationException {
         storeService.update(id, fields);
     }
 

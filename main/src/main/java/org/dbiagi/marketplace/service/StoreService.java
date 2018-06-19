@@ -76,9 +76,6 @@ public class StoreService {
                 case "email":
                     store.setEmail((String) value);
                     break;
-                case "cnpj":
-                    store.setCnpj((String) value);
-                    break;
                 case "name":
                     store.setName((String) value);
                     break;

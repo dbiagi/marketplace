@@ -1,7 +1,5 @@
 package org.dbiagi.marketplace.model;
 
-import org.dbiagi.marketplace.entity.User;
-
 public interface UserInterface {
     String getName();
 
