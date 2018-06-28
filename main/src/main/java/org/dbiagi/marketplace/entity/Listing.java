@@ -1,5 +1,8 @@
 package org.dbiagi.marketplace.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
 import org.dbiagi.marketplace.entity.classification.Category;
 import org.dbiagi.marketplace.entity.classification.Tag;
@@ -11,9 +14,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.HashSet;
+import java.util.Set;
 
 @EqualsAndHashCode(callSuper = false)
 @Entity
@@ -21,6 +23,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(of = {"id"})
 public class Listing extends BaseEntity implements ListingInterface {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +38,9 @@ public class Listing extends BaseEntity implements ListingInterface {
 
     private String longDescription;
 
-    private Boolean active = true;
+    private boolean active = true;
+
+    private boolean featured = false;
 
     @NotNull
     @NotEmpty
@@ -52,7 +57,7 @@ public class Listing extends BaseEntity implements ListingInterface {
         joinColumns = {@JoinColumn(name = "listing_id")},
         inverseJoinColumns = {@JoinColumn(name = "category_id")}
     )
-    private List<Category> categories = new ArrayList<>();
+    private Set<Category> categories = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
@@ -60,7 +65,7 @@ public class Listing extends BaseEntity implements ListingInterface {
         joinColumns = {@JoinColumn(name = "listing_id")},
         inverseJoinColumns = {@JoinColumn(name = "tag_id")}
     )
-    private List<Tag> tags = new ArrayList<>();
+    private Set<Tag> tags = new HashSet<>();
 
     @Override
     public void addCategory(CategoryInterface category) {
@@ -75,6 +80,7 @@ public class Listing extends BaseEntity implements ListingInterface {
     }
 
     @Override
+    @JsonDeserialize(as = Store.class)
     public void setStore(StoreInterface store) {
         if (store instanceof Store) {
             this.store = (Store) store;
@@ -86,5 +92,10 @@ public class Listing extends BaseEntity implements ListingInterface {
         if (tag instanceof Tag && !tags.contains(tag)) {
             tags.add((Tag) tag);
         }
+    }
+
+    @Override
+    public boolean isFeatured() {
+        return featured;
     }
 }

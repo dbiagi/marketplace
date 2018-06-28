@@ -30,7 +30,7 @@ public class DatabaseSeed implements ApplicationRunner {
 
     public static final int USERS = 5;
     public static final int STORES = 5;
-    public static final int LISTINGS = 10;
+    public static final int LISTINGS = 30;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -102,6 +102,7 @@ public class DatabaseSeed implements ApplicationRunner {
                 .number(faker.address().streetAddressNumber())
                 .type(Store.Type.STORE)
                 .email(faker.internet().emailAddress())
+                .users(new ArrayList<>())
                 .build();
 
             try {
@@ -150,8 +151,9 @@ public class DatabaseSeed implements ApplicationRunner {
             l.setShortDescription(faker.lorem().sentence());
             l.setTitle(faker.lorem().sentence(2));
             l.setSlug(faker.internet().slug());
+            l.setFeatured(faker.bool().bool());
 
-            for (int j = faker.number().numberBetween(0, 2); j > 0; j--) {
+            for (int j = faker.number().numberBetween(1, 3); j > 0; j--) {
                 l.addCategory(categories.get(faker.number().numberBetween(1, categoriesTitle.length - 1)));
             }
 

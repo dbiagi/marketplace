@@ -49,13 +49,8 @@ public class Store extends BaseEntity implements StoreInterface {
     @OneToMany(orphanRemoval = true, mappedBy = "store", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @JsonIgnore
     @Valid
-    @Builder.Default
+    @ToString.Exclude
     private List<User> users = new ArrayList<>();
-
-    @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE)
-    @JsonIgnore
-    @Builder.Default
-    private List<Listing> listings = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Type type;
@@ -64,14 +59,6 @@ public class Store extends BaseEntity implements StoreInterface {
         if (!users.contains(user)) {
             users.add(user);
             user.setStore(this);
-        }
-    }
-
-    @Override
-    public void addListing(ListingInterface listing) {
-        if (listing instanceof Listing && !listings.contains(listing)) {
-            listings.add((Listing) listing);
-            listing.setStore(this);
         }
     }
 

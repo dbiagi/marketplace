@@ -29,7 +29,7 @@ public interface ListingInterface {
 
     Boolean isActive();
 
-    void setActive(Boolean active);
+    void setActive(boolean active);
 
     StoreInterface getStore();
 
@@ -38,4 +38,8 @@ public interface ListingInterface {
     Collection<? extends Tag> getTags();
 
     void addTag(TagInterface tag);
+
+    boolean isFeatured();
+
+    void setFeatured(boolean featured);
 }

@@ -1,4 +1,4 @@
-package org.dbiagi.marketplace.service;
+package org.dbiagi.marketplace.component;
 
 import com.github.javafaker.Faker;
 import org.springframework.context.annotation.Bean;

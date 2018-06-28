@@ -1,5 +1,6 @@
 package org.dbiagi.marketplace.service;
 
+import org.dbiagi.marketplace.component.RegistrationMailer;
 import org.dbiagi.marketplace.entity.Store;
 import org.dbiagi.marketplace.exception.EntityValidationException;
 import org.dbiagi.marketplace.exception.EntityValidationExceptionFactory;

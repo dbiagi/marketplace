@@ -12,9 +12,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.EntityManager;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -25,11 +27,14 @@ public class ListingService {
 
     private Validator validator;
 
+    private EntityManager entityManager;
+
     @Autowired
-    public ListingService(ListingRepository repository, ListingCategoryRepository categoryRepository, Validator validator) {
+    public ListingService(ListingRepository repository, ListingCategoryRepository categoryRepository, Validator validator, EntityManager entityManager) {
         this.repository = repository;
         this.categoryRepository = categoryRepository;
         this.validator = validator;
+        this.entityManager = entityManager;
     }
 
     public Listing save(Listing listing) throws EntityValidationException {
@@ -100,5 +105,9 @@ public class ListingService {
         }
 
         repository.delete(listing);
+    }
+
+    public List<Listing> findFeatured(int page, int size) {
+        return repository.findAllFeatured(new PageRequest(page, size));
     }
 }

@@ -3,6 +3,7 @@ package org.dbiagi.marketplace.controller;
 import org.dbiagi.marketplace.DatabaseSeed;
 import org.dbiagi.marketplace.entity.Store;
 import org.dbiagi.marketplace.entity.User;
+import org.dbiagi.marketplace.model.UserInterface;
 import org.dbiagi.marketplace.validation.ValidationError;
 import org.junit.Test;
 import org.junit.jupiter.api.Tag;

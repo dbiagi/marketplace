@@ -1,7 +1,5 @@
 package org.dbiagi.marketplace.model;
 
-import java.util.Collection;
-
 public interface StoreInterface {
     String getEmail();
 
@@ -42,10 +40,6 @@ public interface StoreInterface {
     Type getType();
 
     void setType(Type type);
-
-    Collection<? extends ListingInterface> getListings();
-
-    void addListing(ListingInterface listing);
 
     enum Type {
         STORE,

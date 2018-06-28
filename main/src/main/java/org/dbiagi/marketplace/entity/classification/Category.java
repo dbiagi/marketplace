@@ -1,5 +1,7 @@
 package org.dbiagi.marketplace.entity.classification;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.dbiagi.marketplace.entity.BaseEntity;
@@ -26,12 +28,14 @@ public class Category extends BaseEntity implements CategoryInterface {
     private String slug;
 
     @ManyToOne
+    @JsonDeserialize(as = Category.class)
     private Category parent;
 
     @ManyToMany(mappedBy = "parent")
     private List<Category> children = new ArrayList<>();
 
     @ManyToOne
+    @JsonDeserialize(as = Context.class)
     private Context context;
 
     @Override
