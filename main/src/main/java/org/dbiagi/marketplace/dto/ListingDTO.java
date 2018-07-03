@@ -7,17 +7,21 @@ import org.dbiagi.marketplace.entity.classification.Tag;
 
 import java.util.List;
 
+@Data
 public class ListingDTO {
-    @Data
-    public class ListingWithStores {
-        private Long id;
+    private Long id;
 
-        private String name;
+    private String name;
 
-        private Store store;
+    private String shortDescription;
 
-        private List<Category> categories;
+    private String longDescription;
 
-        private List<Tag> tags;
-    }
+    private Store store;
+
+    private List<Category> categories;
+
+    private List<Tag> tags;
+
+    public interface ListingWithTagsAndCategories{}
 }

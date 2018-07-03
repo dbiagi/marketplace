@@ -2,7 +2,7 @@ package org.dbiagi.marketplace.entity.classification;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.dbiagi.marketplace.entity.BaseEntity;
+import org.dbiagi.marketplace.entity.TemporalInfo;
 import org.dbiagi.marketplace.model.classification.ContextInterface;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -14,7 +14,7 @@ import javax.persistence.Id;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Data
-public class Context extends BaseEntity implements ContextInterface {
+public class Context implements ContextInterface {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -23,6 +23,8 @@ public class Context extends BaseEntity implements ContextInterface {
     private String name;
 
     private boolean enabled = true;
+
+    private TemporalInfo temporalInfo;
 
     public Context() {
     }

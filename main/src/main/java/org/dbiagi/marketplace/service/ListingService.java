@@ -2,6 +2,7 @@ package org.dbiagi.marketplace.service;
 
 import org.dbiagi.marketplace.entity.Listing;
 import org.dbiagi.marketplace.entity.classification.Category;
+import org.dbiagi.marketplace.entity.classification.Tag;
 import org.dbiagi.marketplace.exception.EntityValidationException;
 import org.dbiagi.marketplace.exception.EntityValidationExceptionFactory;
 import org.dbiagi.marketplace.exception.ResourceNotFoundException;
@@ -10,7 +11,7 @@ import org.dbiagi.marketplace.repository.ListingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.validation.ConstraintViolation;
@@ -19,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-@Component
+@Service
 public class ListingService {
     private ListingRepository repository;
 
@@ -30,7 +31,11 @@ public class ListingService {
     private EntityManager entityManager;
 
     @Autowired
-    public ListingService(ListingRepository repository, ListingCategoryRepository categoryRepository, Validator validator, EntityManager entityManager) {
+    public ListingService(
+        ListingRepository repository,
+        ListingCategoryRepository categoryRepository,
+        Validator validator,
+        EntityManager entityManager) {
         this.repository = repository;
         this.categoryRepository = categoryRepository;
         this.validator = validator;
@@ -69,6 +74,7 @@ public class ListingService {
         return categoryRepository.findAll(new PageRequest(page, size));
     }
 
+    @SuppressWarnings({"unchecked"})
     public void update(Long id, HashMap<String, Object> fields) throws ResourceNotFoundException, EntityValidationException {
         Listing listing = find(id);
 
@@ -89,8 +95,16 @@ public class ListingService {
                     break;
                 case "slug":
                     listing.setSlug((String) value);
+                    break;
                 case "active":
                     listing.setActive((boolean) value);
+                    break;
+                case "categories":
+                    listing.setCategories((Set<Category>) value);
+                    break;
+                case "tags":
+                    listing.setTags((Set<Tag>) value);
+                    break;
             }
         });
 

@@ -2,7 +2,6 @@ package org.dbiagi.marketplace.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.dbiagi.marketplace.model.ListingInterface;
 import org.dbiagi.marketplace.model.StoreInterface;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -18,7 +17,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Store extends BaseEntity implements StoreInterface {
+public class Store implements StoreInterface {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,6 +44,8 @@ public class Store extends BaseEntity implements StoreInterface {
     private String phone;
 
     private String cellphone;
+
+    private TemporalInfo temporalInfo;
 
     @OneToMany(orphanRemoval = true, mappedBy = "store", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @JsonIgnore

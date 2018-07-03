@@ -16,13 +16,12 @@ import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.HashSet;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User extends BaseEntity implements UserInterface, UserDetails {
+public class User implements UserInterface, UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -67,6 +66,8 @@ public class User extends BaseEntity implements UserInterface, UserDetails {
     private boolean enabled = true;
 
     private boolean expired = false;
+
+    private TemporalInfo temporalInfo;
 
     @Override
     public boolean isConnected() {

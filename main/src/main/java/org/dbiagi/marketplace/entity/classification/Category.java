@@ -1,10 +1,9 @@
 package org.dbiagi.marketplace.entity.classification;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.dbiagi.marketplace.entity.BaseEntity;
+import org.dbiagi.marketplace.entity.TemporalInfo;
 import org.dbiagi.marketplace.model.classification.CategoryInterface;
 import org.dbiagi.marketplace.model.classification.ContextInterface;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -16,7 +15,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Data
-public class Category extends BaseEntity implements CategoryInterface {
+public class Category implements CategoryInterface {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -26,6 +25,8 @@ public class Category extends BaseEntity implements CategoryInterface {
 
     @NotEmpty
     private String slug;
+
+    private TemporalInfo temporalInfo;
 
     @ManyToOne
     @JsonDeserialize(as = Category.class)

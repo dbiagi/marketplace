@@ -23,6 +23,8 @@ public class Setting {
     @NotEmpty
     private String value;
 
+    private TemporalInfo temporalInfo;
+
     public Setting(String key, String value) {
         this.key = key;
         this.value = value;

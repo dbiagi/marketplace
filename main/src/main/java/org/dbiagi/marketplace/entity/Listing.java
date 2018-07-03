@@ -1,7 +1,5 @@
 package org.dbiagi.marketplace.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
 import org.dbiagi.marketplace.entity.classification.Category;
@@ -24,7 +22,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(of = {"id"})
-public class Listing extends BaseEntity implements ListingInterface {
+public class Listing implements ListingInterface {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
@@ -41,6 +39,8 @@ public class Listing extends BaseEntity implements ListingInterface {
     private boolean active = true;
 
     private boolean featured = false;
+
+    private TemporalInfo temporalInfo;
 
     @NotNull
     @NotEmpty

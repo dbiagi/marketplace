@@ -1,5 +1,6 @@
 package org.dbiagi.marketplace.controller;
 
+import org.dbiagi.marketplace.dto.ListingDTO;
 import org.dbiagi.marketplace.entity.Listing;
 import org.dbiagi.marketplace.entity.Store;
 import org.dbiagi.marketplace.entity.classification.Category;
@@ -15,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -33,7 +35,6 @@ public class ListingController {
     }
 
     @GetMapping("/featured")
-    @Transactional
     public List<Listing> list(@RequestParam(value = "page", defaultValue = "0") int page,
                               @RequestParam(value = "size", defaultValue = "10") int size) {
         return listingService.findFeatured(page, size);
