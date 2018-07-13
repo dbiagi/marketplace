@@ -1,9 +1,9 @@
 package org.dbiagi.marketplace.controller;
 
+import org.dbiagi.marketplace.dto.ListingDTO;
 import org.dbiagi.marketplace.entity.Listing;
-import org.dbiagi.marketplace.entity.Store;
 import org.dbiagi.marketplace.entity.User;
-import org.dbiagi.marketplace.entity.classification.Category;
+import org.dbiagi.marketplace.validation.ValidationError;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.jupiter.api.Tag;
@@ -11,12 +11,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.HashSet;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @Tag("controller")
 public class ListingControllerTest extends BaseWebTest {
@@ -25,30 +27,30 @@ public class ListingControllerTest extends BaseWebTest {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private Listing getValidListing() {
-        return Listing.builder()
-            .store(new Store())
+    private ListingDTO getValidListing() {
+        return ListingDTO.builder()
             .title(faker.lorem().sentence(1))
             .active(true)
-            .slug("test")
+            .slug(faker.internet().slug())
             .shortDescription(faker.lorem().sentence(2))
             .longDescription(faker.lorem().sentence(5))
-            .tags(new HashSet<>())
+            .tags(new LinkedList<>())
             .categories(getCategories())
             .build();
     }
 
-    private HashSet<Category> getCategories() {
-        HashSet<Category> categories = new HashSet<>();
-        Category c1 = new Category();
-        c1.setId(1);
-        Category c2 = new Category();
-        c2.setId(3);
+    private ListingDTO getInvalidListing() {
+        return new ListingDTO();
+    }
 
-        categories.add(c1);
-        categories.add(c2);
+    private List<Long> getCategories() {
+        return Arrays.asList(1L, 3L);
+    }
 
-        return categories;
+    private ResponseEntity<ListingDTO> postListing() {
+        return restTemplate
+            .withBasicAuth(User.Role.STORE_ATTENDANT.name(), AUTH_PASSWORD)
+            .exchange(URI, HttpMethod.POST, new HttpEntity<>(getValidListing()), ListingDTO.class);
     }
 
     @Test
@@ -56,7 +58,6 @@ public class ListingControllerTest extends BaseWebTest {
         String uri = String.format("%s/featured", URI);
 
         ResponseEntity<List<Listing>> response = restTemplate
-            .withBasicAuth(User.Role.STORE_OWNER.name(), AUTH_PASSWORD)
             .exchange(uri, HttpMethod.GET, null, listingListReference);
 
         assertTrue(response.getStatusCode().is2xxSuccessful());
@@ -65,13 +66,81 @@ public class ListingControllerTest extends BaseWebTest {
     }
 
     @Test
-    public void testPut() {
-        String uri = String.format("%s/%d", URI, 1);
+    public void testGetNotFound() {
+        String uri = String.format("%s/%d", URI, 0);
 
         ResponseEntity<Void> response = restTemplate
+            .exchange(uri, HttpMethod.GET, null, Void.class);
+
+        assertSame(response.getStatusCode(), HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    public void testValidPut() {
+        String uri = String.format("%s/%d", URI, 1);
+
+        ResponseEntity<String> response = restTemplate
             .withBasicAuth(User.Role.STORE_ATTENDANT.name(), AUTH_PASSWORD)
-            .exchange(uri, HttpMethod.PUT, new HttpEntity<>(getValidListing()), Void.class);
+            .exchange(uri, HttpMethod.PUT, new HttpEntity<>(getValidListing()), String.class);
 
         assertTrue(response.getStatusCode().is2xxSuccessful());
+    }
+
+    @Test
+    public void testInvalidPut() {
+        String uri = String.format("%s/%d", URI, 1);
+
+        ResponseEntity<String> response = restTemplate
+            .withBasicAuth(User.Role.STORE_ATTENDANT.name(), AUTH_PASSWORD)
+            .exchange(uri, HttpMethod.PUT, new HttpEntity<>(getInvalidListing()), String.class);
+
+        assertTrue(response.getStatusCode().is4xxClientError());
+    }
+
+    @Test
+    public void testValidPost() {
+        ResponseEntity<ListingDTO> response = postListing();
+
+        logger.info(response.toString());
+
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+
+        assertNotNull(response.getBody().getId());
+    }
+
+    @Test
+    public void testInvalidPost() {
+        ResponseEntity<List<ValidationError>> response = restTemplate
+            .withBasicAuth(User.Role.STORE_ATTENDANT.name(), AUTH_PASSWORD)
+            .exchange(URI, HttpMethod.POST, new HttpEntity<>(getInvalidListing()), validationErrorListReference);
+
+        assertTrue(response.getStatusCode().is4xxClientError());
+
+        assertTrue(!response.getBody().isEmpty());
+    }
+
+    @Test
+    @Ignore
+    public void testForbiddenPost() {
+        // For some reason this is failing, but its due to resttemplate configuration
+        // Exception message: java.net.HttpRetryException: cannot retry due to server authentication, in streaming mode
+        ResponseEntity<String> response = restTemplate
+            .withBasicAuth(User.Role.STORE_ATTENDANT.name(), "wrongpassword")
+            .exchange(URI, HttpMethod.POST, new HttpEntity<>(getValidListing()), String.class);
+
+        assertSame(response.getStatusCode(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @Test
+    public void testValidDelete() {
+        ResponseEntity<ListingDTO> response = postListing();
+
+        String uri = String.format("%s/%d", URI, response.getBody().getId());
+
+        ResponseEntity<String> deleteResponse = restTemplate
+            .withBasicAuth(User.Role.STORE_OWNER.name(), AUTH_PASSWORD)
+            .exchange(uri, HttpMethod.DELETE, null, String.class);
+
+        assertSame(deleteResponse.getStatusCode(), HttpStatus.OK);
     }
 }

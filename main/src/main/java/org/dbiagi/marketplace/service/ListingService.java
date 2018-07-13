@@ -1,13 +1,14 @@
 package org.dbiagi.marketplace.service;
 
+import org.dbiagi.marketplace.dto.ListingDTO;
 import org.dbiagi.marketplace.entity.Listing;
 import org.dbiagi.marketplace.entity.classification.Category;
-import org.dbiagi.marketplace.entity.classification.Tag;
 import org.dbiagi.marketplace.exception.EntityValidationException;
 import org.dbiagi.marketplace.exception.EntityValidationExceptionFactory;
 import org.dbiagi.marketplace.exception.ResourceNotFoundException;
-import org.dbiagi.marketplace.repository.ListingCategoryRepository;
+import org.dbiagi.marketplace.repository.CategoryRepository;
 import org.dbiagi.marketplace.repository.ListingRepository;
+import org.dbiagi.marketplace.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -24,7 +25,8 @@ import java.util.Set;
 public class ListingService {
     private ListingRepository repository;
 
-    private ListingCategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
+    private TagRepository tagRepository;
 
     private Validator validator;
 
@@ -33,11 +35,12 @@ public class ListingService {
     @Autowired
     public ListingService(
         ListingRepository repository,
-        ListingCategoryRepository categoryRepository,
-        Validator validator,
+        CategoryRepository categoryRepository,
+        TagRepository tagRepository, Validator validator,
         EntityManager entityManager) {
         this.repository = repository;
         this.categoryRepository = categoryRepository;
+        this.tagRepository = tagRepository;
         this.validator = validator;
         this.entityManager = entityManager;
     }
@@ -52,12 +55,24 @@ public class ListingService {
         return repository.save(listing);
     }
 
-    public Page<Listing> findAll(int page, int size) {
-        return repository.findAll(new PageRequest(page, size));
+    public ListingDTO save(ListingDTO dto) throws EntityValidationException {
+        Listing listing = dtoToEntity(new Listing(), dto);
+
+        save(listing);
+
+        dto.setId(listing.getId());
+
+        return dto;
     }
 
-    public Listing find(long id) {
-        return repository.findOne(id);
+    public Listing find(long id) throws ResourceNotFoundException {
+        Listing listing = repository.find(id);
+
+        if (listing == null) {
+            throw new ResourceNotFoundException(id);
+        }
+
+        return listing;
     }
 
     public Category save(Category category) throws EntityValidationException {
@@ -74,39 +89,14 @@ public class ListingService {
         return categoryRepository.findAll(new PageRequest(page, size));
     }
 
-    @SuppressWarnings({"unchecked"})
-    public void update(Long id, HashMap<String, Object> fields) throws ResourceNotFoundException, EntityValidationException {
-        Listing listing = find(id);
+    public void update(Long id, ListingDTO updatedListing) throws ResourceNotFoundException, EntityValidationException {
+        Listing listing = dtoToEntity(find(id), updatedListing);
 
-        if (listing == null) {
-            throw new ResourceNotFoundException(id);
+        Set<ConstraintViolation<Listing>> violations = validator.validate(listing);
+
+        if (!violations.isEmpty()) {
+            throw new EntityValidationExceptionFactory<Listing>().create(violations);
         }
-
-        fields.forEach((field, value) -> {
-            switch (field) {
-                case "title":
-                    listing.setTitle((String) value);
-                    break;
-                case "longDescription":
-                    listing.setLongDescription((String) value);
-                    break;
-                case "shortDescription":
-                    listing.setShortDescription((String) value);
-                    break;
-                case "slug":
-                    listing.setSlug((String) value);
-                    break;
-                case "active":
-                    listing.setActive((boolean) value);
-                    break;
-                case "categories":
-                    listing.setCategories((Set<Category>) value);
-                    break;
-                case "tags":
-                    listing.setTags((Set<Tag>) value);
-                    break;
-            }
-        });
 
         save(listing);
     }
@@ -123,5 +113,29 @@ public class ListingService {
 
     public List<Listing> findFeatured(int page, int size) {
         return repository.findAllFeatured(new PageRequest(page, size));
+    }
+    
+    private Listing dtoToEntity(Listing listing, ListingDTO dto) {
+        listing.setTitle(dto.getTitle());
+        listing.setFeatured(dto.isFeatured());
+        listing.setSlug(dto.getSlug());
+        listing.setShortDescription(dto.getShortDescription());
+        listing.setLongDescription(dto.getLongDescription());
+        listing.setActive(dto.isActive());
+        listing.setStore(dto.getStore());
+
+        if(!dto.getCategories().isEmpty()) {
+            listing.setCategories(new HashSet<>(
+                categoryRepository.findByIdIn(dto.getCategories())
+            ));
+        }
+
+        if(!dto.getTags().isEmpty()) {
+            listing.setTags(new HashSet<>(
+                tagRepository.findByIdIn(dto.getTags())
+            ));
+        }
+
+        return listing;
     }
 }

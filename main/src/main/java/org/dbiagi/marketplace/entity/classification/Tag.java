@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 public class Tag  implements TagInterface {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @NotEmpty
     private String name;

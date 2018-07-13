@@ -1,17 +1,28 @@
 package org.dbiagi.marketplace.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.dbiagi.marketplace.entity.Store;
-import org.dbiagi.marketplace.entity.classification.Category;
-import org.dbiagi.marketplace.entity.classification.Tag;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ListingDTO {
     private Long id;
 
-    private String name;
+    private String title;
+
+    private String slug;
+
+    private boolean featured;
+
+    private boolean active;
 
     private String shortDescription;
 
@@ -19,9 +30,7 @@ public class ListingDTO {
 
     private Store store;
 
-    private List<Category> categories;
+    private List<Long> categories = new LinkedList<>();
 
-    private List<Tag> tags;
-
-    public interface ListingWithTagsAndCategories{}
+    private List<Long> tags = new LinkedList<>();
 }

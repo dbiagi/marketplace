@@ -18,7 +18,7 @@ import java.util.List;
 public class Category implements CategoryInterface {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @NotEmpty
     private String name;

@@ -2,9 +2,8 @@ package org.dbiagi.marketplace.controller;
 
 import org.dbiagi.marketplace.dto.ListingDTO;
 import org.dbiagi.marketplace.entity.Listing;
-import org.dbiagi.marketplace.entity.Store;
+import org.dbiagi.marketplace.entity.User;
 import org.dbiagi.marketplace.entity.classification.Category;
-import org.dbiagi.marketplace.entity.classification.Tag;
 import org.dbiagi.marketplace.exception.EntityValidationException;
 import org.dbiagi.marketplace.exception.ResourceNotFoundException;
 import org.dbiagi.marketplace.service.ListingService;
@@ -13,13 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1/listings")
@@ -41,24 +37,29 @@ public class ListingController {
     }
 
     @GetMapping("/{id}")
-    public Listing get(@PathVariable long id) {
+    public Listing get(@PathVariable long id) throws ResourceNotFoundException {
         return listingService.find(id);
     }
 
     @PostMapping
     @PreAuthorize("hasAuthority('STORE_ATTENDANT')")
-    public Listing post(@RequestBody Listing listing) throws EntityValidationException {
+    public ListingDTO post(@RequestBody ListingDTO listing, UsernamePasswordAuthenticationToken token) throws EntityValidationException {
+        User user = (User) token.getPrincipal();
+
+        listing.setStore(user.getStore());
+
         return listingService.save(listing);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('STORE_ATTENDANT')")
-    public void put(@PathVariable("id") Long id, @RequestBody HashMap<String, Object> fields)
+    public void put(@PathVariable("id") Long id, @RequestBody ListingDTO listing)
         throws ResourceNotFoundException, EntityValidationException {
-        listingService.update(id, fields);
+        listingService.update(id, listing);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('STORE_OWNER')")
     public void delete(@PathVariable Long id) throws ResourceNotFoundException {
         listingService.delete(id);
     }
