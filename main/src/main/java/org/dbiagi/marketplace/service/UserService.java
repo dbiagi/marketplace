@@ -13,6 +13,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -61,19 +62,23 @@ public class UserService {
     public void save(List<User> users) {
         users.forEach(this::encryptPassword);
 
-        userRepository.save(users);
+        userRepository.saveAll(users);
     }
 
-    public void delete(Long id) {
-        userRepository.delete(id);
+    public void delete(Long id) throws ResourceNotFoundException {
+        find(id);
+
+        userRepository.deleteById(id);
     }
 
     public void update(Long id, Map<String, Object> fields) throws ResourceNotFoundException, EntityValidationException {
-        User user = userRepository.findOne(id);
+        Optional<User> optional = userRepository.findById(id);
 
-        if (user == null) {
+        if (!optional.isPresent()) {
             throw new ResourceNotFoundException(id);
         }
+
+        User user = optional.get();
 
         fields.forEach((field, value) -> {
             switch (field) {
@@ -98,13 +103,13 @@ public class UserService {
     }
 
     public User find(Long id) throws ResourceNotFoundException {
-        User user = userRepository.findOne(id);
+        Optional<User> optional = userRepository.findById(id);
 
-        if (user == null) {
+        if (!optional.isPresent()) {
             throw new ResourceNotFoundException(id);
         }
 
-        return user;
+        return optional.get();
     }
 
     public User findByEmailOrUsername(String emailOrUsername) {

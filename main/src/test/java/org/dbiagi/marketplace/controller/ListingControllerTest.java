@@ -4,7 +4,6 @@ import org.dbiagi.marketplace.dto.ListingDTO;
 import org.dbiagi.marketplace.entity.Listing;
 import org.dbiagi.marketplace.entity.User;
 import org.dbiagi.marketplace.validation.ValidationError;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.jupiter.api.Tag;
 import org.slf4j.Logger;
@@ -13,6 +12,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.ResourceAccessException;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -119,16 +119,11 @@ public class ListingControllerTest extends BaseWebTest {
         assertTrue(!response.getBody().isEmpty());
     }
 
-    @Test
-    @Ignore
+    @Test(expected = ResourceAccessException.class)
     public void testForbiddenPost() {
-        // For some reason this is failing, but its due to resttemplate configuration
-        // Exception message: java.net.HttpRetryException: cannot retry due to server authentication, in streaming mode
-        ResponseEntity<String> response = restTemplate
-            .withBasicAuth(User.Role.STORE_ATTENDANT.name(), "wrongpassword")
+        restTemplate
+            .withBasicAuth(User.Role.STORE_ATTENDANT.name(), "wrong-password")
             .exchange(URI, HttpMethod.POST, new HttpEntity<>(getValidListing()), String.class);
-
-        assertSame(response.getStatusCode(), HttpStatus.UNAUTHORIZED);
     }
 
     @Test

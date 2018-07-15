@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.dbiagi.marketplace.model.StoreInterface;
 import org.dbiagi.marketplace.model.UserInterface;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -67,7 +67,7 @@ public class User implements UserInterface, UserDetails {
 
     private boolean expired = false;
 
-    private TemporalInfo temporalInfo;
+    private TemporalInfo temporalInfo = new TemporalInfo();
 
     @Override
     public boolean isConnected() {

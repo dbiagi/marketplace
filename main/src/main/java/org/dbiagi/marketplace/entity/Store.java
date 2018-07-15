@@ -3,7 +3,7 @@ package org.dbiagi.marketplace.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.dbiagi.marketplace.model.StoreInterface;
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode
 @Entity
 @Data
 @Builder
@@ -45,7 +45,7 @@ public class Store implements StoreInterface {
 
     private String cellphone;
 
-    private TemporalInfo temporalInfo;
+    private TemporalInfo temporalInfo = new TemporalInfo();
 
     @OneToMany(orphanRemoval = true, mappedBy = "store", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @JsonIgnore

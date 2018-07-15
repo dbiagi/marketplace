@@ -2,8 +2,6 @@ spring:
     jpa:
         hibernate:
             ddl-auto: create-drop
-            naming:
-                  strategy: org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy
         show-sql: true
         generate-ddl: true
     datasource:

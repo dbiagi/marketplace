@@ -8,7 +8,6 @@ import org.dbiagi.marketplace.exception.ResourceNotFoundException;
 import org.dbiagi.marketplace.repository.StoreRepository;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +15,10 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+
+import static org.springframework.data.domain.PageRequest.of;
 
 @Service
 public class StoreService {
@@ -64,57 +66,23 @@ public class StoreService {
         return store;
     }
 
-    public Store update(Long id, HashMap<String, Object> fields) throws ResourceNotFoundException, EntityValidationException {
+    public void update(Long id, Store updatedStore) throws ResourceNotFoundException, EntityValidationException {
+        Store store = find(id);
 
-        Store store = storeRepository.findOne(id);
-
-        if (store == null) {
-            throw new ResourceNotFoundException(id);
-        }
-
-        fields.forEach((key, value) -> {
-            switch (key) {
-                case "email":
-                    store.setEmail((String) value);
-                    break;
-                case "name":
-                    store.setName((String) value);
-                    break;
-                case "address":
-                    store.setAddress((String) value);
-                    break;
-                case "neighborhood":
-                    store.setNeighborhood((String) value);
-                    break;
-                case "number":
-                    store.setNumber((String) value);
-                    break;
-                case "zipCode":
-                    store.setZipCode((String) value);
-                    break;
-                case "website":
-                    store.setWebsite((String) value);
-                    break;
-                case "phone":
-                    store.setPhone((String) value);
-                    break;
-                case "cellphone":
-                    store.setCellphone((String) value);
-                    break;
-                case "type":
-                    if (value != null)
-                        store.setType(Store.Type.valueOf((String) value));
-            }
-        });
+        store.setEmail(updatedStore.getEmail());
+        store.setName(updatedStore.getName());
+        store.setCellphone(updatedStore.getCellphone());
+        store.setPhone(updatedStore.getPhone());
+        store.setAddress(updatedStore.getAddress());
+        store.setNeighborhood(updatedStore.getNeighborhood());
+        store.setZipCode(updatedStore.getZipCode());
+        store.setNumber(updatedStore.getNumber());
+        store.setWebsite(updatedStore.getWebsite());
+        store.setType(updatedStore.getType());
 
         validate(store, null);
 
-
-        return storeRepository.save(store);
-    }
-
-    public List<Store> findAll() {
-        return findAll(new PageRequest(1, 10));
+        storeRepository.save(store);
     }
 
     public List<Store> findAll(Pageable pageable) {
@@ -122,26 +90,22 @@ public class StoreService {
     }
 
     public Store find(Long id) throws ResourceNotFoundException {
-        Store store = storeRepository.findOne(id);
+        Optional<Store> optional = storeRepository.findById(id);
 
-        if (store == null) {
+        if (!optional.isPresent()) {
             throw new ResourceNotFoundException(id);
         }
 
-        return store;
+        return optional.get();
     }
 
     public void delete(Long id) throws ResourceNotFoundException {
-        Store store = storeRepository.findOne(id);
+        Optional<Store> optional = storeRepository.findById(id);
 
-        if (store == null) {
+        if (!optional.isPresent()) {
             throw new ResourceNotFoundException(id);
         }
 
-        storeRepository.delete(id);
-    }
-
-    public void delete(Store store) throws ResourceNotFoundException {
-        delete(store.getId());
+        storeRepository.deleteById(id);
     }
 }

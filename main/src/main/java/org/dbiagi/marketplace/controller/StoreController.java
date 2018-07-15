@@ -8,13 +8,14 @@ import org.dbiagi.marketplace.exception.EntityValidationException;
 import org.dbiagi.marketplace.exception.ResourceNotFoundException;
 import org.dbiagi.marketplace.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
+
+import static org.springframework.data.domain.PageRequest.of;
 
 @RestController
 @RequestMapping("/api/v1/stores")
@@ -34,7 +35,7 @@ public class StoreController extends BaseController {
     public List<Store> list(
         @RequestParam(value = "page", defaultValue = "0") int page,
         @RequestParam(value = "size", defaultValue = "10") int size) {
-        return storeService.findAll(new PageRequest(page, size));
+        return storeService.findAll(of(page, size));
     }
 
     @GetMapping("/{id}/users")
@@ -53,9 +54,9 @@ public class StoreController extends BaseController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('STORE_OWNER')")
-    public void put(@PathVariable Long id, @RequestBody HashMap<String, Object> fields)
+    public void put(@PathVariable Long id, @RequestBody Store store)
         throws ResourceNotFoundException, EntityValidationException {
-        storeService.update(id, fields);
+        storeService.update(id, store);
     }
 
     @PostMapping

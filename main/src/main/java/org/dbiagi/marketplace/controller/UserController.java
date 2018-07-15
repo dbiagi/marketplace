@@ -46,7 +46,7 @@ public class UserController extends BaseController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('STORE_OWNER')")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) throws ResourceNotFoundException {
         userService.delete(id);
     }
 }

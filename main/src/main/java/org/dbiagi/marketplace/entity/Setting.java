@@ -1,7 +1,7 @@
 package org.dbiagi.marketplace.entity;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -23,7 +23,7 @@ public class Setting {
     @NotEmpty
     private String value;
 
-    private TemporalInfo temporalInfo;
+    private TemporalInfo temporalInfo = new TemporalInfo();
 
     public Setting(String key, String value) {
         this.key = key;

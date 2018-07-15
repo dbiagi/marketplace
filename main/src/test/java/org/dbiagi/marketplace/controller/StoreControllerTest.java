@@ -3,7 +3,6 @@ package org.dbiagi.marketplace.controller;
 import org.dbiagi.marketplace.DatabaseSeed;
 import org.dbiagi.marketplace.entity.Store;
 import org.dbiagi.marketplace.entity.User;
-import org.dbiagi.marketplace.model.UserInterface;
 import org.dbiagi.marketplace.validation.ValidationError;
 import org.junit.Test;
 import org.junit.jupiter.api.Tag;
@@ -96,11 +95,9 @@ public class StoreControllerTest extends BaseWebTest {
 
         ResponseEntity<String> response = restTemplate
                 .withBasicAuth(User.Role.STORE_OWNER.name(), AUTH_PASSWORD)
-                .exchange(uri, HttpMethod.PUT, new HttpEntity<>(fields), String.class);
+                .exchange(uri, HttpMethod.PUT, new HttpEntity<>(getValidStore()), String.class);
 
         assertTrue(response.getStatusCode().is2xxSuccessful());
-
-        assertNull(response.getBody());
     }
 
     @Test

@@ -5,12 +5,12 @@ import lombok.EqualsAndHashCode;
 import org.dbiagi.marketplace.entity.TemporalInfo;
 import org.dbiagi.marketplace.model.classification.ContextInterface;
 import org.dbiagi.marketplace.model.classification.TagInterface;
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode()
 @Entity
 @Data
 public class Tag  implements TagInterface {
@@ -24,7 +24,7 @@ public class Tag  implements TagInterface {
     @NotEmpty
     private String slug;
 
-    private TemporalInfo temporalInfo;
+    private TemporalInfo temporalInfo = new TemporalInfo();
 
     @ManyToOne
     @NotNull

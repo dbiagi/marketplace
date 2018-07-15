@@ -1,13 +1,10 @@
 package org.dbiagi.marketplace.repository;
 
 import org.dbiagi.marketplace.entity.Setting;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
+
+import java.util.Optional;
 
 public interface SettingRepository extends CrudRepository<Setting, Long> {
-    @Query("SELECT s.value FROM Setting s WHERE s.key = :key")
-    String findValueByKey(@Param("key") String key);
-
-    Setting findByKey(String key);
+    Optional<Setting> findByKey(String key);
 }

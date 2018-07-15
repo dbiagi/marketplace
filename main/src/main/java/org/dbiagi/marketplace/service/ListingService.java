@@ -11,7 +11,6 @@ import org.dbiagi.marketplace.repository.ListingRepository;
 import org.dbiagi.marketplace.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -19,7 +18,10 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+
+import static org.springframework.data.domain.PageRequest.of;
 
 @Service
 public class ListingService {
@@ -43,6 +45,30 @@ public class ListingService {
         this.tagRepository = tagRepository;
         this.validator = validator;
         this.entityManager = entityManager;
+    }
+
+    private Listing dtoToEntity(Listing listing, ListingDTO dto) {
+        listing.setTitle(dto.getTitle());
+        listing.setFeatured(dto.isFeatured());
+        listing.setSlug(dto.getSlug());
+        listing.setShortDescription(dto.getShortDescription());
+        listing.setLongDescription(dto.getLongDescription());
+        listing.setActive(dto.isActive());
+        listing.setStore(dto.getStore());
+
+        if (!dto.getCategories().isEmpty()) {
+            listing.setCategories(new HashSet<>(
+                categoryRepository.findByIdIn(dto.getCategories())
+            ));
+        }
+
+        if (!dto.getTags().isEmpty()) {
+            listing.setTags(new HashSet<>(
+                tagRepository.findByIdIn(dto.getTags())
+            ));
+        }
+
+        return listing;
     }
 
     public Listing save(Listing listing) throws EntityValidationException {
@@ -86,7 +112,7 @@ public class ListingService {
     }
 
     public Page<Category> getCategories(int page, int size) {
-        return categoryRepository.findAll(new PageRequest(page, size));
+        return categoryRepository.findAll(of(page, size));
     }
 
     public void update(Long id, ListingDTO updatedListing) throws ResourceNotFoundException, EntityValidationException {
@@ -102,40 +128,16 @@ public class ListingService {
     }
 
     public void delete(Long id) throws ResourceNotFoundException {
-        Listing listing = repository.findOne(id);
+        Optional<Listing> optional = repository.findById(id);
 
-        if (listing == null) {
+        if (!optional.isPresent()) {
             throw new ResourceNotFoundException(id);
         }
 
-        repository.delete(listing);
+        repository.delete(optional.get());
     }
 
     public List<Listing> findFeatured(int page, int size) {
-        return repository.findAllFeatured(new PageRequest(page, size));
-    }
-    
-    private Listing dtoToEntity(Listing listing, ListingDTO dto) {
-        listing.setTitle(dto.getTitle());
-        listing.setFeatured(dto.isFeatured());
-        listing.setSlug(dto.getSlug());
-        listing.setShortDescription(dto.getShortDescription());
-        listing.setLongDescription(dto.getLongDescription());
-        listing.setActive(dto.isActive());
-        listing.setStore(dto.getStore());
-
-        if(!dto.getCategories().isEmpty()) {
-            listing.setCategories(new HashSet<>(
-                categoryRepository.findByIdIn(dto.getCategories())
-            ));
-        }
-
-        if(!dto.getTags().isEmpty()) {
-            listing.setTags(new HashSet<>(
-                tagRepository.findByIdIn(dto.getTags())
-            ));
-        }
-
-        return listing;
+        return repository.findAllFeatured(of(page, size));
     }
 }
