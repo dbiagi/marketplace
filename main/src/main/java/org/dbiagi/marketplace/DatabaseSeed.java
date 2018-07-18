@@ -6,15 +6,12 @@ import org.dbiagi.marketplace.entity.*;
 import org.dbiagi.marketplace.entity.classification.Category;
 import org.dbiagi.marketplace.entity.classification.Context;
 import org.dbiagi.marketplace.exception.EntityValidationException;
-import org.dbiagi.marketplace.model.UserInterface;
 import org.dbiagi.marketplace.repository.CategoryRepository;
 import org.dbiagi.marketplace.repository.ContextRepository;
 import org.dbiagi.marketplace.repository.SettingRepository;
 import org.dbiagi.marketplace.service.ListingService;
 import org.dbiagi.marketplace.service.StoreService;
 import org.dbiagi.marketplace.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -24,7 +21,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 @Component
 @Profile({"dev", "test"})
@@ -34,7 +30,6 @@ public class DatabaseSeed implements ApplicationRunner {
     public static final int USERS = 5;
     public static final int STORES = 5;
     public static final int LISTINGS = 30;
-
 
 
     private final ContextRepository contextRepository;

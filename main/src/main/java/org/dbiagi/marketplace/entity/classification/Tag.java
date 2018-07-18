@@ -5,15 +5,15 @@ import lombok.EqualsAndHashCode;
 import org.dbiagi.marketplace.entity.TemporalInfo;
 import org.dbiagi.marketplace.model.classification.ContextInterface;
 import org.dbiagi.marketplace.model.classification.TagInterface;
-import javax.validation.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @EqualsAndHashCode()
 @Entity
 @Data
-public class Tag  implements TagInterface {
+public class Tag implements TagInterface {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

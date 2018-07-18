@@ -13,12 +13,9 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
-import static org.springframework.data.domain.PageRequest.of;
 
 @Service
 public class StoreService {

@@ -1,13 +1,15 @@
 package org.dbiagi.marketplace.entity;
 
 import lombok.Data;
-import javax.validation.constraints.NotEmpty;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Setting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

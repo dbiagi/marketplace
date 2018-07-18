@@ -3,10 +3,10 @@ package org.dbiagi.marketplace.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.dbiagi.marketplace.model.StoreInterface;
-import javax.validation.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;

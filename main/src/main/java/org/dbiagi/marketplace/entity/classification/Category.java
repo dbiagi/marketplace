@@ -6,9 +6,9 @@ import lombok.EqualsAndHashCode;
 import org.dbiagi.marketplace.entity.TemporalInfo;
 import org.dbiagi.marketplace.model.classification.CategoryInterface;
 import org.dbiagi.marketplace.model.classification.ContextInterface;
-import javax.validation.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 

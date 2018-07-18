@@ -9,6 +9,8 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger.web.SecurityConfiguration;
+import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import static springfox.documentation.builders.PathSelectors.regex;
@@ -25,11 +27,11 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
     }
 
     @Bean
-    public Docket api() {
+    Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
             .select()
-            .apis(RequestHandlerSelectors.basePackage("org.dbiagi.marketplace.controller"))
-            .paths(regex("/v1/api/*"))
+            .apis(RequestHandlerSelectors.basePackage("org.dbiagi.marketplace"))
+            .paths(regex("/api/v1/.*"))
             .build()
             .apiInfo(getMetadata());
     }
@@ -41,5 +43,14 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 
         registry.addResourceHandler("/webjars/**")
             .addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
+
+    @Bean
+    SecurityConfiguration security() {
+        return SecurityConfigurationBuilder.builder()
+            .clientId("STORE_OWNER")
+            .clientSecret("123")
+            .useBasicAuthenticationWithAccessCodeGrant(true)
+            .build();
     }
 }

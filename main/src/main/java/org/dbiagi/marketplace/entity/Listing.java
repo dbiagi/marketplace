@@ -8,9 +8,9 @@ import org.dbiagi.marketplace.model.ListingInterface;
 import org.dbiagi.marketplace.model.StoreInterface;
 import org.dbiagi.marketplace.model.classification.CategoryInterface;
 import org.dbiagi.marketplace.model.classification.TagInterface;
-import javax.validation.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
