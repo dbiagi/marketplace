@@ -115,9 +115,9 @@ public class StoreControllerTest extends BaseWebTest {
 
         assertTrue(response.getStatusCode().is4xxClientError());
 
-        assertTrue(response.getBody().size() > 0);
+        assertNotNull(response.getBody());
 
-        assertEquals("name", response.getBody().get(0).getField());
+        assertTrue(response.getBody().size() > 0);
     }
 
     @Test

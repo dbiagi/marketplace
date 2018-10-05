@@ -29,7 +29,6 @@ public class StoreController extends BaseController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('STORE_ATTENDANT')")
     @ApiOperation(value = "Show stores", response = List.class)
     public List<Store> list(
         @RequestParam(value = "page", defaultValue = "0") int page,
