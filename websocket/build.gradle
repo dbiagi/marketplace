@@ -1,0 +1,17 @@
+apply plugin: "java"
+apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile ":main"
+    compile "org.springframework.boot:spring-boot-starter-websocket"
+    compileOnly 'org.projectlombok:lombok:1.18.0'
+    testCompile "org.junit.jupiter:junit-jupiter-engine:5"
+    testCompile "org.springframework.boot:spring-boot-starter-test"
+}
