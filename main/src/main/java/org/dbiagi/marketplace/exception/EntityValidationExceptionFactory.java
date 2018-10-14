@@ -22,5 +22,4 @@ public class EntityValidationExceptionFactory<T> {
     public EntityValidationException create(Set<ConstraintViolation<T>> violations) {
         return new EntityValidationException(extractErrors(violations));
     }
-
 }

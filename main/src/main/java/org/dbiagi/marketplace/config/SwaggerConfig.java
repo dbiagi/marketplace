@@ -31,7 +31,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
         return new Docket(DocumentationType.SWAGGER_2)
             .select()
             .apis(RequestHandlerSelectors.basePackage("org.dbiagi.marketplace"))
-            .paths(regex("/api/v1/.*"))
+            .paths(regex("/api/.*"))
             .build()
             .apiInfo(getMetadata());
     }

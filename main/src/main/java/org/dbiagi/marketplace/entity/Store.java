@@ -1,8 +1,8 @@
 package org.dbiagi.marketplace.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
-import org.dbiagi.marketplace.model.StoreInterface;
+import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -11,13 +11,9 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@EqualsAndHashCode
 @Entity
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class Store implements StoreInterface {
+public class Store {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,7 +41,7 @@ public class Store implements StoreInterface {
 
     private String cellphone;
 
-    private TemporalInfo temporalInfo = new TemporalInfo();
+    private Timestampable timestampable = new Timestampable();
 
     @OneToMany(orphanRemoval = true, mappedBy = "store", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @JsonIgnore
@@ -61,6 +57,11 @@ public class Store implements StoreInterface {
             users.add(user);
             user.setStore(this);
         }
+    }
+
+    public enum Type {
+        STORE,
+        RESELLER
     }
 
     public interface RegistrationGroup {

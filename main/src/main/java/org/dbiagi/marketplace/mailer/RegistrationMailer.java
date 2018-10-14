@@ -1,4 +1,4 @@
-package org.dbiagi.marketplace.component;
+package org.dbiagi.marketplace.mailer;
 
 import org.springframework.stereotype.Service;
 

@@ -6,9 +6,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
+import java.util.Optional;
 
+@RepositoryRestResource
 public interface ListingRepository extends PagingAndSortingRepository<Listing, Long> {
     @Query("SELECT l FROM Listing l " +
         "LEFT JOIN FETCH l.categories AS c " +
@@ -26,4 +29,6 @@ public interface ListingRepository extends PagingAndSortingRepository<Listing, L
         "LEFT JOIN FETCH c.children " +
         "WHERE l.id = :id")
     Listing find(@Param("id") Long id);
+
+    Optional<Listing> findOneBySlugEquals(String slug);
 }

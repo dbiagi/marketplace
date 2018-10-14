@@ -3,11 +3,11 @@ package org.dbiagi.marketplace.repository;
 import org.dbiagi.marketplace.entity.Store;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.stereotype.Component;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
-@Component
+@RepositoryRestResource
 public interface StoreRepository extends PagingAndSortingRepository<Store, Long> {
     List<Store> findAllByNameNotNullOrderByName(Pageable pageable);
 }

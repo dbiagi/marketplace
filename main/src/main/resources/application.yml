@@ -9,3 +9,7 @@ spring:
         username: root
         password: 123
         driver-class-name: org.mariadb.jdbc.Driver
+    data:
+        rest:
+            base-path: /api
+            default-page-size: 10

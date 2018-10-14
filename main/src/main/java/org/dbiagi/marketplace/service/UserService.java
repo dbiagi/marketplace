@@ -30,18 +30,18 @@ public class UserService {
         this.validator = validator;
     }
 
-    private void encryptPassword(User user) {
-        if (user.getPlainPassword() != null) {
-            user.setPassword(passwordEncoder.encode(user.getPlainPassword()));
-            user.setPlainPassword(null);
-        }
-    }
-
     private void validate(User user, Class<?> group) throws EntityValidationException {
         Set<ConstraintViolation<User>> violations = group == null ? validator.validate(user) : validator.validate(user, group);
 
         if (!violations.isEmpty()) {
             throw new EntityValidationExceptionFactory<User>().create(violations);
+        }
+    }
+
+    public void encryptPassword(User user) {
+        if (user.getPlainPassword() != null) {
+            user.setPassword(passwordEncoder.encode(user.getPlainPassword()));
+            user.setPlainPassword(null);
         }
     }
 

@@ -1,12 +1,7 @@
 package org.dbiagi.marketplace.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.dbiagi.marketplace.model.StoreInterface;
-import org.dbiagi.marketplace.model.UserInterface;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,10 +16,7 @@ import java.util.HashSet;
 
 @Entity
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class User implements UserInterface, UserDetails {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -55,8 +47,6 @@ public class User implements UserInterface, UserDetails {
     @Size(max = 30)
     private String cellphone;
 
-    private boolean connected;
-
     @Enumerated(EnumType.STRING)
     @NotNull
     private Role role;
@@ -70,17 +60,7 @@ public class User implements UserInterface, UserDetails {
 
     private boolean expired = false;
 
-    private TemporalInfo temporalInfo = new TemporalInfo();
-
-    @Override
-    public boolean isConnected() {
-        return connected;
-    }
-
-    @Override
-    public void setStore(StoreInterface store) {
-        this.store = (Store) store;
-    }
+    private Timestampable timestampable = new Timestampable();
 
     @Override
     @JsonIgnore
@@ -113,5 +93,12 @@ public class User implements UserInterface, UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public enum Role {
+        SUPER_ADMIN,
+        ADMIN,
+        STORE_OWNER,
+        STORE_ATTENDANT
     }
 }

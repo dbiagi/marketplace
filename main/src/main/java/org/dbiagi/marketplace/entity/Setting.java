@@ -1,7 +1,6 @@
 package org.dbiagi.marketplace.entity;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -9,7 +8,6 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
-@NoArgsConstructor
 public class Setting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +23,10 @@ public class Setting {
     @NotEmpty
     private String value;
 
-    private TemporalInfo temporalInfo = new TemporalInfo();
+    private Timestampable timestampable = new Timestampable();
+
+    public Setting() {
+    }
 
     public Setting(String key, String value) {
         this.key = key;

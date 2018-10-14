@@ -2,20 +2,16 @@ package org.dbiagi.marketplace.entity.classification;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.dbiagi.marketplace.entity.TemporalInfo;
-import org.dbiagi.marketplace.model.classification.CategoryInterface;
-import org.dbiagi.marketplace.model.classification.ContextInterface;
+import org.dbiagi.marketplace.entity.Timestampable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
-@EqualsAndHashCode()
 @Entity
 @Data
-public class Category implements CategoryInterface {
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,7 +22,7 @@ public class Category implements CategoryInterface {
     @NotEmpty
     private String slug;
 
-    private TemporalInfo temporalInfo = new TemporalInfo();
+    private Timestampable timestampable = new Timestampable();
 
     @ManyToOne
     @JsonDeserialize(as = Category.class)
@@ -36,25 +32,13 @@ public class Category implements CategoryInterface {
     private List<Category> children = new ArrayList<>();
 
     @ManyToOne
-    @JsonDeserialize(as = Context.class)
     private Context context;
 
-    @Override
-    public void setContext(ContextInterface context) {
-        this.context = (Context) context;
-    }
-
-    @Override
-    public void setParent(CategoryInterface parent) {
-        this.parent = (Category) parent;
-    }
-
-    @Override
-    public void addChild(CategoryInterface child) {
-        if (child instanceof Category && !children.contains(child)) {
+    public void addChild(Category child) {
+        if (!children.contains(child)) {
             child.setParent(this);
 
-            children.add((Category) child);
+            children.add(child);
         }
     }
 }

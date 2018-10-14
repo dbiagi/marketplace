@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Embeddable
 @Data
-public class TemporalInfo {
+public class Timestampable {
     @Temporal(TemporalType.DATE)
     private Date createdAt;
 

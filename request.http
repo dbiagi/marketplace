@@ -1,59 +1,16 @@
-POST /register
-Host: localhost:8080
-Content-type: application/json
+@baseUrl = http://localhost:8080/api
+
+####
+GET {{baseUrl}}/listings/
+
+####
+POST {{baseUrl}}/listings
+Content-Type: application/json
 
 {
-  "name": "Loja 1",
-  "cnpj": "123123123123",
-  "address": "Rua Z",
-  "email": "loja@eita.com",
-  "phone": "(11) 23293-2323",
-  "cellphone": "(11) 23293-2323",
-  "users": [
-    {
-        "name": "Diego",
-        "username": "diegobiagi",
-        "email": "loja@eita.com",
-        "phone": "(11) 23293-2323",
-        "cellphone": "(11) 23293-2323",
-        "role": "ADMIN",
-        "plainPassword": "123"
-    }
-  ]
+   "store": "http://localhost:8080/stores/1",
+   "categories": [
+       "http://localhost:8080/categories/1",
+       "http://localhost:8080/categories/2"
+   ]
 }
-
-#########
-
-GET /api/v1/stores/
-Host: localhost:8080
-Authorization: Basic U1RPUkVfQVRURU5EQU5UOjEyMwo=
-
-###
-
-PUT /stores/1
-Host: localhost:8080
-Authorization: Basic ZGllZ286MTIz
-Content-type: application/json
-
-{
-    "email": "alfredo.reviera@lost.com"
-}
-
-###
-
-POST /users
-Host: localhost:8080
-Authorization: Basic ZGllZ286MTIz
-Content-type: application/json
-
-{
-    "name": "Diego",
-    "username": "diegobiagi",
-    "email": "loja@eita.com",
-    "phone": "(11) 23293-2323",
-    "cellphone": "(11) 23293-2323",
-    "role": "ADMIN",
-    "plainPassword": "123"
-}
-
-###
