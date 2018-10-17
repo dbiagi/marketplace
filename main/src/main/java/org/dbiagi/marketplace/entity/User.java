@@ -2,6 +2,8 @@ package org.dbiagi.marketplace.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Wither;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,11 +18,8 @@ import java.util.HashSet;
 
 @Entity
 @Data
-public class User implements UserDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+@EqualsAndHashCode(callSuper = true)
+public class User extends BaseEntity implements UserDetails {
     @NotEmpty
     @Size(min = 3, max = 255)
     private String name;
@@ -59,8 +58,6 @@ public class User implements UserDetails {
     private boolean enabled = true;
 
     private boolean expired = false;
-
-    private Timestampable timestampable = new Timestampable();
 
     @Override
     @JsonIgnore
@@ -102,3 +99,4 @@ public class User implements UserDetails {
         STORE_ATTENDANT
     }
 }
+

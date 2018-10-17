@@ -2,27 +2,26 @@ package org.dbiagi.marketplace.entity.classification;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.dbiagi.marketplace.entity.BaseEntity;
 import org.dbiagi.marketplace.entity.Timestampable;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Data
-public class Category {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+@EqualsAndHashCode(callSuper = true)
+public class Category extends BaseEntity {
     @NotEmpty
     private String name;
 
     @NotEmpty
     private String slug;
-
-    private Timestampable timestampable = new Timestampable();
 
     @ManyToOne
     @JsonDeserialize(as = Category.class)

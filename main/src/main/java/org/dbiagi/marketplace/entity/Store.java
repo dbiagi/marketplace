@@ -1,38 +1,35 @@
 package org.dbiagi.marketplace.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.ToString;
+import lombok.EqualsAndHashCode;
 
-import javax.persistence.*;
-import javax.validation.Valid;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Entity
 @Data
-public class Store {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+@EqualsAndHashCode(callSuper = true)
+public class Store extends BaseEntity {
     @NotEmpty
+    @Email
     private String email;
 
     @NotEmpty
     private String name;
 
-    @NotNull(groups = RegistrationGroup.class)
     private String address;
 
     private String neighborhood;
 
     private String number;
 
-    @NotNull(groups = RegistrationGroup.class)
     private String zipCode;
 
     private String website;
@@ -41,12 +38,7 @@ public class Store {
 
     private String cellphone;
 
-    private Timestampable timestampable = new Timestampable();
-
-    @OneToMany(orphanRemoval = true, mappedBy = "store", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-    @JsonIgnore
-    @Valid
-    @ToString.Exclude
+    @OneToMany(orphanRemoval = true, mappedBy = "store")
     private List<User> users = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)

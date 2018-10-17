@@ -1,7 +1,7 @@
 package org.dbiagi.marketplace.entity;
 
 import lombok.Data;
-import lombok.Getter;
+import lombok.EqualsAndHashCode;
 import org.dbiagi.marketplace.entity.classification.Category;
 import org.dbiagi.marketplace.entity.classification.Tag;
 
@@ -13,12 +13,8 @@ import java.util.Set;
 
 @Entity
 @Data
-public class Listing {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    private Long id;
-
+@EqualsAndHashCode(callSuper = true)
+public class Listing extends BaseEntity {
     @NotEmpty
     private String title;
 
@@ -29,8 +25,6 @@ public class Listing {
     private boolean active = true;
 
     private boolean featured = false;
-
-    private Timestampable timestampable = new Timestampable();
 
     // @TODO Create projection where slug is not required, and add NotEmpty annotation here
     @Column(unique = true)
@@ -56,3 +50,5 @@ public class Listing {
     )
     private Set<Tag> tags = new HashSet<>();
 }
+
+

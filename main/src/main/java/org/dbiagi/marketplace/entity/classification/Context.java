@@ -1,20 +1,16 @@
 package org.dbiagi.marketplace.entity.classification;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.dbiagi.marketplace.entity.BaseEntity;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Data
-public class Context {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
+@EqualsAndHashCode(callSuper = true)
+public class Context extends BaseEntity {
     @NotEmpty
     private String name;
 
