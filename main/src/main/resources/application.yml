@@ -13,3 +13,5 @@ spring:
         rest:
             base-path: /api
             default-page-size: 10
+            detection-strategy: annotated
+            return-body-on-create: true

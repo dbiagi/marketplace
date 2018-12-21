@@ -1,4 +1,4 @@
-package org.dbiagi.marketplace.validation;
+package org.dbiagi.marketplace.repository.validation;
 
 public class ValidationError {
     private String code;

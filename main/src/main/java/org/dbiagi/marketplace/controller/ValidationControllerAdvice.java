@@ -1,6 +1,6 @@
 package org.dbiagi.marketplace.controller;
 
-import org.dbiagi.marketplace.validation.ValidationError;
+import org.dbiagi.marketplace.repository.validation.ValidationError;
 import org.springframework.data.rest.core.RepositoryConstraintViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,8 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class ValidationControllerAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler({RepositoryConstraintViolationException.class})
-    public ResponseEntity<Object> handleValidationException(RepositoryConstraintViolationException ex, WebRequest request) {
+    public ResponseEntity<Object> handleValidationException(
+        RepositoryConstraintViolationException ex, WebRequest request) {
         List<ValidationError> errors = ex.getErrors().getFieldErrors().stream()
             .map(e -> new ValidationError(e.getCode(), e.getField(), e.getDefaultMessage()))
             .collect(Collectors.toList());

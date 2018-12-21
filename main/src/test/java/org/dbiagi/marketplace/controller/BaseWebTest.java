@@ -3,8 +3,8 @@ package org.dbiagi.marketplace.controller;
 import com.github.javafaker.Faker;
 import org.dbiagi.marketplace.entity.Listing;
 import org.dbiagi.marketplace.entity.Store;
-import org.dbiagi.marketplace.entity.User;
-import org.dbiagi.marketplace.validation.ValidationError;
+import org.dbiagi.marketplace.entity.Account;
+import org.dbiagi.marketplace.repository.validation.ValidationError;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.client.ResponseErrorHandler;
 
 import java.util.List;
 
@@ -30,7 +29,7 @@ abstract class BaseWebTest {
 
     ParameterizedTypeReference<List<ValidationError>> validationErrorListReference;
 
-    ParameterizedTypeReference<List<User>> userListReference;
+    ParameterizedTypeReference<List<Account>> userListReference;
 
     ParameterizedTypeReference<List<Store>> storeListReference;
 
@@ -40,7 +39,7 @@ abstract class BaseWebTest {
     public void setUp() {
         validationErrorListReference = new ParameterizedTypeReference<List<ValidationError>>() {
         };
-        userListReference = new ParameterizedTypeReference<List<User>>() {
+        userListReference = new ParameterizedTypeReference<List<Account>>() {
         };
 
         storeListReference = new ParameterizedTypeReference<List<Store>>() {

@@ -3,14 +3,11 @@ package org.dbiagi.marketplace.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -38,18 +35,8 @@ public class Store extends BaseEntity {
 
     private String cellphone;
 
-    @OneToMany(orphanRemoval = true, mappedBy = "store")
-    private List<User> users = new ArrayList<>();
-
     @Enumerated(EnumType.STRING)
     private Type type;
-
-    public void addUser(User user) {
-        if (!users.contains(user)) {
-            users.add(user);
-            user.setStore(this);
-        }
-    }
 
     public enum Type {
         STORE,

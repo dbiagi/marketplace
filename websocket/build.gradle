@@ -9,9 +9,9 @@ repositories {
 }
 
 dependencies {
-    compile ":main"
-    compile "org.springframework.boot:spring-boot-starter-websocket"
-    compileOnly 'org.projectlombok:lombok:1.18.0'
-    testCompile "org.junit.jupiter:junit-jupiter-engine:5"
-    testCompile "org.springframework.boot:spring-boot-starter-test"
+    project ":main"
+    implementation "org.springframework.boot:spring-boot-starter-websocket"
+    implementation "org.projectlombok:lombok:1.18.0"
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:5.0.3"
 }

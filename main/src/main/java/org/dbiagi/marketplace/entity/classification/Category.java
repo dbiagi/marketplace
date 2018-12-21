@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.dbiagi.marketplace.entity.BaseEntity;
-import org.dbiagi.marketplace.entity.Timestampable;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;

@@ -16,6 +16,8 @@ public class Context extends BaseEntity {
 
     private boolean enabled = true;
 
+    public Context(){}
+
     public Context(String name) {
         this.name = name;
     }

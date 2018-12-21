@@ -33,23 +33,4 @@ public class StoreTest extends EntityTest {
 
         assertEquals(0, result.size());
     }
-
-    @Test
-    public void when_UsingLombokBuilder_Then_ReturnShouldBeAStore() {
-        assertThat(Store.builder().build(), isA(Store.class));
-    }
-
-    @Test
-    public void when_UsingLombokBuilder_Then_PropertiesMustBeSetOnStore() {
-        String name = "some name";
-        String email = "some.email@invalid.com";
-
-        Store store = Store.builder()
-            .name(name)
-            .email(email)
-            .build();
-
-        assertEquals(name, store.getName());
-        assertEquals(email, store.getEmail());
-    }
 }

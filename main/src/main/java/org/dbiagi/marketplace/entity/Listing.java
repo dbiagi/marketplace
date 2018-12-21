@@ -2,13 +2,17 @@ package org.dbiagi.marketplace.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.dbiagi.marketplace.entity.classification.Category;
 import org.dbiagi.marketplace.entity.classification.Tag;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,13 +30,9 @@ public class Listing extends BaseEntity {
 
     private boolean featured = false;
 
-    // @TODO Create projection where slug is not required, and add NotEmpty annotation here
     @Column(unique = true)
+    @NotEmpty
     private String slug;
-
-    @ManyToOne
-    @NotNull
-    private Store store;
 
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(

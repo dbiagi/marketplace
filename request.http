@@ -2,6 +2,7 @@
 
 ####
 GET {{baseUrl}}/listings/
+Authorization: Basic STORE_OWNER 123
 
 ####
 POST {{baseUrl}}/listings
@@ -13,4 +14,43 @@ Content-Type: application/json
        "http://localhost:8080/categories/1",
        "http://localhost:8080/categories/2"
    ]
+}
+
+####
+
+POST {{baseUrl}}/accounts
+Content-Type: application/json
+Authorization: Basic STORE_OWNER 123
+
+{
+    "name": "eita 123",
+    "username": "oloco 123",
+    "email": "diego@test.com",
+    "password": "oloco",
+    "role": "STORE_OWNER",
+    "store": "{{baseUrl}}/stores/1"
+}
+
+####
+
+GET {{baseUrl}}/accounts
+
+### Registration
+
+POST http://localhost:8080/register
+Content-Type: application/json
+
+{
+    "name": "Loja 1",
+    "email": "email@gmail.com"
+}
+
+
+####
+
+POST {{baseUrl}}/stores/1/accounts
+Content-Type: application/json
+
+{
+    "name": "test"
 }

@@ -1,6 +1,6 @@
 package org.dbiagi.marketplace.exception;
 
-import org.dbiagi.marketplace.validation.ValidationError;
+import org.dbiagi.marketplace.repository.validation.ValidationError;
 
 import java.util.List;
 

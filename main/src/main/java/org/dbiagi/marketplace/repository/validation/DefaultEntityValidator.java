@@ -1,4 +1,4 @@
-package org.dbiagi.marketplace.validation;
+package org.dbiagi.marketplace.repository.validation;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -31,8 +31,6 @@ public class DefaultEntityValidator implements org.springframework.validation.Va
             return;
         }
 
-        violations.forEach(v -> {
-            errors.rejectValue(v.getPropertyPath().toString(), null, v.getMessage());
-        });
+        violations.forEach(v -> errors.rejectValue(v.getPropertyPath().toString(), null, v.getMessage()));
     }
 }

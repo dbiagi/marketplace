@@ -1,9 +1,9 @@
 package org.dbiagi.marketplace.controller;
 
 import org.dbiagi.marketplace.dto.ListingDTO;
+import org.dbiagi.marketplace.entity.Account;
 import org.dbiagi.marketplace.entity.Listing;
-import org.dbiagi.marketplace.entity.User;
-import org.dbiagi.marketplace.validation.ValidationError;
+import org.dbiagi.marketplace.repository.validation.ValidationError;
 import org.junit.Test;
 import org.junit.jupiter.api.Tag;
 import org.slf4j.Logger;
@@ -49,7 +49,7 @@ public class ListingControllerTest extends BaseWebTest {
 
     private ResponseEntity<ListingDTO> postListing() {
         return restTemplate
-            .withBasicAuth(User.Role.STORE_ATTENDANT.name(), AUTH_PASSWORD)
+            .withBasicAuth(Account.Role.STORE_ATTENDANT.name(), AUTH_PASSWORD)
             .exchange(URI, HttpMethod.POST, new HttpEntity<>(getValidListing()), ListingDTO.class);
     }
 
@@ -80,7 +80,7 @@ public class ListingControllerTest extends BaseWebTest {
         String uri = String.format("%s/%d", URI, 1);
 
         ResponseEntity<String> response = restTemplate
-            .withBasicAuth(User.Role.STORE_ATTENDANT.name(), AUTH_PASSWORD)
+            .withBasicAuth(Account.Role.STORE_ATTENDANT.name(), AUTH_PASSWORD)
             .exchange(uri, HttpMethod.PUT, new HttpEntity<>(getValidListing()), String.class);
 
         assertTrue(response.getStatusCode().is2xxSuccessful());
@@ -91,7 +91,7 @@ public class ListingControllerTest extends BaseWebTest {
         String uri = String.format("%s/%d", URI, 1);
 
         ResponseEntity<String> response = restTemplate
-            .withBasicAuth(User.Role.STORE_ATTENDANT.name(), AUTH_PASSWORD)
+            .withBasicAuth(Account.Role.STORE_ATTENDANT.name(), AUTH_PASSWORD)
             .exchange(uri, HttpMethod.PUT, new HttpEntity<>(getInvalidListing()), String.class);
 
         assertTrue(response.getStatusCode().is4xxClientError());
@@ -111,7 +111,7 @@ public class ListingControllerTest extends BaseWebTest {
     @Test
     public void testInvalidPost() {
         ResponseEntity<List<ValidationError>> response = restTemplate
-            .withBasicAuth(User.Role.STORE_ATTENDANT.name(), AUTH_PASSWORD)
+            .withBasicAuth(Account.Role.STORE_ATTENDANT.name(), AUTH_PASSWORD)
             .exchange(URI, HttpMethod.POST, new HttpEntity<>(getInvalidListing()), validationErrorListReference);
 
         assertTrue(response.getStatusCode().is4xxClientError());
@@ -122,7 +122,7 @@ public class ListingControllerTest extends BaseWebTest {
     @Test(expected = ResourceAccessException.class)
     public void testForbiddenPost() {
         restTemplate
-            .withBasicAuth(User.Role.STORE_ATTENDANT.name(), "wrong-password")
+            .withBasicAuth(Account.Role.STORE_ATTENDANT.name(), "wrong-password")
             .exchange(URI, HttpMethod.POST, new HttpEntity<>(getValidListing()), String.class);
     }
 
@@ -133,7 +133,7 @@ public class ListingControllerTest extends BaseWebTest {
         String uri = String.format("%s/%d", URI, response.getBody().getId());
 
         ResponseEntity<String> deleteResponse = restTemplate
-            .withBasicAuth(User.Role.STORE_OWNER.name(), AUTH_PASSWORD)
+            .withBasicAuth(Account.Role.STORE_OWNER.name(), AUTH_PASSWORD)
             .exchange(uri, HttpMethod.DELETE, null, String.class);
 
         assertSame(deleteResponse.getStatusCode(), HttpStatus.OK);

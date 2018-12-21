@@ -1,9 +1,8 @@
 package org.dbiagi.marketplace.controller;
 
 import org.dbiagi.marketplace.DatabaseSeed;
-import org.dbiagi.marketplace.entity.Store;
-import org.dbiagi.marketplace.entity.User;
-import org.dbiagi.marketplace.validation.ValidationError;
+import org.dbiagi.marketplace.entity.Account;
+import org.dbiagi.marketplace.repository.validation.ValidationError;
 import org.junit.Test;
 import org.junit.jupiter.api.Tag;
 import org.springframework.http.HttpEntity;
@@ -20,42 +19,41 @@ import static org.junit.Assert.*;
 @Tag("controller")
 public class UserControllerTest extends BaseWebTest {
 
-    private final String URI = "/api/v1/users";
+    private final String URI = "/api/v1/accounts";
 
-    private User getInvalidUser() {
-        return new User();
+    private Account getInvalidUser() {
+        return new Account();
     }
 
-    private User getValidUser() {
-        User user = new User();
+    private Account getValidUser() {
+        Account account = new Account();
 
-        user.setRole(User.Role.ADMIN);
-        user.setPassword(faker.internet().password());
-        user.setName(faker.name().fullName());
-        user.setUsername(faker.name().username());
-        user.setEmail(faker.internet().emailAddress());
-        user.setStore(new Store());
+        account.setRole(Account.Role.ADMIN);
+        account.setPassword(faker.internet().password());
+        account.setName(faker.name().fullName());
+        account.setUsername(faker.name().username());
+        account.setEmail(faker.internet().emailAddress());
 
-        return user;
+        return account;
     }
 
-    private ResponseEntity<User> postUser() {
+    private ResponseEntity<Account> postUser() {
         return restTemplate
-                .withBasicAuth(User.Role.STORE_OWNER.name(), AUTH_PASSWORD)
-                .postForEntity(URI, getValidUser(), User.class);
+                .withBasicAuth(Account.Role.STORE_OWNER.name(), AUTH_PASSWORD)
+                .postForEntity(URI, getValidUser(), Account.class);
     }
 
     @Test
     public void testValidGet() {
         String uri = String.format("%s/%d", URI, faker.number().numberBetween(1, DatabaseSeed.USERS));
 
-        ResponseEntity<User> response = restTemplate
-                .withBasicAuth(User.Role.STORE_ATTENDANT.name(), AUTH_PASSWORD)
-                .getForEntity(uri, User.class);
+        ResponseEntity<Account> response = restTemplate
+                .withBasicAuth(Account.Role.STORE_ATTENDANT.name(), AUTH_PASSWORD)
+                .getForEntity(uri, Account.class);
 
         assertTrue(response.getStatusCode().is2xxSuccessful());
 
-        assertThat(response.getBody(), isA(User.class));
+        assertThat(response.getBody(), isA(Account.class));
     }
 
     @Test
@@ -63,7 +61,7 @@ public class UserControllerTest extends BaseWebTest {
         String uri = String.format("%s/%d", URI, 0);
 
         ResponseEntity response = restTemplate
-                .withBasicAuth(User.Role.STORE_ATTENDANT.name(), AUTH_PASSWORD)
+                .withBasicAuth(Account.Role.STORE_ATTENDANT.name(), AUTH_PASSWORD)
                 .exchange(uri, HttpMethod.GET, null, String.class);
 
         assertTrue(response.getStatusCode().is4xxClientError());
@@ -71,17 +69,17 @@ public class UserControllerTest extends BaseWebTest {
 
     @Test
     public void testValidPost() {
-        ResponseEntity<User> response = postUser();
+        ResponseEntity<Account> response = postUser();
 
         assertTrue(response.getStatusCode().is2xxSuccessful());
 
-        assertThat(response.getBody(), isA(User.class));
+        assertThat(response.getBody(), isA(Account.class));
     }
 
     @Test
     public void testInvalidPost() {
         ResponseEntity<List<ValidationError>> response = restTemplate
-                .withBasicAuth(User.Role.STORE_OWNER.name(), AUTH_PASSWORD)
+                .withBasicAuth(Account.Role.STORE_OWNER.name(), AUTH_PASSWORD)
                 .exchange(URI, HttpMethod.POST, new HttpEntity<>(getInvalidUser()), validationErrorListReference);
 
         assertTrue(response.getStatusCode().is4xxClientError());
@@ -91,12 +89,12 @@ public class UserControllerTest extends BaseWebTest {
 
     @Test
     public void testDelete() {
-        User user = postUser().getBody();
+        Account account = postUser().getBody();
 
-        String uri = String.format("%s/%d", URI, user.getId());
+        String uri = String.format("%s/%d", URI, account.getId());
 
         ResponseEntity<Void> response = restTemplate
-                .withBasicAuth(User.Role.STORE_OWNER.name(), AUTH_PASSWORD)
+                .withBasicAuth(Account.Role.STORE_OWNER.name(), AUTH_PASSWORD)
                 .exchange(uri, HttpMethod.DELETE, null, Void.class);
 
         assertTrue(response.getStatusCode().is2xxSuccessful());
@@ -110,7 +108,7 @@ public class UserControllerTest extends BaseWebTest {
         fields.put("name", "New name");
 
         ResponseEntity<Void> response = restTemplate
-                .withBasicAuth(User.Role.STORE_OWNER.name(), AUTH_PASSWORD)
+                .withBasicAuth(Account.Role.STORE_OWNER.name(), AUTH_PASSWORD)
                 .exchange(uri, HttpMethod.PUT, new HttpEntity<>(fields), Void.class);
 
         assertTrue(response.getStatusCode().is2xxSuccessful());
@@ -126,7 +124,7 @@ public class UserControllerTest extends BaseWebTest {
         fields.put("name", "");
 
         ResponseEntity<List<ValidationError>> response = restTemplate
-                .withBasicAuth(User.Role.STORE_OWNER.name(), AUTH_PASSWORD)
+                .withBasicAuth(Account.Role.STORE_OWNER.name(), AUTH_PASSWORD)
                 .exchange(uri, HttpMethod.PUT, new HttpEntity<>(fields), validationErrorListReference);
 
         assertTrue(response.getStatusCode().is4xxClientError());

@@ -3,12 +3,15 @@ package org.dbiagi.marketplace.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Wither;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -19,7 +22,8 @@ import java.util.HashSet;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class User extends BaseEntity implements UserDetails {
+@ToString
+public class Account extends BaseEntity implements UserDetails {
     @NotEmpty
     @Size(min = 3, max = 255)
     private String name;
@@ -40,20 +44,9 @@ public class User extends BaseEntity implements UserDetails {
     @Transient
     private String plainPassword;
 
-    @Size(max = 30)
-    private String phone;
-
-    @Size(max = 30)
-    private String cellphone;
-
     @Enumerated(EnumType.STRING)
     @NotNull
     private Role role;
-
-    @ManyToOne
-    @NotNull
-    @JsonIgnore
-    private Store store;
 
     private boolean enabled = true;
 
@@ -97,6 +90,11 @@ public class User extends BaseEntity implements UserDetails {
         ADMIN,
         STORE_OWNER,
         STORE_ATTENDANT
+    }
+
+    public enum Type{
+        VISITOR,
+        SPONSOR
     }
 }
 

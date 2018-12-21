@@ -7,13 +7,14 @@ import org.dbiagi.marketplace.entity.*;
 import org.dbiagi.marketplace.entity.classification.Category;
 import org.dbiagi.marketplace.entity.classification.Context;
 import org.dbiagi.marketplace.repository.*;
-import org.dbiagi.marketplace.service.UserService;
+import org.dbiagi.marketplace.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,33 +23,27 @@ import java.util.Optional;
 public class DatabaseSeed implements ApplicationRunner {
 
     public static final int USERS = 5;
-    public static final int STORES = 5;
+
     public static final int LISTINGS = 30;
 
     private final ContextRepository contextRepository;
     private final Faker faker;
-    private final StoreRepository storeRepository;
     private final ListingRepository listingRepository;
-    private UserService userService;
+    private AccountService accountService;
     private final SettingRepository settingRepository;
     private final CategoryRepository categoryRepository;
     private Slugify slugify;
 
-    private List<Store> stores = new ArrayList<>();
-    private List<User> users = new ArrayList<>();
-
     @Autowired
     public DatabaseSeed(
-        StoreRepository storeRepository,
-        UserService userService,
+        AccountService accountService,
         SettingRepository settingRepository,
         ContextRepository contextRepository,
         ListingRepository listingRepository,
         CategoryRepository categoryRepository,
         Faker faker,
         Slugify slugify) {
-        this.storeRepository = storeRepository;
-        this.userService = userService;
+        this.accountService = accountService;
         this.settingRepository = settingRepository;
         this.contextRepository = contextRepository;
         this.listingRepository = listingRepository;
@@ -58,40 +53,21 @@ public class DatabaseSeed implements ApplicationRunner {
     }
 
     private void createUsers() {
-        for (User.Role role : User.Role.values()) {
-            User user = new User();
-            user.setRole(role);
-            user.setName(role.name());
-            user.setUsername(role.name());
-            user.setPlainPassword("123");
-            user.setEmail(faker.internet().emailAddress());
-            user.setStore(stores.get(1));
-            user.setEnabled(true);
-            user.setExpired(false);
+        List<Account> accounts = new LinkedList<>();
 
-            users.add(user);
+        for (Account.Role role : Account.Role.values()) {
+            Account account = new Account();
+            account.setRole(role);
+            account.setName(role.name());
+            account.setUsername(role.name());
+            account.setPlainPassword("123");
+            account.setEmail(faker.internet().emailAddress());
+            account.setEnabled(true);
+            account.setExpired(false);
+            accounts.add(account);
         }
 
-        userService.save(users);
-    }
-
-    private void createStores() {
-        for (int i = 0; i < DatabaseSeed.STORES; i++) {
-            Store store = new Store();
-            store.setEmail(faker.internet().emailAddress());
-            store.setAddress(faker.address().streetAddress());
-            store.setCellphone(faker.phoneNumber().cellPhone());
-            store.setPhone(faker.phoneNumber().phoneNumber());
-            store.setName(faker.lorem().sentence(1));
-            store.setNumber(faker.address().streetAddressNumber());
-            store.setType(Store.Type.STORE);
-            store.setEmail(faker.internet().emailAddress());
-            store.setUsers(new ArrayList<>());
-
-            storeRepository.save(store);
-
-            stores.add(store);
-        }
+        accountService.save(accounts);
     }
 
     private void createListings() {
@@ -127,7 +103,6 @@ public class DatabaseSeed implements ApplicationRunner {
         ArrayList<Listing> listings = new ArrayList<>();
         for (int i = 0; i < LISTINGS; i++) {
             Listing l = new Listing();
-            l.setStore(stores.get(faker.number().numberBetween(1, stores.size() - 1)));
             l.setLongDescription(faker.lorem().sentence(20, 10));
             l.setShortDescription(faker.lorem().sentence());
             l.setTitle(faker.lorem().sentence(2));
@@ -154,7 +129,6 @@ public class DatabaseSeed implements ApplicationRunner {
             return;
         }
 
-        createStores();
         createUsers();
         createListings();
 
