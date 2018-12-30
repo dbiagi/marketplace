@@ -21,6 +21,7 @@ public class AccountRestRepositoryListener extends AbstractRepositoryEventListen
     @Override
     protected void onBeforeCreate(Account account) {
         accountService.prepare(account);
+
         log.info("Creating account", account);
     }
 }

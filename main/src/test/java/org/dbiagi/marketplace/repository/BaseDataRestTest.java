@@ -3,6 +3,8 @@ package org.dbiagi.marketplace.repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 import lombok.extern.log4j.Log4j2;
+import org.dbiagi.marketplace.Application;
+import org.dbiagi.marketplace.BaseSpringRunner;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -16,25 +18,19 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Base64;
 import java.util.Locale;
 
-@SpringBootTest
+@SpringBootTest(classes = Application.class)
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
-public abstract class BaseDataRestTest {
+public abstract class BaseDataRestTest extends BaseSpringRunner {
     final static String ACCOUNTS_URI = "/accounts";
-    final static String STORES_URI = "/stores";
     final static String LISTINGS_URI = "/listings";
     final static String CATEGORIES_URI = "/categories";
     final ObjectMapper objectMapper = new ObjectMapper();
+
     @Autowired
     MockMvc mvc;
-    Faker faker;
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    @Before
-    public void setup() {
-        faker = new Faker(Locale.getDefault());
-    }
 
     public String basicAuth(String user, String password) {
         String userAndPassword = user + ":" + password;

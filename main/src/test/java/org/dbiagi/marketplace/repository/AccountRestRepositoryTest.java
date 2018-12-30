@@ -1,14 +1,13 @@
 package org.dbiagi.marketplace.repository;
 
-import lombok.extern.log4j.Log4j2;
 import org.dbiagi.marketplace.entity.Account;
 import org.junit.Test;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -58,7 +57,13 @@ public class AccountRestRepositoryTest extends BaseDataRestTest {
         logger.info(response);
     }
 
-    public void givenValidUserWhenUpdatignShouldReturnSucessResponse() {
-        
+    @Test
+    public void whenGetAccountListItShouldReturnContent() throws Exception {
+        String response = mvc.perform(get(ACCOUNTS_URI)
+            .contentType(APPLICATION_JSON))
+            .andExpect(status().is2xxSuccessful())
+            .andReturn().getResponse().getContentAsString();
+
+        logger.info(response);
     }
 }
