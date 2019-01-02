@@ -1,7 +1,7 @@
 @baseUrl = http://localhost:8080/api
 
 ####
-GET {{baseUrl}}/listings/
+GET {{baseUrl}}/categories/6/
 Authorization: Basic STORE_OWNER 123
 
 ####
@@ -9,8 +9,8 @@ POST {{baseUrl}}/listings
 Content-Type: application/json
 
 {
-   "store": "http://localhost:8080/stores/1",
-   "categories": [
+    "title": "Titulo 1",
+    "categories": [
        "http://localhost:8080/categories/1",
        "http://localhost:8080/categories/2"
    ]

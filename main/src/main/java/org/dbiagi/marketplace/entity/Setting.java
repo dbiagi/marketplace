@@ -12,12 +12,10 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = true)
 public class Setting extends BaseEntity {
     @Column(name = "setting_key")
-    @NotNull
     @NotEmpty
     private String key;
 
     @Column(name = "setting_value")
-    @NotNull
     @NotEmpty
     private String value;
 
