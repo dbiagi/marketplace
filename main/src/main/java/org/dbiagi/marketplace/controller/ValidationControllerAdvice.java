@@ -16,8 +16,7 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class ValidationControllerAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler({RepositoryConstraintViolationException.class})
-    public ResponseEntity<Object> handleValidationException(
-        RepositoryConstraintViolationException ex, WebRequest request) {
+    public ResponseEntity<Object> handleValidationException(RepositoryConstraintViolationException ex, WebRequest request) {
         List<ValidationError> errors = ex.getErrors().getFieldErrors().stream()
             .map(e -> new ValidationError(e.getCode(), e.getField(), e.getDefaultMessage()))
             .collect(Collectors.toList());

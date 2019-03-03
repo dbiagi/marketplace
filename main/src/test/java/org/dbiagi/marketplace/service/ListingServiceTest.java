@@ -1,0 +1,54 @@
+package org.dbiagi.marketplace.service;
+
+import com.github.slugify.Slugify;
+import org.dbiagi.marketplace.entity.Listing;
+import org.dbiagi.marketplace.repository.ListingRepository;
+import org.junit.Test;
+
+import java.util.Optional;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import static org.junit.Assert.*;
+
+public class ListingServiceTest {
+    @Test
+    public void given_EmptySlug_Should_ReturnValidSlug_When_Preparing() {
+        Listing listing = getListing();
+
+        ListingRepository listingRepository = mock(ListingRepository.class);
+        when(listingRepository.findOneBySlugEquals(""))
+            .thenReturn(Optional.empty());
+
+        ListingService listingService = new ListingService(new Slugify(), listingRepository);
+
+        listingService.prepare(listing);
+
+        assertFalse(listing.getSlug().isEmpty());
+    }
+
+    @Test
+    public void given_ExistingListing_Should_HashSlug_When_Preparing(){
+        Listing listing = getListing();
+        String slug = "listing-slug";
+        listing.setSlug(slug);
+
+        ListingRepository listingRepository = mock(ListingRepository.class);
+        when(listingRepository.findOneBySlugEquals(slug))
+            .thenReturn(Optional.of(listing));
+
+        ListingService listingService = new ListingService(new Slugify(), listingRepository);
+
+        listingService.prepare(listing);
+
+        assertTrue(listing.getSlug().matches(".*[0-9]+$"));
+    }
+
+    private Listing getListing() {
+        Listing listing = new Listing();
+        listing.setTitle("Listing X");
+
+        return listing;
+    }
+}
