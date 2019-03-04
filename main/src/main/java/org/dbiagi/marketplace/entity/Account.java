@@ -92,7 +92,7 @@ public class Account extends BaseEntity implements UserDetails {
         STORE_ATTENDANT
     }
 
-    public enum Type{
+    public enum Type {
         VISITOR,
         SPONSOR
     }

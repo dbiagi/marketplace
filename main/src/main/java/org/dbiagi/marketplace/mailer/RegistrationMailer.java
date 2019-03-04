@@ -11,5 +11,6 @@ public class RegistrationMailer implements Mailer {
     }
 
     @Override
-    public void send(){}
+    public void send() {
+    }
 }

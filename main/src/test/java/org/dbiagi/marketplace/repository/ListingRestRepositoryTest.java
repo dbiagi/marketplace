@@ -1,8 +1,7 @@
 package org.dbiagi.marketplace.repository;
 
-import lombok.Builder;
-import lombok.Data;
 import org.dbiagi.marketplace.entity.Listing;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -18,44 +17,31 @@ public class ListingRestRepositoryTest extends BaseDataRestTest {
     @Autowired
     private ListingRepository listingRepository;
 
-    private ListingVO getValidListing() {
+    private Listing getValidListing() {
         Listing listing = new Listing();
+        listing.setTitle(faker.lorem().sentence(2));
+        listing.setShortDescription(faker.lorem().sentence(5));
+        listing.setLongDescription(faker.lorem().paragraph(2));
 
-
-        return ListingVO.builder()
-            .title(faker.lorem().sentence(2))
-            .active(true)
-            .featured(true)
-            .shortDescription(faker.lorem().sentence(5))
-            .longDescription(faker.lorem().paragraph(2))
-            .build();
+        return listing;
     }
 
     @Test
     public void givenValidListingWhenPostingShouldReturnStatusCreated() throws Exception {
-        ListingVO listingVO = getValidListing();
+        Listing listing = getValidListing();
 
         mvc.perform(post(LISTINGS_URI)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(listingVO)))
+            .content(objectMapper.writeValueAsString(listing)))
             .andExpect(status().isCreated())
-            .andExpect(jsonPath("$.shortDescription").value(listingVO.shortDescription));
+            .andExpect(jsonPath("$.shortDescription").value(listing.getShortDescription()));
     }
 
     @Test
+    @Ignore
     public void givenValidListingWhenPutingShouldReturnSuccessStatus() throws Exception {
         List<Listing> listings = listingRepository.findAllFeatured(null);
 
         listings.isEmpty();
-    }
-
-    @Data
-    @Builder
-    private static class ListingVO {
-        private String shortDescription;
-        private String longDescription;
-        private String title;
-        private boolean active = true;
-        private boolean featured = false;
     }
 }

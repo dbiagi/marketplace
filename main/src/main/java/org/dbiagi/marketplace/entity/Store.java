@@ -3,11 +3,11 @@ package org.dbiagi.marketplace.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import java.util.HashSet;
-import java.util.Set;
 
 
 @Entity

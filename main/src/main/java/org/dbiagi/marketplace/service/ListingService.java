@@ -20,7 +20,7 @@ public class ListingService {
     }
 
     private void createSlug(Listing listing) {
-        String slug = slugify.slugify(listing.getSlug() == null || listing.getSlug().isEmpty() ? listing.getTitle(): listing.getSlug());
+        String slug = slugify.slugify(listing.getSlug() == null || listing.getSlug().isEmpty() ? listing.getTitle() : listing.getSlug());
 
         Optional<Listing> optional = listingRepository.findOneBySlugEquals(slug);
 

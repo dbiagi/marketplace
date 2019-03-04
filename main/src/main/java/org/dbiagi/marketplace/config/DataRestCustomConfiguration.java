@@ -10,11 +10,11 @@ import org.dbiagi.marketplace.repository.validation.DefaultEntityValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.core.event.ValidatingRepositoryEventListener;
-import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
+import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DataRestCustomConfiguration extends RepositoryRestConfigurerAdapter {
+public class DataRestCustomConfiguration implements RepositoryRestConfigurer {
     private DefaultEntityValidator defaultEntityValidator;
 
     @Autowired

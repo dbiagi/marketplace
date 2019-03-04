@@ -3,10 +3,15 @@ package org.dbiagi.marketplace;
 import com.github.javafaker.Faker;
 import com.github.slugify.Slugify;
 import lombok.extern.log4j.Log4j2;
-import org.dbiagi.marketplace.entity.*;
+import org.dbiagi.marketplace.entity.Account;
+import org.dbiagi.marketplace.entity.Listing;
+import org.dbiagi.marketplace.entity.Setting;
 import org.dbiagi.marketplace.entity.classification.Category;
 import org.dbiagi.marketplace.entity.classification.Context;
-import org.dbiagi.marketplace.repository.*;
+import org.dbiagi.marketplace.repository.CategoryRepository;
+import org.dbiagi.marketplace.repository.ContextRepository;
+import org.dbiagi.marketplace.repository.ListingRepository;
+import org.dbiagi.marketplace.repository.SettingRepository;
 import org.dbiagi.marketplace.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -26,9 +31,9 @@ public class DatabaseSeed implements ApplicationRunner {
     private final ContextRepository contextRepository;
     private final Faker faker;
     private final ListingRepository listingRepository;
-    private AccountService accountService;
     private final SettingRepository settingRepository;
     private final CategoryRepository categoryRepository;
+    private AccountService accountService;
     private Slugify slugify;
 
     @Autowired
