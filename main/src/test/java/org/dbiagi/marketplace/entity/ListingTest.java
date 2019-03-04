@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Tag;
 import javax.validation.ConstraintViolation;
 import java.util.Set;
 
-import static org.hamcrest.CoreMatchers.isA;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 
 @Tag("model")

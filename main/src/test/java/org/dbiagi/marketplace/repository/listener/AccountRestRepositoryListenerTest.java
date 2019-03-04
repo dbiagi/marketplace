@@ -6,7 +6,7 @@ import org.dbiagi.marketplace.service.AccountService;
 import org.junit.Ignore;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
 
 @Ignore
 public class AccountRestRepositoryListenerTest extends BaseSpringRunner {

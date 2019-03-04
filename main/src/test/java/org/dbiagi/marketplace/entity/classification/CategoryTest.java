@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Tag;
 import javax.validation.ConstraintViolation;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 @Tag("model")
 public class CategoryTest extends EntityTest {

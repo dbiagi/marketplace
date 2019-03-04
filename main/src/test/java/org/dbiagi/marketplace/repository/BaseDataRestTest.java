@@ -1,11 +1,8 @@
 package org.dbiagi.marketplace.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.javafaker.Faker;
-import lombok.extern.log4j.Log4j2;
 import org.dbiagi.marketplace.Application;
 import org.dbiagi.marketplace.BaseSpringRunner;
-import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Base64;
-import java.util.Locale;
 
 @SpringBootTest(classes = Application.class)
 @RunWith(SpringRunner.class)
