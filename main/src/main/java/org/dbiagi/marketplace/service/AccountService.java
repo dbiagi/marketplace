@@ -1,7 +1,7 @@
 package org.dbiagi.marketplace.service;
 
-import com.github.slugify.Slugify;
 import org.dbiagi.marketplace.entity.Account;
+import org.dbiagi.marketplace.normalizer.Username;
 import org.dbiagi.marketplace.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,17 +14,17 @@ public class AccountService {
 
     private AccountRepository accountRepository;
     private PasswordEncoder passwordEncoder;
-    private Slugify slugify;
+    private Username usernameNormalizer;
 
     @Autowired
-    AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder, Slugify slugify) {
+    AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder, Username usernameNormalizer) {
         this.accountRepository = accountRepository;
         this.passwordEncoder = passwordEncoder;
-        this.slugify = slugify;
+        this.usernameNormalizer = usernameNormalizer;
     }
 
-    private void slugifyFields(Account account) {
-        account.setUsername(slugify.slugify(account.getUsername()));
+    private void normalizeUsername(Account account) {
+        account.setUsername(usernameNormalizer.normalize(account.getUsername()));
     }
 
     private void encryptPassword(Account account) {
@@ -46,6 +46,6 @@ public class AccountService {
 
     public void prepare(Account account) {
         encryptPassword(account);
-        slugifyFields(account);
+        normalizeUsername(account);
     }
 }

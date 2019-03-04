@@ -16,6 +16,6 @@ public class EntityTest {
     public static void setUp() {
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
-        faker = new Faker(new Locale("pt"));
+        faker = new Faker(Locale.getDefault());
     }
 }
