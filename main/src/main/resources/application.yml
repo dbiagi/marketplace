@@ -5,10 +5,11 @@ spring:
         show-sql: true
         generate-ddl: true
     datasource:
-        url: jdbc:mysql://localhost:3306/marketplace
-        username: root
-        password: 123
-        driver-class-name: org.mariadb.jdbc.Driver
+        url: jdbc:h2:mem:marketplace_test
+#        url: jdbc:mysql://localhost:3306/marketplace
+#        username: root
+#        password: 123
+#        driver-class-name: org.mariadb.jdbc.Driver
     data:
         rest:
             base-path: /api
