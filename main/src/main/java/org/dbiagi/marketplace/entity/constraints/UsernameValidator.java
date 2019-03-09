@@ -1,18 +1,18 @@
-package org.dbiagi.marketplace.entity.validation;
+package org.dbiagi.marketplace.entity.constraints;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.dbiagi.marketplace.normalizer.UsernameNormalizer;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-@Component
+/*
+ * @TODO Make jpa custom validator work with autowired dependencies.
+ */
 public class UsernameValidator implements ConstraintValidator<Username, String> {
 
-    private org.dbiagi.marketplace.normalizer.Username usernameNormalizer;
+    private UsernameNormalizer usernameNormalizer;
 
-    @Autowired
-    public UsernameValidator(org.dbiagi.marketplace.normalizer.Username usernameNormalizer) {
+    public UsernameValidator(UsernameNormalizer usernameNormalizer) {
         this.usernameNormalizer = usernameNormalizer;
     }
 

@@ -2,15 +2,16 @@ package org.dbiagi.marketplace.normalizer;
 
 import com.github.slugify.Slugify;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
-public class Username {
+@Component
+public class UsernameNormalizer {
 
     private Slugify slugify;
 
     @Autowired
-    public Username(Slugify slugify){
+    public UsernameNormalizer(Slugify slugify){
         this.slugify = slugify;
     }
 

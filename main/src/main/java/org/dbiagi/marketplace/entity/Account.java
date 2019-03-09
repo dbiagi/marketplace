@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.dbiagi.marketplace.entity.validation.Username;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,7 +30,6 @@ public class Account extends BaseEntity implements UserDetails {
 
     @NotEmpty
     @Size(min = 3, max = 255)
-    @Username
     private String username;
 
     @NotNull

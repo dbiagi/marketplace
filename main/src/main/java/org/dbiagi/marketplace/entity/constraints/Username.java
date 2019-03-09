@@ -1,4 +1,4 @@
-package org.dbiagi.marketplace.entity.validation;
+package org.dbiagi.marketplace.entity.constraints;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = UsernameValidator.class)
 public @interface Username {
-    String message() default "{org.dbiagi.marketplace.entity.validation.Username.default}";
+    String message() default "{org.dbiagi.marketplace.entity.constraints.Username.default}";
 
     Class<?>[] groups() default {};
 

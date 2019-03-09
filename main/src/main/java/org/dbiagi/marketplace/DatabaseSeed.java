@@ -26,7 +26,7 @@ import java.util.Optional;
 @Component
 @Log4j2
 public class DatabaseSeed implements ApplicationRunner {
-    public static final int LISTINGS = 30;
+    private static final int LISTINGS = 30;
 
     private final ContextRepository contextRepository;
     private final Faker faker;
