@@ -1,23 +1,24 @@
 package org.dbiagi.marketplace.service;
 
 import org.dbiagi.marketplace.entity.Account;
-import org.dbiagi.marketplace.normalizer.Username;
+import org.dbiagi.marketplace.normalizer.UsernameNormalizer;
 import org.dbiagi.marketplace.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class AccountService {
 
     private AccountRepository accountRepository;
     private PasswordEncoder passwordEncoder;
-    private Username usernameNormalizer;
+    private UsernameNormalizer usernameNormalizer;
 
     @Autowired
-    AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder, Username usernameNormalizer) {
+    AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder, UsernameNormalizer usernameNormalizer) {
         this.accountRepository = accountRepository;
         this.passwordEncoder = passwordEncoder;
         this.usernameNormalizer = usernameNormalizer;
@@ -40,7 +41,7 @@ public class AccountService {
         accountRepository.saveAll(accounts);
     }
 
-    public Account findByEmailOrUsername(String emailOrUsername) {
+    public Optional<Account> findByEmailOrUsername(String emailOrUsername) {
         return accountRepository.findByEmailOrUsername(emailOrUsername);
     }
 
