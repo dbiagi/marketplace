@@ -1,6 +1,6 @@
 package org.dbiagi.marketplace.entity;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Tag;
 
 import javax.validation.ConstraintViolation;
@@ -10,9 +10,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @Tag("model")
-public class StoreTest extends EntityTest {
+class StoreTest extends EntityTest {
     @Test
-    public void given_InvalidStore_When_Validating_Then_ViolationArrayShouldNotBeEmpty() {
+    void given_InvalidStore_When_Validating_Then_ViolationArrayShouldNotBeEmpty() {
         Store store = new Store();
 
         Set<ConstraintViolation<Store>> result = validator.validate(store);
@@ -21,7 +21,7 @@ public class StoreTest extends EntityTest {
     }
 
     @Test
-    public void given_ValidStore_When_Validating_Then_ValidationArrayShouldBeEmpty() {
+    void given_ValidStore_When_Validating_Then_ValidationArrayShouldBeEmpty() {
         Store store = new Store();
 
         store.setEmail(faker.internet().emailAddress());

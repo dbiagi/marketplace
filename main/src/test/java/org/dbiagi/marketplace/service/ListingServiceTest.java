@@ -3,7 +3,7 @@ package org.dbiagi.marketplace.service;
 import com.github.slugify.Slugify;
 import org.dbiagi.marketplace.entity.Listing;
 import org.dbiagi.marketplace.repository.ListingRepository;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ListingServiceTest {
+class ListingServiceTest {
     private Listing getListing() {
         Listing listing = new Listing();
         listing.setTitle("Listing X");
@@ -21,7 +21,7 @@ public class ListingServiceTest {
     }
 
     @Test
-    public void given_EmptySlug_Should_ReturnValidSlug_When_Preparing() {
+    void given_EmptySlug_Should_ReturnValidSlug_When_Preparing() {
         Listing listing = getListing();
 
         ListingRepository listingRepository = mock(ListingRepository.class);
@@ -36,7 +36,7 @@ public class ListingServiceTest {
     }
 
     @Test
-    public void given_ExistingListing_Should_HashSlug_When_Preparing() {
+    void given_ExistingListing_Should_HashSlug_When_Preparing() {
         Listing listing = getListing();
         String slug = "listing-slug";
         listing.setSlug(slug);

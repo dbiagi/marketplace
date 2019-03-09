@@ -1,7 +1,7 @@
 package org.dbiagi.marketplace.entity.classification;
 
 import org.dbiagi.marketplace.entity.EntityTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Tag;
 
 import javax.validation.ConstraintViolation;
@@ -10,7 +10,7 @@ import java.util.Set;
 import static org.junit.Assert.assertTrue;
 
 @Tag("model")
-public class CategoryTest extends EntityTest {
+class CategoryTest extends EntityTest {
 
     private Category getValidCategory() {
         Category category = new Category();
@@ -28,14 +28,14 @@ public class CategoryTest extends EntityTest {
     }
 
     @Test
-    public void given_ValidCategory_When_Validating_Then_ViolationArrayShouldBeEmpty() {
+    void given_ValidCategory_When_Validating_Then_ViolationArrayShouldBeEmpty() {
         Set<ConstraintViolation<Category>> violations = validator.validate(getValidCategory());
 
         assertTrue(violations.isEmpty());
     }
 
     @Test
-    public void given_InvalidCategory_When_Validating_Then_ViolationArrayShouldNotBeEmpty() {
+    void given_InvalidCategory_When_Validating_Then_ViolationArrayShouldNotBeEmpty() {
         Set<ConstraintViolation<Category>> violations = validator.validate(getInvalidCategory());
 
         assertTrue(!violations.isEmpty());

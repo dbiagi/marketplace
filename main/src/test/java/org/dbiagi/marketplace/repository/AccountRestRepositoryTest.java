@@ -1,7 +1,7 @@
 package org.dbiagi.marketplace.repository;
 
 import org.dbiagi.marketplace.entity.Account;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class AccountRestRepositoryTest extends BaseDataRestTest {
+class AccountRestRepositoryTest extends DataRestTest {
 
     @Autowired
     EntityManager entityManager;
@@ -33,7 +33,7 @@ public class AccountRestRepositoryTest extends BaseDataRestTest {
     }
 
     @Test
-    public void givenValidUserWhenPostingItShouldReturnCreatedStatus() throws Exception {
+    void givenValidUserWhenPostingItShouldReturnCreatedStatus() throws Exception {
         Account account = getValidAccount();
 
         String response = mvc.perform(post(ACCOUNTS_URI)
@@ -47,7 +47,7 @@ public class AccountRestRepositoryTest extends BaseDataRestTest {
     }
 
     @Test
-    public void givenInvalidUserWhenPostingItShouldReturnErrorResponse() throws Exception {
+    void givenInvalidUserWhenPostingItShouldReturnErrorResponse() throws Exception {
         String response = mvc.perform(post(ACCOUNTS_URI)
             .contentType(APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(getInvalidAccount())))
@@ -58,7 +58,7 @@ public class AccountRestRepositoryTest extends BaseDataRestTest {
     }
 
     @Test
-    public void whenGetAccountListItShouldReturnContent() throws Exception {
+    void whenGetAccountListItShouldReturnContent() throws Exception {
         String response = mvc.perform(get(ACCOUNTS_URI)
             .contentType(APPLICATION_JSON))
             .andExpect(status().is2xxSuccessful())

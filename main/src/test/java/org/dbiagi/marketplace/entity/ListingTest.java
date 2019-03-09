@@ -1,6 +1,6 @@
 package org.dbiagi.marketplace.entity;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Tag;
 
 import javax.validation.ConstraintViolation;
@@ -10,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 
 
 @Tag("model")
-public class ListingTest extends EntityTest {
+class ListingTest extends EntityTest {
     private Listing getInvalidListing() {
         return new Listing();
     }
@@ -25,7 +25,7 @@ public class ListingTest extends EntityTest {
     }
 
     @Test
-    public void given_InvalidListing_When_Validating_Then_ViolationArrayShouldNotBeEmpty() {
+    void given_InvalidListing_When_Validating_Then_ViolationArrayShouldNotBeEmpty() {
         Listing listing = getInvalidListing();
 
         Set<ConstraintViolation<Listing>> violations = validator.validate(listing);
@@ -34,7 +34,7 @@ public class ListingTest extends EntityTest {
     }
 
     @Test
-    public void given_ValidListing_When_Validating_Then_ViolationArrayShouldBeEmpty() {
+    void given_ValidListing_When_Validating_Then_ViolationArrayShouldBeEmpty() {
         Listing listing = getValidListing();
 
         Set<ConstraintViolation<Listing>> violations = validator.validate(listing);

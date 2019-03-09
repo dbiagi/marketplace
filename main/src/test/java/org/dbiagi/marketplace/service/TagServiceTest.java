@@ -4,7 +4,7 @@ import com.github.slugify.Slugify;
 import org.dbiagi.marketplace.entity.classification.Context;
 import org.dbiagi.marketplace.entity.classification.Tag;
 import org.dbiagi.marketplace.repository.TagRepository;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
@@ -12,7 +12,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 
-public class TagServiceTest {
+class TagServiceTest {
 
     private Tag getTag() {
         Tag tag = new Tag();
@@ -23,7 +23,7 @@ public class TagServiceTest {
     }
 
     @Test
-    public void testPrepare() {
+    void testPrepare() {
         TagRepository tagRepository = mock(TagRepository.class, RETURNS_MOCKS);
 
         Tag tag = getTag();

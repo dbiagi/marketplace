@@ -1,18 +1,15 @@
 package org.dbiagi.marketplace.repository;
 
 import org.dbiagi.marketplace.entity.Listing;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-
-import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ListingRestRepositoryTest extends BaseDataRestTest {
+class ListingRestRepositoryTest extends DataRestTest {
 
     @Autowired
     private ListingRepository listingRepository;
@@ -27,7 +24,7 @@ public class ListingRestRepositoryTest extends BaseDataRestTest {
     }
 
     @Test
-    public void givenValidListingWhenPostingShouldReturnStatusCreated() throws Exception {
+    void givenValidListingWhenPostingShouldReturnStatusCreated() throws Exception {
         Listing listing = getValidListing();
 
         mvc.perform(post(LISTINGS_URI)
@@ -37,11 +34,4 @@ public class ListingRestRepositoryTest extends BaseDataRestTest {
             .andExpect(jsonPath("$.shortDescription").value(listing.getShortDescription()));
     }
 
-    @Test
-    @Ignore
-    public void givenValidListingWhenPutingShouldReturnSuccessStatus() throws Exception {
-        List<Listing> listings = listingRepository.findAllFeatured(null);
-
-        listings.isEmpty();
-    }
 }

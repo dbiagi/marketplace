@@ -4,6 +4,8 @@ apply plugin: "io.spring.dependency-management"
 
 sourceCompatibility = 1.8
 
+def junitVersion = "5.3.2"
+
 dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.boot:spring-boot-starter-data-rest"
@@ -15,11 +17,17 @@ dependencies {
     implementation "io.springfox:springfox-swagger2:2.8.0"
     implementation "io.springfox:springfox-swagger-ui:2.8.0"
     implementation "mysql:mysql-connector-java:8.0.11"
-    testImplementation "org.springframework.boot:spring-boot-starter-test"
-    testImplementation "org.junit.jupiter:junit-jupiter-engine:5.0.3"
     runtime "com.h2database:h2"
     implementation "org.projectlombok:lombok:1.18.4"
-    
     implementation "com.github.slugify:slugify:2.2"
-    
+
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testCompile "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testCompile "org.junit.jupiter:junit-jupiter-params:$junitVersion"
+    testRuntime "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
 }
+
+test {
+    useJUnitPlatform()
+}
+

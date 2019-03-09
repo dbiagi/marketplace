@@ -3,20 +3,20 @@ package org.dbiagi.marketplace.repository.listener;
 import org.dbiagi.marketplace.BaseSpringRunner;
 import org.dbiagi.marketplace.entity.Listing;
 import org.dbiagi.marketplace.service.ListingService;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.assertFalse;
 
 @Tag("Integration")
-public class ListingRestRepositoryListenerTest extends BaseSpringRunner {
+class ListingRestRepositoryListenerTest extends BaseSpringRunner {
 
     @Autowired
     private ListingService listingService;
 
     @Test
-    public void testBeforeCreate() {
+    void testBeforeCreate() {
         ListingRestRepositoryListener listener = new ListingRestRepositoryListener(listingService);
 
         Listing listing = new Listing();
@@ -28,7 +28,7 @@ public class ListingRestRepositoryListenerTest extends BaseSpringRunner {
     }
 
     @Test
-    public void testBeforeSave() {
+    void testBeforeSave() {
         ListingRestRepositoryListener listener = new ListingRestRepositoryListener(listingService);
 
         Listing listing = new Listing();

@@ -2,7 +2,7 @@ package org.dbiagi.marketplace.entity;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Tag;
 
 import javax.validation.ConstraintViolation;
@@ -11,10 +11,10 @@ import java.util.Set;
 import static org.junit.Assert.*;
 
 @Tag("model")
-public class UserTest extends EntityTest {
+class UserTest extends EntityTest {
 
     @Test
-    public void given_StoreThatHaveUsers_When_SerializeToJson_ShouldNotThrowException()
+    void given_StoreThatHaveUsers_When_SerializeToJson_ShouldNotThrowException()
         throws JsonProcessingException {
         Account account = new Account();
         Store store = new Store();
@@ -31,7 +31,7 @@ public class UserTest extends EntityTest {
     }
 
     @Test
-    public void given_InvalidUser_When_Validating_Then_ViolationArrayShouldNotBeEmpty() {
+    void given_InvalidUser_When_Validating_Then_ViolationArrayShouldNotBeEmpty() {
         Account account = new Account();
 
         Set<ConstraintViolation<Account>> result = validator.validate(account);
@@ -40,7 +40,7 @@ public class UserTest extends EntityTest {
     }
 
     @Test
-    public void given_ValidUser_When_Validating_Then_ViolationArrayShouldBeEmpty() {
+    void given_ValidUser_When_Validating_Then_ViolationArrayShouldBeEmpty() {
         Account account = new Account();
 
         account.setName(faker.name().name());
