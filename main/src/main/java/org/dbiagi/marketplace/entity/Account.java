@@ -45,7 +45,6 @@ public class Account extends BaseEntity implements UserDetails {
     private String plainPassword;
 
     @Enumerated(EnumType.STRING)
-    @NotNull
     private Role role;
 
     private boolean enabled = true;

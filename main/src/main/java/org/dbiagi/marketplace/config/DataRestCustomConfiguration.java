@@ -6,7 +6,7 @@ import org.dbiagi.marketplace.entity.classification.Tag;
 import org.dbiagi.marketplace.repository.CategoryRepository;
 import org.dbiagi.marketplace.repository.ListingRepository;
 import org.dbiagi.marketplace.repository.TagRepository;
-import org.dbiagi.marketplace.repository.validation.DefaultEntityValidator;
+import org.dbiagi.marketplace.validation.DefaultEntityValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.core.event.ValidatingRepositoryEventListener;

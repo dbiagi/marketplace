@@ -1,4 +1,4 @@
-package org.dbiagi.marketplace.repository.validation;
+package org.dbiagi.marketplace.validation;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

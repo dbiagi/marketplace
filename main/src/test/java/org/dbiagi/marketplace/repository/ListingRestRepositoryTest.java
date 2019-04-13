@@ -1,5 +1,6 @@
 package org.dbiagi.marketplace.repository;
 
+import org.dbiagi.marketplace.BaseSpringRunner;
 import org.dbiagi.marketplace.entity.Listing;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class ListingRestRepositoryTest extends DataRestTest {
+class ListingRestRepositoryTest extends BaseSpringRunner {
 
     @Autowired
     private ListingRepository listingRepository;
