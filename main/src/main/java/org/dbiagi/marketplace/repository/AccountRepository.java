@@ -1,5 +1,6 @@
 package org.dbiagi.marketplace.repository;
 
+import io.swagger.annotations.Api;
 import org.dbiagi.marketplace.entity.Account;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -8,6 +9,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.Optional;
 
+@Api
 @RepositoryRestResource
 public interface AccountRepository extends PagingAndSortingRepository<Account, Long> {
     @Query("SELECT u FROM Account u WHERE u.username = :emailOrUsername OR u.email = :emailOrUsername")

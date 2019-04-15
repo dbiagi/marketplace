@@ -1,5 +1,11 @@
 @baseUrl = http://localhost:8080/api
 
+
+####
+
+GET {{baseUrl}}/profile/listings
+
+
 ####
 GET {{baseUrl}}/categories/6/
 Authorization: Basic STORE_OWNER 123
