@@ -29,6 +29,9 @@ public class Listing extends BaseEntity {
     @NotEmpty
     private String slug;
 
+    @ManyToOne(optional = false)
+    private Account owner;
+
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
         name = "listing_x_category",

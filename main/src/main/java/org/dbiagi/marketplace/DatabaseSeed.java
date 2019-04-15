@@ -8,6 +8,7 @@ import org.dbiagi.marketplace.entity.Listing;
 import org.dbiagi.marketplace.entity.Setting;
 import org.dbiagi.marketplace.entity.classification.Category;
 import org.dbiagi.marketplace.entity.classification.Context;
+import org.dbiagi.marketplace.exception.EntityConstraintValidationException;
 import org.dbiagi.marketplace.repository.CategoryRepository;
 import org.dbiagi.marketplace.repository.ContextRepository;
 import org.dbiagi.marketplace.repository.ListingRepository;
@@ -20,13 +21,13 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
 
 @Component
 @Log4j2
 public class DatabaseSeed implements ApplicationRunner {
     private static final int LISTINGS = 30;
+    private static final int ACCOUNTS = 10;
 
     private final ContextRepository contextRepository;
     private final Faker faker;
@@ -35,6 +36,7 @@ public class DatabaseSeed implements ApplicationRunner {
     private final CategoryRepository categoryRepository;
     private AccountService accountService;
     private Slugify slugify;
+    private LinkedList<Account> accounts;
 
     @Autowired
     public DatabaseSeed(
@@ -54,14 +56,14 @@ public class DatabaseSeed implements ApplicationRunner {
         this.slugify = slugify;
     }
 
-    private void createUsers() {
-        List<Account> accounts = new LinkedList<>();
+    private void createAccounts() {
+        accounts = new LinkedList<>();
 
-        for (Account.Role role : Account.Role.values()) {
+        for (var i = 0; i < ACCOUNTS; i++) {
             Account account = new Account();
-            account.setRole(role);
-            account.setName(role.name());
-            account.setUsername(role.name());
+            account.setRole(Account.Role.ROLE_USER);
+            account.setName(faker.name().name());
+            account.setUsername(faker.name().username());
             account.setPlainPassword("123");
             account.setEmail(faker.internet().emailAddress());
             account.setEnabled(true);
@@ -72,7 +74,21 @@ public class DatabaseSeed implements ApplicationRunner {
         accountService.save(accounts);
     }
 
-    private void createListings() {
+    private Account createAdminAccount() throws EntityConstraintValidationException {
+        Account account = new Account();
+        account.setRole(Account.Role.ROLE_USER);
+        account.setName("Administrator");
+        account.setUsername("admin");
+        account.setPlainPassword("123");
+        account.setEmail(faker.internet().emailAddress());
+        account.setEnabled(true);
+        account.setExpired(false);
+        accounts.add(account);
+
+        return accountService.save(account);
+    }
+
+    private void createListings(Account listingsOwner) {
         String[] categoriesTitle = {
             "Auto", "Beauty", "Food & Dine", "Entertainment", "Health & Care",
             "Restaurant", "Medical", "Music", "Theater"
@@ -110,7 +126,7 @@ public class DatabaseSeed implements ApplicationRunner {
             l.setTitle(faker.lorem().sentence(2));
             l.setSlug(slugify.slugify(l.getTitle()));
             l.setFeatured(faker.bool().bool());
-
+            l.setOwner(listingsOwner);
             for (int j = faker.number().numberBetween(1, 3); j > 0; j--) {
                 l.getCategories().add(categories.get(faker.number().numberBetween(1, categoriesTitle.length - 1)));
             }
@@ -122,7 +138,7 @@ public class DatabaseSeed implements ApplicationRunner {
     }
 
     @Override
-    public void run(ApplicationArguments args) {
+    public void run(ApplicationArguments args) throws EntityConstraintValidationException {
         Optional<Setting> optional = settingRepository.findByKey("database_version");
 
         if (optional.isPresent() && "1.0.0".equals(optional.get().getValue())) {
@@ -131,8 +147,9 @@ public class DatabaseSeed implements ApplicationRunner {
             return;
         }
 
-        createUsers();
-        createListings();
+        createAccounts();
+        var admin = createAdminAccount();
+        createListings(admin);
 
         settingRepository.save(new Setting("database_version", "1.0.0"));
     }

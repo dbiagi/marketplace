@@ -1,8 +1,10 @@
 package org.dbiagi.marketplace.config;
 
+import org.dbiagi.marketplace.entity.Account;
 import org.dbiagi.marketplace.entity.Listing;
 import org.dbiagi.marketplace.entity.classification.Category;
 import org.dbiagi.marketplace.entity.classification.Tag;
+import org.dbiagi.marketplace.repository.AccountRepository;
 import org.dbiagi.marketplace.repository.CategoryRepository;
 import org.dbiagi.marketplace.repository.ListingRepository;
 import org.dbiagi.marketplace.repository.TagRepository;
@@ -28,6 +30,7 @@ public class DataRestCustomConfiguration implements RepositoryRestConfigurer {
             .forRepository(ListingRepository.class, Listing::getSlug, ListingRepository::findOneBySlugEquals)
             .forRepository(CategoryRepository.class, Category::getSlug, CategoryRepository::findOneBySlugEquals)
             .forRepository(TagRepository.class, Tag::getSlug, TagRepository::findOneBySlugEquals)
+            .forRepository(AccountRepository.class, Account::getUsername, AccountRepository::findByEmailOrUsername)
         ;
 
         config.setReturnBodyOnCreate(true);

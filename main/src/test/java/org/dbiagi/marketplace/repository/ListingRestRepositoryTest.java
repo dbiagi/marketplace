@@ -3,7 +3,6 @@ package org.dbiagi.marketplace.repository;
 import org.dbiagi.marketplace.BaseSpringRunner;
 import org.dbiagi.marketplace.entity.Listing;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -11,9 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class ListingRestRepositoryTest extends BaseSpringRunner {
-
-    @Autowired
-    private ListingRepository listingRepository;
 
     private Listing getValidListing() {
         Listing listing = new Listing();
@@ -25,10 +21,11 @@ class ListingRestRepositoryTest extends BaseSpringRunner {
     }
 
     @Test
-    void givenValidListingWhenPostingShouldReturnStatusCreated() throws Exception {
+    void given_ValidListing_When_Posting_Should_ReturnStatusCreated() throws Exception {
         Listing listing = getValidListing();
 
         mvc.perform(post(LISTINGS_URI)
+            .header("Authorization", basicAuth("admin", "123"))
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(listing)))
             .andExpect(status().isCreated())

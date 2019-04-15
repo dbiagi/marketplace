@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Base64;
 import java.util.Locale;
 
 @SpringBootTest(classes = Application.class)
@@ -32,6 +33,12 @@ public abstract class BaseSpringRunner {
     @BeforeAll
     public static void setup() {
         faker = new Faker(Locale.getDefault());
+    }
+
+    protected String basicAuth(String user, String password) {
+        String userAndPassword = user + ":" + password;
+
+        return "Basic " + Base64.getEncoder().encodeToString(userAndPassword.getBytes());
     }
 }
 

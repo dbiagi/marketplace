@@ -17,7 +17,7 @@ class AccountTest extends EntityTest {
         account.setPassword(faker.internet().password());
         account.setName(faker.name().name());
         account.setEmail(faker.internet().emailAddress());
-        account.setRole(Account.Role.ADMIN);
+        account.setRole(Account.Role.ROLE_USER);
 
         return account;
     }
