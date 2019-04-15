@@ -10,8 +10,8 @@ import org.dbiagi.marketplace.entity.Account;
 @AllArgsConstructor
 public class AccountRegistration {
     public String name;
+    public String username;
     public String email;
     public String plainPassword;
-    public String username;
     public Account.Type type;
 }

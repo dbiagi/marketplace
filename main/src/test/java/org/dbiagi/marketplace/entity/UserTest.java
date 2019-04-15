@@ -47,7 +47,7 @@ class UserTest extends EntityTest {
         account.setUsername(faker.name().username());
         account.setEmail(faker.internet().emailAddress());
         account.setPassword(faker.internet().password());
-        account.setRole(Account.Role.ADMIN);
+        account.setRole(Account.Role.ROLE_USER);
 
         Set<ConstraintViolation<Account>> result = validator.validate(account);
 

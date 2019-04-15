@@ -85,10 +85,7 @@ public class Account extends BaseEntity implements UserDetails {
     }
 
     public enum Role {
-        SUPER_ADMIN,
-        ADMIN,
-        STORE_OWNER,
-        STORE_ATTENDANT
+        ROLE_USER
     }
 
     public enum Type {

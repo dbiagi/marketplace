@@ -24,7 +24,7 @@ class AccountRestRepositoryTest extends BaseSpringRunner {
         account.setUsername(faker.name().username());
         account.setEmail(faker.internet().emailAddress());
         account.setPassword(faker.internet().password());
-        account.setRole(Account.Role.STORE_ATTENDANT);
+        account.setRole(Account.Role.ROLE_USER);
 
         return account;
     }

@@ -12,9 +12,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class ListingRestRepositoryTest extends BaseSpringRunner {
 
-    @Autowired
-    private ListingRepository listingRepository;
-
     private Listing getValidListing() {
         Listing listing = new Listing();
         listing.setTitle(faker.lorem().sentence(2));
@@ -25,10 +22,11 @@ class ListingRestRepositoryTest extends BaseSpringRunner {
     }
 
     @Test
-    void givenValidListingWhenPostingShouldReturnStatusCreated() throws Exception {
+    void given_ValidListing_When_Posting_Should_ReturnStatusCreated() throws Exception {
         Listing listing = getValidListing();
 
         mvc.perform(post(LISTINGS_URI)
+            .header("Authorization", basicAuth("admin", "123"))
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(listing)))
             .andExpect(status().isCreated())
