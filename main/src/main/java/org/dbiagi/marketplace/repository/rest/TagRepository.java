@@ -1,4 +1,4 @@
-package org.dbiagi.marketplace.repository;
+package org.dbiagi.marketplace.repository.rest;
 
 import org.dbiagi.marketplace.entity.classification.Tag;
 import org.springframework.data.repository.PagingAndSortingRepository;

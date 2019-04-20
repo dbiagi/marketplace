@@ -9,10 +9,10 @@ import org.dbiagi.marketplace.entity.Setting;
 import org.dbiagi.marketplace.entity.classification.Category;
 import org.dbiagi.marketplace.entity.classification.Context;
 import org.dbiagi.marketplace.exception.EntityConstraintValidationException;
-import org.dbiagi.marketplace.repository.CategoryRepository;
-import org.dbiagi.marketplace.repository.ContextRepository;
-import org.dbiagi.marketplace.repository.ListingRepository;
-import org.dbiagi.marketplace.repository.SettingRepository;
+import org.dbiagi.marketplace.repository.rest.CategoryRestRepository;
+import org.dbiagi.marketplace.repository.rest.ContextRepository;
+import org.dbiagi.marketplace.repository.rest.ListingRepository;
+import org.dbiagi.marketplace.repository.rest.SettingRepository;
 import org.dbiagi.marketplace.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -33,7 +33,7 @@ public class DatabaseSeed implements ApplicationRunner {
     private final Faker faker;
     private final ListingRepository listingRepository;
     private final SettingRepository settingRepository;
-    private final CategoryRepository categoryRepository;
+    private final CategoryRestRepository categoryRepository;
     private AccountService accountService;
     private Slugify slugify;
     private LinkedList<Account> accounts;
@@ -44,7 +44,7 @@ public class DatabaseSeed implements ApplicationRunner {
         SettingRepository settingRepository,
         ContextRepository contextRepository,
         ListingRepository listingRepository,
-        CategoryRepository categoryRepository,
+        CategoryRestRepository categoryRepository,
         Faker faker,
         Slugify slugify) {
         this.accountService = accountService;
@@ -58,7 +58,6 @@ public class DatabaseSeed implements ApplicationRunner {
 
     private void createAccounts() {
         accounts = new LinkedList<>();
-
         for (var i = 0; i < ACCOUNTS; i++) {
             Account account = new Account();
             account.setRole(Account.Role.ROLE_USER);

@@ -2,7 +2,7 @@ package org.dbiagi.marketplace.service;
 
 import com.github.slugify.Slugify;
 import org.dbiagi.marketplace.entity.Listing;
-import org.dbiagi.marketplace.repository.ListingRepository;
+import org.dbiagi.marketplace.repository.rest.ListingRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

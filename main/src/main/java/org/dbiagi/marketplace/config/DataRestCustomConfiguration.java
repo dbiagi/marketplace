@@ -4,10 +4,10 @@ import org.dbiagi.marketplace.entity.Account;
 import org.dbiagi.marketplace.entity.Listing;
 import org.dbiagi.marketplace.entity.classification.Category;
 import org.dbiagi.marketplace.entity.classification.Tag;
-import org.dbiagi.marketplace.repository.AccountRepository;
-import org.dbiagi.marketplace.repository.CategoryRepository;
-import org.dbiagi.marketplace.repository.ListingRepository;
-import org.dbiagi.marketplace.repository.TagRepository;
+import org.dbiagi.marketplace.repository.rest.AccountRestRepository;
+import org.dbiagi.marketplace.repository.rest.CategoryRestRepository;
+import org.dbiagi.marketplace.repository.rest.ListingRepository;
+import org.dbiagi.marketplace.repository.rest.TagRepository;
 import org.dbiagi.marketplace.validation.DefaultEntityValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -28,9 +28,9 @@ public class DataRestCustomConfiguration implements RepositoryRestConfigurer {
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.withEntityLookup()
             .forRepository(ListingRepository.class, Listing::getSlug, ListingRepository::findOneBySlugEquals)
-            .forRepository(CategoryRepository.class, Category::getSlug, CategoryRepository::findOneBySlugEquals)
+            .forRepository(CategoryRestRepository.class, Category::getSlug, CategoryRestRepository::findOneBySlugEquals)
             .forRepository(TagRepository.class, Tag::getSlug, TagRepository::findOneBySlugEquals)
-            .forRepository(AccountRepository.class, Account::getUsername, AccountRepository::findByEmailOrUsername)
+            .forRepository(AccountRestRepository.class, Account::getUsername, AccountRestRepository::findByUsername)
         ;
 
         config.setReturnBodyOnCreate(true);

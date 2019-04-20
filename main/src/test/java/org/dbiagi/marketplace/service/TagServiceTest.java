@@ -3,7 +3,7 @@ package org.dbiagi.marketplace.service;
 import com.github.slugify.Slugify;
 import org.dbiagi.marketplace.entity.classification.Context;
 import org.dbiagi.marketplace.entity.classification.Tag;
-import org.dbiagi.marketplace.repository.TagRepository;
+import org.dbiagi.marketplace.repository.rest.TagRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
