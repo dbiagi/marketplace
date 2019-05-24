@@ -1,18 +1,13 @@
 @baseUrl = http://localhost:8080/api
 
-
 ####
+DELETE {{baseUrl}}/listings/molestiae_dignissimos_
 
-GET {{baseUrl}}/profile/listings
-
-
-####
-GET {{baseUrl}}/categories/6/
-Authorization: Basic STORE_OWNER 123
 
 ####
 POST {{baseUrl}}/listings
 Content-Type: application/json
+Authorization: Basic admin 123
 
 {
     "title": "Titulo 1",
@@ -22,24 +17,19 @@ Content-Type: application/json
    ]
 }
 
+#####
+
+GET {{baseUrl}}/listings/
+
 ####
 
-POST {{baseUrl}}/accounts
+PUT http://localhost:8080/api/accounts/1
 Content-Type: application/json
-Authorization: Basic STORE_OWNER 123
+Authorization: Basic admin 123
 
 {
-    "name": "eita 123",
-    "username": "oloco 123",
-    "email": "diego@test.com",
-    "password": "oloco",
-    "role": "STORE_OWNER",
-    "store": "{{baseUrl}}/stores/1"
+  "username": "oaisdfjaoifij"
 }
-
-####
-
-GET {{baseUrl}}/accounts
 
 ### Registration
 
